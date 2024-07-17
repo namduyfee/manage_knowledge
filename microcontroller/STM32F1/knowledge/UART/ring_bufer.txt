@@ -1,0 +1,8 @@
+ring bufer là một bộ đệm tròn 
+	mọi vị trí là như nhau nên ghi ở đâu trước cx đc 
+	khi xóa nó sẽ xóa phần tử cũ nhất (FIFO vào trước ra trước ) 
+	khi đầy nó sẽ ghi đè lên phần tử cũ nhất 
+
+trick đếm 0 -> n rồi đếm lại thì dùng % n là đc chứ ko cần if else i = n , i = 0; 
+
+

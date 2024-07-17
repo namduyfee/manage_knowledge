@@ -1,0 +1,33 @@
+một số lệnh hệ thống : 
+
+* exit      : thoát khỏi cmd 
+* reboot    : khởi động lại hệ thống 
+* half 	    : tắt máy 
+* startx    : khỏi động lại chế độ xwindown từ terminal 
+* mount     : gắn hệ thống tệp tin từ một thiết bị lưu trữ và cây thư mục chính 
+* unmount   : ngược lại với mount  
+* <cmd> -- help : xem nội dung của lệnh 
+* df	    : hiện thị dung lượng ổ đĩa của hệ thống 
+* du-h 	    : một file/folder chiếm bao nhiêu dung lượng 
+* ipconfig  : xem địa chỉ IP 
+
+một số lệnh thao tác folder, file 
+
+* cd ..      : trở về folder trước đó (giữa hai dấu chấm có dấu cách).
+* cd/	    : di chuyển thẳng đến folder, thư mục cụ thể 
+* cd <tên folder or file> : di chuyển vào folder or file 
+* pwd 	    : lấy đường dẫn folder đang làm việc 
+* ls 	    : hiện danh sách folder or file trong folder hiện hành 
+* mkdir <tên folder>  : tạo folder mới 
+
+* rm 	    : xóa file 
+* rmdir     : xóa thư mục , thông thường xóa all file trong folder trước r xóa folder sau 
+* rm -r <tên folder> : xóa folder ( dù nó đang trống hay không ) 
+* rm -d <tên folder> : chỉ xóa được folder trông (emtry)
+
+* touch <tên file><mở rộng>  : dùng để tạo một file 
+	khi tạo một file có chứa dấu cách touch 'hello world.txt' nếu ko sẽ sinh ra 2 file hello và world.txt 
+	tuy nhiên không nên đặt tên file có dấu cách. 
+
+* lệnh cp   : 
+* lệnh mv   : 

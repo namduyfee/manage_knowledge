@@ -1,0 +1,27 @@
+trong void thì vẫn dùng return; nhưng không return về giá trị vd : return 1; 
+	
+if(check1() == 1 && check2() ==1); 
+
+= if(check1()&&check2()); 
+2 câu lệnh này là như nhau trong c, c++ không viết gì đồng nghĩa với việc so sánh khác 0. 
+
+
+trong câu này khi check 1 mà sai thì check2 sẽ không đc gọi nữa 
+
+giả sử có 1 biến cục bộ int dem = 0; 
+
+trong check1 có dem++, trong check2 cx có dem++; 
+khi đó điều này sẽ có ý nghĩa bởi vì không phải lúc nào check2 cx sẽ đc gọi 
+
+
+3)
+có thể khao báo hai hàm cùng tên nhưng tham số truyefn v vào khác là được 
+ví dụ int sum(int a, int b) cout << a+b; 
+      double sum(double a, double b) cout << a+b; 
+trong main gọi hàm sum(10, 20) thì ra hàm sum đầu và in ra 30
+      main gọi hàm sum(10.2, 10.2) thì hàm sum thứ 2 sẽ đc gọi và in ra 20.4
+
+4) truyền đối số bị khuyết 
+
+
+quy hoạch động, biểu thức lambda, ngăn xếp hàng đợi hàng đợi ưu tiên, kĩ thuật 2 con trỏ cửa sổ trượt 

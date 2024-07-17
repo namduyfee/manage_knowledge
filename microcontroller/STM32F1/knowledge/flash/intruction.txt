@@ -1,0 +1,21 @@
+có 64kbyte mỗi page là 1k 
+có hai kiểu flash là cồng NAND và NOR
+ 
+	NAND là ghi và xóa theo từng khối 
+	NOR là ghi và xóa theo từng từ 
+	flash thường là kiểu NAND 
+	EEPROM thường là NOR
+
+D-code : lữu data   
+L-code : lưu lệnh 
+
+-- D-code có mức độ ưu tiên cao hơn L-code. 
+
+-- system memory trong flash dùng để khởi động thiết bị và boot loader thông qua UART, CAN2, USBOTG..
+thường sẽ dùng UART 
+
+- để đọc chính xác dữ liệu từ flash, số lượng trạng thái chờ/độ trễ (LATENCY) phải đc lập trình trong 
+thanh ghi FL_ACR đúng với khoảng điện áp cung cấp của thiết bị và tần số clock của CPU(HCLK). 
++ nếu setting không đúng thì sẽ không đọc được flash 
+
+-- để xóa và ghi đc vào flash thì RC internal(HSI) phải đc bật 

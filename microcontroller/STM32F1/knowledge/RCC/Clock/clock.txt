@@ -1,0 +1,20 @@
+
+* có 3 nguồn xung cho system clock 
+	- HSI oscillator clock 
+	- HSE oscillator clock 
+	- PLL clock 
+
+* low speed internal ( LSI RC : dao động RC ) 
+	- cho watchdog 
+	-  and optionally the RTC used for Auto-wakeup from Stop/Standby mode.
+* LSE 
+	- cho real-time clock ( RTCCLK ) 
+
+
+* HSE 
+	- HSE external crystal / ceramic resonator : 4 -16 Mhz 
+	- HSE user external clock : up to 25 Mhz 
+* HSI 
+	- bộ dao động RC : 8 Mhz 
+	- kém chính xác hơn so với HSE, bị ảnh hưởng bởi nhiệt độ vs môi trường bên ngoài 
+	- tiết kiệm chi phí 

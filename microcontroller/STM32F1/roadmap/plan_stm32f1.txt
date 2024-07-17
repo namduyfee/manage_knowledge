@@ -1,0 +1,30 @@
+/********************* Plan ************************/ 
+- RCC
+
+- GPIO, Alternal function, Interrupt
+
+- DMA
+
+- Watchdog , timer, RTC
+
+- ADC, DAC
+
+- UART 
+
+- I2C
+
+- SPI 
+
+- CAN 
+
+- USB 
+
+- Ethernet 
+
+- SDIO
+
+- FSMC 
+
+- Flash 
+
+- CRC, Power control

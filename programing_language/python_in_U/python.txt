@@ -1,0 +1,21 @@
+
+* tạo class 
+	- thuộc tính 
+	- phương thức 
+
+* hàm nhập số nguyên 
+
+* hàm nhập số thực 
+
+* hàm nhập string 
+
+* hàm in căn dòng 
+
+* hàm append cho object, list 
+
+* hàm len 
+
+* swap 2 object 
+
+* kiểm tra upper, islitter 
+

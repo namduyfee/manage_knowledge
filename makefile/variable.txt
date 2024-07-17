@@ -1,0 +1,30 @@
+
+phép gán '=' , ':=' , '?='
+
+
+* phép gán '='   : là phép gán mà biến tiếp nhận có thể thay đổi khi đối tượng dùng để gán thay đổi giá trị 
+
+* phép gán ':='  : là phép gán một lần duy nhất, nếu đối tượng dùng để gán thay đổi thì biến đấy vẫn ko đổi và giữ nguyên giá 
+  trị gán cho nó lần đầu tiên 
+* phép gán '?='  : là phép gán mà nó sẽ kiểm tra xem biến đó đã có giá trị sẵn có trước chưa nếu có thì giữ nguyên 
+  còn nếu không có thì gán giá trị của đối tượng vào cho biến đó, ở trường hợp này đối tượng thay đổi thì biến cx đổi theo 
+  nó sẽ giống với '=' 
+
+* một biến có thể cùng dùng nhiều kiểu gán trong một file make, và sau đó nó sẽ mang tình chất của loại phép gán cuối cùng áp 
+  dụng lên nó nhưng đều dựa trên nguyên lý của 3 phép gán trên 
+  
+ví dụ 
+
+var3 = "aaa"
+
+var = "bbb"
+
+var1 = $(var)
+
+var2 := $(var)
+
+var3 ?= ($var)
+
+var = "ccc" 
+
+kết quả là var1 = "ccc", var2 = "bbb", var3 = "aaa"

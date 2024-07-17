@@ -1,0 +1,41 @@
+-RCC 	   : config clock 
+
+-set up bộ hiện thị xung salaee 
+
+-GPOI 	   : input, output, chống rung nút nhấn bằng software 
+
+-Interrupt : config group , priority, bit banding 
+	   : NVIC nguyên lý hoạt động và cách bit banding của NVIC hoạt động   
+	   : chống treo ngắt trong HAL 
+
+       	   : tạo delay us 
+           : ngắt timer, bit banding
+           : slave mode, trigger input : internal clock, reset, external clcok mode1, 2;  
+           : input capture, pwm input capture; 
+           : output compare; pwm generate; 
+           : deadtime : tránh hỏng mạch   
+           : break function 
+           : encoder interface. 
+           : controll servo motor bằng pwm 
+           : one pulse mode
+           : clearning OCxREF bẳng signal ETR
+           : cảm biến hall 
+
+-UART      : trans, reveice use interrupt 
+           : ring buffer ( cần xem thêm )
+
+-DMA       : receive data uart     
+
+- ADC      : read adc tempeture sensor 
+           : scan adc , ... 
+           : adc - dma 
+
+- flash    : erase , write, read flash
+
+
+
+
+
+
+
+

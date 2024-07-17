@@ -1,0 +1,33 @@
+MAP 
+--- dùng để làm mảng đánh dấu 
+tương tự set<pair>   
+
+key -> value 
+
+key có thể là bất kì kiểu dữ liệu nào kể cả số âm 
+map<int, int> mp; 
+mp.insert({1, 10)}; 
+mp.insert({-2, 5)}; 
+
+mp[100] = 20; nếu chưa có key = 100 thì thêm vào tương đương mp.insert({100, 20}); 
+nếu đã có key rồi thì sửa value của key 100 thành 20 
+
+---duyệt thuận có thể dùng for each với khai báo pair<dataty,datatype> it 
+
+---duyệt ngược thi dùng iterator và có thể dùng it->first 
+vì it trỏ đến pair nó giống con trỏ vào struct ấy   
+
+---map<int, int> mp; // map rỗng 
+
+	cout << mp[5] << endl; 
+
+chỉ cần như thế thôi thì map sẽ tự động thêm {5, 0} vào trong map
+
+-- khi muốn sort theo tần second thì copy ra vector 
+
+vector<pair<datatype, datatype>> v; 
+
+rồi sort cái v bằng hàm sort là đc, chứ sort ko hỗ trợ map 
+
+ ---- làm bài 23 bằng map 
+ ---- chú ý khi dùng iterator it = .begin() sau đó lại tiết kiệm mà gán .rbegin() thì là sai mà phải dùng reverse_iterator. 

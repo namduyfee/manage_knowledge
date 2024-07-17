@@ -1,0 +1,75 @@
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~ CREATE QUEUE ~~~~~~~~~~~~~~~~~~~~~/ 
+
+* QueueHandle_t xQueueCreate (UBaseType_t uxQueueLenth, UBaseType_t uxItemSize); 
+
+	- tham số uxQueueLenth : độ dài của queue cần tạo 
+	- tham số uxItemSize   : size của mỗi phần tử trong queue 
+
+	_ Return 
+		- NULL : nếu RAM không đủ để cấp phát, queue không tạo thành công 
+		- NOT NULL : tạo queue thành công 
+
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~ SEND DATA TO QUEUE ~~~~~~~~~~~~~~~~~~~~~/ 
+
+- trong các interrupt service routine (ISR) dùng các hàm có đuôi ( fromISR ) 
+
+* BaseType_t xQueueSendToFront (QueueHandle_t xQueue, const void* pvItemToQueue, TickType_t xTicksToWait);
+	description : 
+		- gửi data vào đầu queue (head)
+
+* BaseType_t xQueueSendToBack (QueueHandle_t xQueue, const void* pvItemToQueue, TickType_t xTicksToWait); 
+	description : 
+		- gửi data vào cuối queue. 
+
+	- tham số xQueue : the handle of the queue ( đc return from xQueueCreate();) 
+	- tham số pvItemToQueue  : con trỏ vào data cần sao chép vào queue 
+	- xTicksToWait : thời gian đưa task vào trạng block nếu queue đang đầy 
+		+ nếu xTicksToWait = 0 thì nó sẽ trả về ngay lập tức nếu queue đầy 
+		+ dung pdMS_TO_TICK(); để chuyển ms thành tick 
+		+ nếu xTicksToWait = portMAX_DELAY thì task sẽ chờ vô thời hạn nếu queue đang đầy 
+		  trong trường define INCLUDE_vTaskSuspend 1 in FreeRTOSConfig.h
+	- RETURN 
+		+ pdPASS : nếu data được đưa vào queue thành công 
+		+ errQUEUE_FULL : data không được đưa vào queue 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~ RECEIVE DATA TO QUEUE ~~~~~~~~~~~~~~~~~~~~~/ 
+
+* BaseType_t xQueueReceive ( QueueHandle_t xQueue, Void* const pvBuffer, TickType_t xTicksToWait); 
+	
+	description : 
+		- đọc data từ queue. 
+
+	- tham số xQueue : the handle of the queue 
+	- tham số pvBuffer : con trỏ đến memory lưu trữ data được đọc từ queue ( nó phải đủ lớn để 
+	  ít nhất phải chứa được item của queue. 
+	- tham số xTicksToWait : tương tự như Send ( nhưng là đợi do queue đang trống ) 
+
+	_RETURN 
+		+ pdPASS : đọc data thành công 
+		+ errQUEUE_EMPTY : queue trống, đọc không thành công. 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~ 1 số lệnh với QUEUE ~~~~~~~~~~~~~~~~~~~~~/ 
+
+* UBaseType_t uxQueueMessagesWaiting ( QueueHande_t xQueue ); 
+		
+	description : 
+		- trả về số item có trong queue. 
+
+	- xQueue : the handle of the queue 
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

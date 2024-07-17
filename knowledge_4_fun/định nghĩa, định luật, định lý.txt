@@ -1,0 +1,7 @@
+định nghĩa : là sự xác định bằng ngôn ngữ nhất định những đặc trưng cơ bản tạo thành nội dung khái niệm về một sự vật, hiện tượng quá trình nhằm mục đích phân biệt rõ với các sự vật hiện tượng khác.
+
+định luật : là những phát biểu đc rút từ quan sát, thực nghiệm 
+
+định lý : là những phát biểu đc rút ra từ việc tính toán dựa trên những cái đã được chứng minh là đúng.
+
+Toán học thì chỉ có định lý chứ không có định luật. 

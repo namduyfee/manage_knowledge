@@ -1,0 +1,29 @@
+-- với 1 core trong 1 thời điểm chỉ có 1 task chạy nhưng thời gian chuyển đổi giữa các task nhanh cảm giác các 
+task đc thực hiện đồng thời 
+
+-- có 4 trạng thới task 
+	++ ready     : chờ 1 task có mức ưu tiên cao hơn 
+	++ running   : đang chạy 
+	++ blocked   : task đang chờ 1 sự kiện nào đó hoặc task đang delay , delay của RTOS
+	++ suspended : - khá giống block nhưng nó điều khiển bằng câu lệnh, câu lệnh giúp task về trạng thái  
+			suspend bằng câu lệnh vtasksuspended và đưa về trạng thái ready bằng vtaskresuspended
+		       - chỉ có dùng câu lệnh để ra vào trạng thái suspend 
+
+-- cấu trúc của 1 task 
+
+void task(void* parameter) {
+
+// khởi tạo 
+while(1) {
+	// các câu lệnh
+}
+// nếu không có while(1) thì phải xóa task đó sau khi thực hiện nếu ko sẽ bị lỗi 
+}
+
+
+-- task properties ( thông số task ) 
+	++ mức ưu tiên 
+	++ tên 
+	++ kích thước ngăn xếp (của task) ( vùng heap)
+	++ tham số truyền vào (parameter) 
+	++ một con trỏ đại diện (xTaskHandler) - giúp các task tác động lên nhau 

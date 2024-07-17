@@ -1,0 +1,11 @@
+
+* thực tế tất cả các lệnh trong make file đều chạy được trên cmd 
+tuy nhiên làm như thế sẽ rất bị động nên người ta sẽ tạo ra một file makefile chứa tất cả rule 
+ma ngta cần, sau đó dùng make để chạy file makefile đấy theo kiểu người ta muốn, và để chạy chương 
+trình kia thì cần cmd và msys2 là cmd được dùng vì nó nhẹ, ngoài ra còn có cygwin 
+
+* preprocessor : là quá trình tiền xử lý, thực hiện các lệnh có dâu '#',thay thế hàm... sau khi thực hiện xong => các file thuần C 
+* compileer : quá trình biên dịch các file c => file assembly => file .O các file này chưa được 
+map với nhau, bộ nhớ cũng chưa được phân vùng... 
+* linking : kết nỗi các file lại với nhau thành một file .elf, .hex, .exe; bộ nhớ được phân vùng. 
+

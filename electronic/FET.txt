@@ -1,0 +1,11 @@
+FET : trans hiệu ứng điện trường (không phải từ trường  như trên mạng).
+	JFET (hiểu là FET), MOSFET (phải gọi cụ thể là MOSFET).
+Mosfet 
+	tổng trở vào rất lớn 
+	đóng ngắt nhanh với dòng điện và điện áp khá lớn 
+
+
+Chân MOSFET : thường quy đinh chân  G trái , S phải, D giữa 
+
+						FET 												BJT 
+			   	đóng ngắt nhanh hơn , dòng và áp lớn hơn 					khếch đại lớn hơn, tần số làm việc cao hơn 

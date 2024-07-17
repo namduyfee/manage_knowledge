@@ -1,0 +1,26 @@
+#include<bits/stdc++h> 
+
+sort(begin(), begin() + 2); sắp xếp phần tử 0 1 phần tử idex 2 không đc sắp xếp.
+sort(begin(), end()) xếp phần từ 0->n-1; 
+
+duyệt từ rbegin() -> rend() thì vẫn it++ chứ ko phải it-- 
+khi đó như kiểu lật vector lại 
+lấy ví dụ ở phần left và right
+
+accumulate(v.begin(), v.end(), 0) khởi tạo tổng ban đầu là 0
+
+cách hàm trên đều có thể xét từ left đến right 
+thì thay v.end() là v.begin + right + 1 
+
+pair 
+
+cứ coi như pair là 1 struct và trong đó có hai biến 
+fist và second 
+
+
+lưu 3 chiều 
+pair<pair<int, int >, int>  hoặc tuple
+
+CHÚ Ý KHI NHẬP VÀO VECTOR DÙNG PUSH_BACK KHI VECTOR CHƯA ĐC CUNG CẤP SỐ LƯỢNG   VÍ DỤ vector<int> v(n); 
+nếu khi nhập mà push_back thì số đấy sẽ đc  lưu tiếp là ở index n chứ không phải là 0; 
+khi đã khai báo kiểu n như kia thì tốt nhất là gán v[i] khi đó v[0] mới đc gán còn push_back là lưu tiếp vào index n

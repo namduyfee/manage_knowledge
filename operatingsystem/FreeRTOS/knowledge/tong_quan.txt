@@ -1,0 +1,5 @@
+-- system tick điều phối rtos 
+
+-- nên ở mục SYS nên dùng Timer khác thay vì systemtick 
+
+-- những câu lệnh sau osKernelStart đều vô nghĩa 

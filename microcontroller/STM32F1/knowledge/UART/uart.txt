@@ -1,0 +1,27 @@
+-- truyền song công , không đồng bộ 
+	hệ thông baud rate tốc độ truyền và nhận lên tới 4.5Mhz 
+	dải bit data truyền alf 8 hoặc 9 
+	bit stop có thể là 1 hoặc 2 bit 
+	Lin master 
+	transmiter clock output để truyền đồng bộ 
+	bộ giải mã hóa IrDA 
+	giao diện smartCArd
+	xử lý với DMA 
+	
+	
+	receive data : RX : nhận dữ liệu và là input , nó có lọc nhiễu 
+	transmit data : TX : truyền dữ liệu 
+		khi disenable IO thông thường. khi đc enable và đang không có dữ liệu đc truyền thì pin TX sẽ đc set ở mức cao 
+		trong chế độ single wire và smartcards thì IO này dùng để truyền và nhận ( ở cấp độ uart dữ liệu này sẽ đc nhận trên chân SW_RX. )
+		
+	thông qua các chân cơ bản này USART sẽ bao gồm : 
+		An Idle Line prior to transmission or reception
+		1 bit start 
+		8 or 9 bit data 
+		0.5, 1, 1.5, 2 bit stop 
+		a baud rate 12 bit mantissa 4 bit fraction 
+		1 state _SR register 
+		data register _DR 
+		1 baud rate register 
+		1 guard time register ( _GTPR) in case smartCArds 
+		

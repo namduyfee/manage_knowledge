@@ -1,0 +1,16 @@
+
++ pvPortMalloc(); 
+	- allocate memory instead of malloc(); in standar library C
+	- return point void  
+	- nếu không thể cấp phát thì nó sẽ trả về NULL và object kenel sẽ không được tạo 
+
++ vPortFree(); 
+	- free memory instead of Free(); in standar library C 
+
++ xPortDefineHeapRegion(); 
+	- liên kết các vùng nhớ riêng lẻ thành khối lớn để cấp phát 
+	- mỗi vùng là 1 struct gồm start address và size 
+
++ xPortGetFree(); 
+	- trả về số lượng byte chưa được cấp phát có trong heap 
+	

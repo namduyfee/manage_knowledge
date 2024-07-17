@@ -1,0 +1,58 @@
+tham chiếu của vector đến hàm 
+
+vector<int> v = {1, 2, 3, 5, 2};
+
+con trỏ của vector 
+
+v.begin(); : địa chỉ của phần tử đầu tiên của vector
+v.end(); : địa chỉ ô nhớ cuối cùng của vector (không phải là phần từ cuối cùng)
+
+iterator 
+vector<int>::iterator it = v.begin(); hoặc = v.end(); hoặc = v.rend(); hoặc = v.rbegin(); 
+
+khi vector<int>::iterator it = v.end(); 
+cout << *(it-1); thì sẽ in ra 2 
+
+rend() la ô nhớ trc phần tử đầu tiên 
+begin() là phần tử đầu tiên 
+end() là ô nhớ sau phần tử cuối 
+rbegin() là phần tử cuối 
+
+vòng lặp của iterator
+vector<int> v = {4, 1, 2, 8, 3};
+
+    for(vector<int>::iterator it = v.begin(); it != v.end(); it++){
+        cout << *it << ' ';
+    }
+begin() đi cùng end() , rbengin() đi cùng rend(). 
+
+muốn dùng rbegin() hay rend() thì phải khai báo 
+
+vector<int>::reverse_iterator it
+
+auto trong vector, do vector<int>::iterator dài quá nên dùng auto sẽ đơn giản code hơn 
+
+auto it = v.begin(); nó tự hiều it là iterator 
+auto it = v.[0]; nó tự nhận biết it là kiểu int
+
+---chèn giá trị vào vị trí bất kì vector 
+dùng v.insert(v.begin()+vị trí muốn chèn, value muốn chèn vào)
+
+--- xóa 
+dùng hàm erase(v.begin()+ vị trí muốn xóa); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+

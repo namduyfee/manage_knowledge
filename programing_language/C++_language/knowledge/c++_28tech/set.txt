@@ -1,0 +1,24 @@
+for(int &x : a) cin >> x; // nhap mảng   
+
+upper_bound, lower_bond rất hay đc dùng từ hai hàm này mk có thể tìm các số kiểu khác nữa 
+ví dụ upper_bound trả về vị trí đầu tiên > x thì chỉ cần lấy chỉ số đó - 1 và xét xem tại vị trí đó có bằng  x không thì vị trí đó chính là vị trí cuối cùng = x => chỉ cần hai hàm này làm đc hết các kiểu tìm còn lại. 
+
+bởi vì pair là kiểu dữ liệt trong c++ rồi nên set nó có thể tự hiểu chứ sau này dùng struct để tự định nghĩa thì phải nạp chồng  
+
+mảng a đã có rồi sao lại làm thêm 1 set nữa,
+dùng 1 multiset sẽ là ko hiệu quả vì nó lưu hết cơ mà 
+
+duyệt thuận thì dùng for(int x : se) 
+duyệt ngược thì dùng iterator 
+
+hàm find trong multiset sẽ trả về vị trí đầu tiên của x trong set 
+
+copy vector : vector<pair<int, int>> t(v.begin(), v.end()); 
+		hoặc  vector<pair<int, int>> t = v; 
+
+
+iterator không đc +=  1 hay + 1 mà chỉ ++ hay -- muốn += x thì phải dùng hàm 
+
+[1,11], 20, 22, 23
+
+trong set, multiset muốn tính khoảng cách giữa hai iterator phải dùng hàm distance(vị trí đầu, vị trí cuối)

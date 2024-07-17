@@ -1,0 +1,11 @@
+
++ có 3 loại reset : system reset, power reset, backup domain reset 
+
+- system reset : 
+	- reset bằng NRST pin ( external reset ) 
+	- reset băng watchdog 
+	- reset bằng software 
+	- low power management reset 
+
+
+

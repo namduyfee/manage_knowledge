@@ -1,0 +1,23 @@
+* queue fixed về size của queue và size của mỗi implement 
+
+* queue dùng first in first out 
+
+* được cấp phát ở HEAP 
+
+* có hai cách để đưa biến vào queue 
+	- copy value của variable và đưa vào queue 
+	- lưu con trỏ đến variable vào queue 
+	+ FreeRTOS dùng cách copy value 
+
+* queue có thì được nhiều task cùng đọc, cùng ghi vào một lúc 
+
+* khi một task đọc một queue trống nó sẽ được đưa vào block state và chờ khi có data để quay lại ready state 
+  hoặc khi quá thời gian chờ để đọc thì nó cũng sẽ tự thoát block state. 
+
+  - khi nhiều hơn 1 task đang chờ queue thì khi có data thì task có ưu tiên cao hơn sẽ được bỏ chặn trước, nếu 
+    hai tác vụ ngang nhau thì tác vụ nào chờ lâu hơn thì được bỏ chặn trước. 
+
+* đối với ghi thì cũng tương tự như đọc nếu queue bị đầy
+	- task vẫn sẽ bị đưa vào block và chờ chỗ trống để ghi 
+	- khi nhiều task chờ thì ưu tiên vẫn như đọc 
+

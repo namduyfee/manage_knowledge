@@ -1,0 +1,33 @@
+-- độ phân giải 22 bit , khối APB2 
+-- có 20 kênh ADC : ADC1,2_IN0->IN9 và 2 kênh cảm biến trong chip : vrefint và cảm biến nhiệt độ chỉ thực hiện đc với ADC1
+-- có 4 mode convert A/D : single , continuous , scan , discontinuous
+ -- clock ADC không đc vượt quá 14 Mhz 
+--Tconv = samling time + 12.5 cy
+	ví dụng ADCCLK = 14 MHz và sampling timer = 1.5 cycles 
+	=> Tconv = 14 cycles = 1 us
+-- ngắt xảy ra khi kêt thúc chuyển đổi regular or iniected or bit AWD của analog đc thiết lập 
+
+-- scan mode sử dụng nhiều hơn một channel cho ADC 
+-- continuous conversion : chuyển đổi liên tục hay dùng lại sau 1 lần convert
+-- CONT đc set thì sau khi convert last channel nó sẽ quay lại set first channel 
+-- một nhóm chuyển đổi có thể gồm bất kì kênh nào hay thứ tự nào 
+	ví dụ : ch3, ch8, ch2, ch2, ch0, ch2, ch2, ch15
+
+-- dual mode sử dụng cùng lúc 2 hoặc nhiều bộ ADC
+
+-- single mode bộ ADC convert 1 lần rồi dừng 
+
+--- DMA chỉ có trên ADC1 , 3 
+
+-- scan mode đc chọn thì bit DMA phải đc bật 
+
+-- DMA ở single mode là vô nghĩa bởi vì nó sẽ  như interrupt , nó chỉ dùng khi dùng multichannel 
+	lúc đó sẽ 
+-- độ phân giải tức là độ chia trong dải điện áp đấy 
+
+
+
+
+
+
+

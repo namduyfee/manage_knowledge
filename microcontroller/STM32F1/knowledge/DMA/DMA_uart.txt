@@ -1,0 +1,34 @@
+
+
+-- GPIO 
+	+ enable clock 
+	+ input, output 
+	
+-- cấu hình UART sử dụng DMA 
+	+ enable clock, UART
+	+ baud rate
+	+ enable DMA for UART 
+	+ enable trans, receiver , chiều dài bit data 
+
+-- cấu hình DMA 
+	+ cho phép 3 ngắt xảy ra 
+	+ đọc từ memory hoặc peripheral 
+	+ dịch con trở memory 
+	+ size của một data đc truyền 
+
+** size data ở đây có nghĩa một lần truyền hoặc đọc dữ liệu đó cần bao nhiêu bit 
+ví dụ một lần truyền uart  chỉ truyền 8 bit or 9 bit nhưng nếu chúng ta giử một số mà lớn hơn 8 bit thì sao 
+nó sẽ truyền 2 lần và nếu ko chọn size lớn hơn thì 2 lần truyền đó sẽ thành 2 số nhỏ hơn 255 chứ không phải 
+ghép với nhau và tính ra số lớn 255 ( máy tính nó sẽ hiểu là như thế ) 
+
+	+ mức độ ưu tiên 
+	+ số lần truyền trong một vòng , và chế độ lặp 
+	+ địa chỉ peripheral và memory 
+
+-- NVIC 
+	+ set grouping 
+	+ config interrupt cho DMA , enable 
+
+-- intrrupt 
+	
+1100

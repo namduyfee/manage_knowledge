@@ -1,0 +1,9 @@
+giao diện đọc sẽ gồm một bộ điều khiển để truy cập flash memory giao diện AHB ở bên kia để giao tiếp CPU 
+nhiêm vụ chính của giao diện đọc là : 
+	+ tạo ra các tín hiệu để đọc flash 
+	+ the  prefetch the blocks required by CPU 
+-- khối prefetch (tìm nạp trước) nhằm mục đích tăng hiệu quả 
+-- bộ đệm chỉ đc nạp trước chỉ nên bật/tắt khi SYSCLK thấp hơn 24 mhz 
+	
+-- để đọc được flash thì khoảng thời gian truy cập của bộ phải đc lập trình trong Flash access control register 
+

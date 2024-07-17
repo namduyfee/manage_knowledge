@@ -1,0 +1,35 @@
+** thiết bị theo dõi 6 trục 
+	- con quay hồi chuyển 3 trục 
+	- gia tốc kế 3 trục 
+
+accelerometer (gia tốc kế) : +/-2g, 4g, 8g, 16g 
+gyroscope (con quay hồi chuyển) : +- 250 500 1000 2000 (dps) : độ/giây 
+
+Quaternion Components (w, x, y, z), Euler angles, Yaw, Pitch, Real world Acceleration, Roll, World frame acceleration and Teapot invent sense Values.
+
+** con quay hồi chuyển : 
+-- khi quay quanh bất kì trục vào hiệu ứng coriolis gây ra rung động đc MEM bên trong MPU phát hiện 
+   tiến hiệu đc khuếch đại... tạo ra hiệu điện áp tỉ lệ thuận với tốc độ góc điện áp này đc số hóa 
+   bằng adc , phạm vì toàn thang đo là +- 250,.. 
+-- đo vận tốc góc dọc theo các trục  
+
+** gia tốc kế 
+-- khi đặt trên mặt phẳng thì sẽ đo đc trên trục x,y là 0 và z là +1 
+-- gia tốc góc dọc theo các trục 
+
+** DMP Digital Motion Processor
+
+++ Slave Write address(SLA+W): 0xD0
+++ Slave Read address(SLA+R): 0xD1
+
+
+-- Acceleration along the (X/Y/Z) axis = (Accelerometer (X/Y/Z) axis raw data/16384) g.
+
+-- Angular velocity along the (X/Y/Z) axis = (Gyroscope (X/Y/Z) axis raw data/131) °/s.
+
+-- sử dục SDA, SCL mpu là salve 
+-- sử dụng XDA, XCL mpu là master 
+
+-- tốc độ tối đa là 400Khz
+
+-- AD0 quyết địn địa chỉ của MPU 

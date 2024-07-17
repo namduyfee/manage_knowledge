@@ -1,0 +1,22 @@
+cách đo bjt : 
+
+Tìm chân B : 
+vặn về thang đo x1 Ohm
+đo các cặp chân : nếu giữ cố định 1 chân di chuyển 2 chân còn lại mà đồng hồ hiện giá trị 
+		th1 : que đo tại chân cố đinh màu đen -> NPN 
+		th2 : que đo tại chân cố định màu đỏ  -> PNP 
+
+Tìm chân C-E : 
+vặn về thang đo 10k, đo 2 chân còn lại nếu đo vô cùng thì bỏ qua nếu đồng hồ hiện giá trị cụ thể 
+		th1 : NPN, que đỏ chân : C, que đen chân : E
+		th2 : PNP, màu đỏ chân : E, que đen chân : C 
+
+
+ĐO NHANH 
+
+B-E : có que luôn cùng màu : NPN đen 
+				   : PNP đỏ 
+
+
+kiểm tra trans die : que đen hay đỏ ở B thì đều có giá trị 
+			   C-E thông nhau 

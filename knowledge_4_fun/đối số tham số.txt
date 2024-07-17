@@ -1,0 +1,11 @@
+void prinf(string name);
+
+main () {
+
+	prinf("nam duy "); 
+} 
+
+
+- tham số ở đây là name 
+- đối số là nam duy 
+

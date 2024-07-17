@@ -1,0 +1,34 @@
+========================== khởi tạo mpu =========
+
+- who am I register (0x75) : chứa địa chỉ mpu, mặc đinh là 0x68 (bit 0 và 7 tùy vào AD0)
+
+- PWR_MGMT_1 register (0x6B) : 
+
+- SMPLRT_DIV register (0x19) : Tốc độ mẫu = Tốc độ đầu ra con quay hồi chuyển / (1 + SMPLRT_DIV)
+	Tốc độ đầu ra con quay hồi chuyển = 8khz, để có 1khz ta cho div 7 
+
+- GYRO_CONFIG (0x1B)” và “ACCEL_CONFIG (0x1C) : cấu hình gia tốc kế và con quay hồi chuyển   
+
+=================================================
+
+-- xử lý accel (gia tốc) 
+ACCEL_X/Y/ZOUT_H (0x3B) : lưu trữ các bit cao 
+
+ACCEL_X/Y/ZOUT_L  : lưu trữ các bit thấp vì thế chúng ta cần xử lý nó thành 16bit
+
+X/Y/Z_RAW = (OUt_H<<8) | OUT_L
+ 
+đây vẫn là giá trị adc và chúng ta cần chuyển nó sang dạng  cần dùng  
+	Ax = X_RAW/LBS(tương ứng ) 
+-- xử lý (vận tốc ) 
+GYRO_out_H, GYRO_out_L 
++ cách thức tương tự như gia tốc 
+
+=====================================================
+Nếu màn hình LCD không hiển thị gì, hãy làm như sau.
+Goto project->setting->c/c++ build->setting->tool setting->c linker và gõ -u _printf_float bên trong lệnh.
+
+ở trạng thái nghỉ az = 1.0g (9.81 m/s2)
+
+
+

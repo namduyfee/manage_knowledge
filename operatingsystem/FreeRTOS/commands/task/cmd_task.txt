@@ -1,0 +1,112 @@
+
++ BaseType_t xTaskCreate ( TaskFunction_t pvTaskCode, const char* const pcName, uint16_t usStackDepth, 
+			  void* pvParameters, UBaseType_t uxPriority, TaskHandle_t *pxCreatedTask); 
+
+	- pvTaskCode   : tên function 
+	- pcName       : tên task 
+	- usStackDepth : số lượng stack space cần cấp ( usStackDepth = 100, mà ngăn xếp rông 4 byte thì số byte cần cấp 
+			 là 100 * 4 = 400 byte : tùy thuộc vào độ rộng của  stack) 
+	- pvParamaters : đối số truyền vào của function 
+	- uxPriority   : mức độ ưu tiên task thấp nhất là 0; ưu tiên cao nhất là configMAX_PRIORITIES – 1
+	- pxCreateTask : nếu không dùng thì nhập NULL 
+
+	- return       : hàm trả về 1 value = pdPass : tạo task thành công  , = pdFALL : tạo task thất bại 
+
++ tickType_t pdMS_TO_TICKS (Ms paramater); 
+	- chuyển Ms sang tương ứng với số tick interrupt 
+	- tickType_t tem = pdMs_TO_TICK( 100 ); 	100 Ms <=> ? tick interrupt 
+
+/~~~~~~~~~~~~~~~~~~~~ OS DELAY ~~~~~~~~~~~~~~~~~~~~~~~~~/
+
++ xTaskDelay (tickType_t paramater); 
+	- đưa task vào sleep 
+	- tham số là tick interrupt 
+	- => cách hay dùng xTaskDelay(pdMs_TO_TICK(MS parameter)) điều này sẽ giúp cho chương trình ít bị lỗi khi 
+	  hệ thống bị thay đổi 
+
++ xTaskDelayUntill (tickType_t* pxPreviousWaketime, tickType_t xTimeIncrement); 
+	- pxPreviousWaketime : con trỏ lấy giá trị biến thời gian gốc để tính  toán đồng thời cập nhật luôn thời điểm 
+	  thực hiện xong hàm cho biến gốc đó. 
+	- xTimeIncrement     : khoảng thời gian sleep so với thời gian gốc 
+
+	- khi ta truyền mốc thời gian cho pxPreviousWaketime thì sau pxPreviousWaketime + xTimeIncrement thì nó sẽ wakeup 
+
+* - vậy sự khác biệt ở chỗ delayUntill() là delay theo thời gian tuyệt đối , mk có thể truyền mốc thời gian ở quá khứ hoặc 
+    một thời điểm vào để tính toán , tùy thuộc mục đích người dùng. 
+  - Trong khi đó delay() là mốc thời gian mà hàm này lấy sẽ là ngay lúc gọi , nó là khoảng thời gian chứ không phải thời điểm. 
+
+
+/~~~~~~~~~~~~~~~~~~~~ IDL TASK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/ 
+
+configIDLE_SHOULD_YIELD : xem thông tin dưới phần schedule 
+
+#define configUSE_IDLE_HOOK 1 in FreeRTOSconfig.h 
+
+void vapplicationIdleHook(void); 
+
+	- task này sẽ chạy khi không có bất kì task nào khác đang run 
+	- đối với các memory allocate cho task không được tự động free sau khi bị delete, thì task này thường chịu trách nhiệm dọn 	  dẹp memory đấy sau khi Delete task 
+	  vì thế ở các ứng dụng mà có dùng đến hàm vTaskDelete thì nên đảm bảo IDL Task là được chạy 
+
+/~~~~~~~~~~~~~~~~~~~~ PRIORITY TASK ~~~~~~~~~~~~~~~~~~~~~~~~/ 
+
+**** SET PRIORITY **** 
+
+define INCLUDE_vTaskPtioritySet 1 in FreeRTOSconfig.h
+
+void vTaskPrioritySet( TaskHandle_t pxTask, UBaseType_t uxNewPriority ); 
+
+	- TaskHandle_t con trỏ quản lý task ví dụ : myTask04Handle = osThreadCreate(osThread(myTask04), NULL);
+	- uNewPriority : mức ưu tiên muốn set 
+	ví dụ : thực hiện set priority cho task4 trong task2 
+		UBaseType_t uxPriority = vTaskPriorityGet(NULL);  	// trả về ưu tiên của task2 
+		vTaskPrioritySet(myTask04Handle, uxPriority + 1); 	// đặt task4 có mức ưu tiên cao hơn task2 
+
+	- nếu trong task ta gọi hàn vTaskPrioritySet(); với đối số TaskHandle_t truyền vào là NULL thì nghĩa là đang 
+	  set giá trị priority cho task running. 
+
+**** GET PRIORITY ****
+
+define INCLUDE_uxTaskPriorityGet 1 in FreeRTOSconfig.h
+
+UBaseType_t vTaskPriorityGet(TaskHandle_t pxTask); 
+
+	- return về giá trị priority Task
+	- đối số nhập vào là NULL thì sẽ trả về priority task running 
+
+/~~~~~~~~~~~~~~~~~~~~ DELETE TASK ~~~~~~~~~~~~~~~~~~~~~~~~/ 
+
+define INCLUDE_vTaskDelete 1 in FreeRTOSconfig.h
+
+void vTaskDelete(TaskHandle_t pxTaskToDelete); 
+	- tham số TaskHandle_t là con trỏ quản lý task
+	- nếu đối số truyền vào là NULL thì nó sẽ xóa task running.  
+
+- chỉ những memory cấp phát cho task bởi chính kenel thì mới được tự động free khi bị task bị delete, còn những memory khác đều phải free rõ ràng khi 
+  task đấy bị delete. 
+
+/~~~~~~~~~~~~~~~~~~~~ SCHEDULE ~~~~~~~~~~~~~~~~~~~~~~~~/ 
+
+define configUSE_PREEMPTION 
+	- 1 : không độc quyền 
+	- 0 : độc quyền 
+define configUSE_TIME_SCILING 
+	- 1 : dùng round robin cho các task có mức ưu tiên ngang nhau 
+	- 0 : không dùng round robin 
+	
+define configIDLE_SHOULD_YIELD 
+	- chỉ dành cho idl task 
+	- 0 : idl task sẽ chạy hết lát thời gian của nó
+	- 1 : sau một vòng loop hoặc 1 lát thời gian cung cấp thì idl task sẽ tự động trả CPU để idl task khác được chạy 
+
+
+
+
+
+
+
+
+
+
+
+	

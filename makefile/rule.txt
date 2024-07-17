@@ -1,0 +1,27 @@
+
+
+* instruction của một rule cơ bản : 
+	
+	target .. : prerequisites ..
+		recipe 
+		...
+		...
+
+	- target : + thường là tên của một file được tạo bởi chương trình : có thể là file thực thi 
+		   hoặc file .o 
+		   + cũng có thể là tên của một hành động ví dụ như : clean 
+		   + nhưng chú ý khi hành động trùng với tên của một file trong folder khi gọi hành 	
+		   động đó thì máy sẽ hiều là lệnh tạo ra file có tên của hành động và không thực hiên 
+		   hành động đó vì thế cần có từ khóa PHONY trong trường hợp này 
+	- prerequisites : là các yêu cầu đầu vào, một target thường phụ thuộc vào một số file 
+
+	- recipe : là các câu lệnh thực hiện 
+	
+	- mỗi câu lệnh tương ứng một dòng tách biệt, nếu một câu lệnh quá dài mà quá dài mà muốn 
+	xuông dòng để đẹp mắt hơn thì dùng kí tự '\' 
+
+
+	** việc đặt target trùng tên với file.đuôi chỉ là cho chương trình mạch lạc rõ ràng hơn 
+	còn tên file phụ thuộc vào câu lệnh ở dưới
+
+	

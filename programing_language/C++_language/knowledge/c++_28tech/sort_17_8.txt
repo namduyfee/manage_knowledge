@@ -1,0 +1,16 @@
+đệ quy khác for ở chỗ nó có thể gọi đến tận cùng rôi mới tính toán hoặc in 
+
+STL : standard template library 
+
+// vector, iterator, set, map, stack, queue, sort, search...
+
+sort(a, a + n) tăng dần 
+sort(a, a + n, greater<datatype>()); giản dần 
+
+
+nếu sort mảng pair thì nó sẽ xếp theo tk first
+
+comparator 
+
+stable_sort : tk nào đứng trc nó vẫn đứng trc 
+bởi vì sort viết bằng qsort nên vị trí bị đổi lung tung xèng  nhưng dùng stable_sort thì sẽ giữ lại đc vì dùng merge sort
