@@ -1,0 +1,91 @@
+
+* ngắt xảy ra khi kêt thúc chuyển đổi regular or iniected or bit AWD của analog đc thiết lập 
+
+* EOC bit được set khi một channel trong nhóm convert xong (cho cả regular and injected). 
+  JEOC bit được set khi tất cả kênh trong nhốm injected được convert xong.
+* vì vậy phải phối hợp giữa các cờ ngắt với nhau để biết nhóm nào đang thực hiện convert
+
+*watchdog adc dùng để phát hiện xem điện áp vào có cao hay thấp hơn dải điện áp tham chiếu hay ko. 
+
+* có 4 option convert A/D : single , continuous , scan , discontinuous
+
+/*********** scan mode ************************* /
+- sử dụng nhiều hơn một channel cho ADC 
+- với regular khi dùng scan mode thì bit DMA phải được set để data sau mỗi lần convert lưu ở SRAM sau mỗi lần cập nhật thanh 
+ghi ADC_DR
+- còn với injected thì luôn lưu ở ADC_JDRx registers
+
+/*********** single mode ********************** /
+
+- bit CONT set 0 ( mode single not continuos mode) 
+- chỉ có một chu kì chuyển đổi sau khi có trigger kích hoạt. 
+- trigger kích hoạt là set bit ADON (for regular) và external trigger (for regular or injected). 
+
+??? câu hỏi đặt ra là ở chế độ single mode thì khi có trigger kích hoạt thì nó chạy 1 lần rồi dừng adc vậy thì nếu có trigger đó 
+kích hoạt nhiều lần thì việc chuyển đổi có được tiếp tục không.
+
+/*********** continuous conversion *************/
+- chuyển đổi liên tục hay dùng lại sau 1 chu kì convert.
+- to start convert có thể dùng external trigger hoặc ADON.
+
+/*********** discontinuous ******************** / 
+- không sử dụng cả regular cả injected trong chế độ này (only one). 
+- không dùng auto-injected trong chế độ này. 
+- chuyển đổi theo từng nhóm khi có external trigger. 
+- ví dụ : channal convert 0 1 2 4 5 6 10 8 3 và mỗi lần conver nhỏ là 3 
+- fisrt trigger   : 0 1 2 are converted
+- seconde trigger : 4 5 6 are converted
+- third trigger   : 10 9 3 are converted 
+- fourth trigger  : 0 1 2 are converted 
+
+/*********** injected channel management  ****** / 
+
+1) trigger injected 
+	- khi regular group đang convert mà có external injected trigger thì nó sẽ chuyển đổi injected trước 
+	sau khi chuyển đổi nhóm injected xong thì nó sẽ chuyển đổi tiếp tại channel bị ngắt của regular group. 
+	- nhưng khi injected đang convert và có một trigger của regular thì regular group sẽ không được ngắt ngang 
+	mà phải đợi injected chuyển đổi xong thì regular mới được convert.
+	- thời gian giữa 2 lần injected trigger phải lớn hớn thời gian chuyển của injected group. 
+2) auto-injected 
+	- khi cần dùng tối đa 20 channel.
+	- group injected sẽ được chuyển đổi sau khi regular group convert xong.
+	- phải tắt external injected trigger.
+	- khi chuyển đổi giữa hai group thì sẽ có chèn thêm một ít trễ. 
+ 
+/*********** sample time ********************** / 
+- có thể hiểu là mỗi lần chuyển sẽ chỉ lấy một điểm được lượng tử hóa đấy thôi và thời gian lấy mẫu là thời gian 
+lấy điểm đó -> thời gian lấy càng lâu càng chính xác 
+- thời gian cộng thêm đấy có thể là thời gian xử lý của adc 
+- còn tốc độ lấy mẫu thì phụ thuộc vào chip... thời gian giữa 2 điểm lượng tử hóa được lấy sẽ phụ thuộc vào tốc độ chip, 
+chu kì 1 vòng chuyển đổi trong group... và cái này mới là tốc độ lấy mẫu (đây là bức tranh to hơn) còn thời gian lấy mẫu 
+trên kia là hướng tới một điểm lượng tử thôi.
+- công thức thời gian của một channel convert : Tconv = 1.5 + 12.5 cycles (trong đó cycles là chu kì cấp cho ADC hoạt động) 
+
+/ ********** Dual ************************* /
+- các adc có thể hoạt động độc lập với nhau, cùng lúc. 
+- tuy nhiên khi muốn 2 khối adc có mối liên kết với nhau (master, slave) thì lúc đấy mới sử dụng đến mode này 
+- các mode của dual có trong manual. 
+
+/ ********** ADC SEQUENCE REGISTER ******** / 
+
+* adc sequence regiter : các thứ tự chuyển đổi đã có sẵn trong register và mk sẽ nhập channel vào đấy (0->17), theo cách này sẽ tránh được 
+việc 2 channel chung một thứ tự convert, ngoài ra một channel có thể convert nhiều lần trong một chu kì convert. 
+- có 2 phần : số lượng convert trong một chu kì convert, và thứ tự chuyển đổi. 
+- tuy nhiên chỉ có thứ tự từ 1->16 vì vậy để dùng full channel thì phải kết hợp với injected. 
+
+
+* khuyến nghị nên bật hiểu chuẩn cho adc ở sau mỗi lần bật nguồn (tránh sai số ở mỗi thời điểm bật nguồn).
+
+- CONT đc set thì sau khi convert last channel nó sẽ quay lại set first channel 
+- một nhóm chuyển đổi có thể gồm bất kì kênh nào hay thứ tự nào 
+	ví dụ : ch3, ch8, ch2, ch2, ch0, ch2, ch2, ch15
+
+* DMA chỉ có trên ADC1 , 3 
+
+
+
+
+
+
+
+

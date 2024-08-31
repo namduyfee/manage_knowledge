@@ -1,2 +1,16 @@
-cấu trúc vđk 8bit 16bit 32bit ý chỉ ở đâu là độ dài các thanh ghi trong vđk các thanh ghi này chịu những chức năng riêng biệt và tính toán vì thế vđk có bit cao hơn thì trong một chu kì sẽ tính đc nhiều phép tính hơn, dữ liệu lớn hơn còn nếu vd vđk 8bit mà truyền vào dữ liệu lớn nquá 8 bit(đương nhiên có thể dùng dữ liệu bé hơn 8bit bth) thì nó bắt buộc phải chia ra nhiều gói và nó tốn thời gian hơn 
-chứ 8 16 32bit.. không nói đến số lượng chân trên vđk 
+
+* cấu trúc vđk 32bit nói đến việc cpu có thể xử lý dữ liệu đến 32bit 
+* vì thế trong 1 chu kì sẽ tính toán nhiều phép tính hơn, với dữ liệu lớn hơn. với vdk 8bit mà truyền dữ liệu lớn quá 8bit thì nó 
+sẽ phải chia thành nhiều gói và nó tốn thời gian hơn. 
+* đương nhiên vđk 32bit cx có thể xử lý với 8bit hay 16bit, mỗi lần đọc sẽ là 8bit hay 16bit tùy vào việc compiler thiết lập 
+chế độ đọc, tuy nhiên mặc định của nó là đọc 32bit.
+
+
+* arm là một công ty - một kiểu kiến trúc core
+	- is a core not a chip. 
+	- là core chip 32bit. 
+	- nó có nhiều dòng core khác nhau coretex-m, coretex-a... 
+
+* stm là vđk có core arm ở trong, stm cung cấp các periphral...
+
+	

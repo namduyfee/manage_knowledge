@@ -9,7 +9,7 @@
 	- lưu con trỏ đến variable vào queue 
 	+ FreeRTOS dùng cách copy value 
 
-* queue có thì được nhiều task cùng đọc, cùng ghi vào một lúc 
+* queue có thể được nhiều task cùng đọc, cùng ghi vào một lúc 
 
 * khi một task đọc một queue trống nó sẽ được đưa vào block state và chờ khi có data để quay lại ready state 
   hoặc khi quá thời gian chờ để đọc thì nó cũng sẽ tự thoát block state. 
@@ -21,3 +21,4 @@
 	- task vẫn sẽ bị đưa vào block và chờ chỗ trống để ghi 
 	- khi nhiều task chờ thì ưu tiên vẫn như đọc 
 
+* hãy coi queue là dạng cấu trúc dữ liệu và nó sẽ hoạt động như một variable thông thường khác ( phạm vi khai báo, extern...).

@@ -13,6 +13,7 @@ một số lệnh hệ thống :
 
 một số lệnh thao tác folder, file 
 
+* cat <tên file> : xem nội dung của file đó. 
 * cd ..      : trở về folder trước đó (giữa hai dấu chấm có dấu cách).
 * cd/	    : di chuyển thẳng đến folder, thư mục cụ thể 
 * cd <tên folder or file> : di chuyển vào folder or file 

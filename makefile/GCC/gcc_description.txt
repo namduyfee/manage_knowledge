@@ -1,0 +1,8 @@
+
+- GNU compiler collection (GCC) 
+- mỗi con chip cần cách buil chương trình khác nhau để phù hợp với nó ( khác biệt tài nguyên (RAM,...), kiến trúc..)
+- ví dụ tập lệnh assembly của 8051 khác với stm32 => nội dung file executable cx khác nhau. 
+- cross compiler là trình biên dịch giúp cho việc biên dịch ở PC (x86 intel chăng hạn)  mà có thể chạy được trên chip (arm). 
+- máy tính built chương trình gọi là host còn chip chạy code gọi là target. 
+- và arm rất phổ biến nên nó đã có GNU Arm Embedded Toolchain (gcc-arm-none-eabi), cái này giúp cho việc biên biên dịch code 
+sang chuẩn arm, và việc của mk là điều khiển, yêu cầu trình biên dịch làm theo ý mình. 

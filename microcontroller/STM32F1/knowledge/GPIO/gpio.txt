@@ -11,6 +11,11 @@ khi sử dụng làm input thì thanh ghi ODR sẽ dùng để config push up or
 ODR = 1 : pull up 
 ODR = 0 : pull down 
 
+- analogue trong input mode nó không chỉ dùng cho mỗi input mà nó có thể hiểu là chuyển chân đó sang analogue mode 
+nó có thể dùng cho adc (input) và dac (output). dù dac trên thực tế là output thì việc cấu hình input để dùng analogue sẽ không 
+ảnh hưởng đến, analogue sẽ không phân biệt in-out. còn việc gộp vào input là vì giới hạn về mặt tài nguyên của chip. ví dụ dòng 
+H7 sẽ có thanh ghi mode riêng chứ không gộp như kia.
+
 NOTE: khi sử dụng bit để cấu hình cho bất cứ thứ gì việc đầu tiên là cho nó trở về 0 đã rồi xử lý bit sau, mình đã chủ quan và không xem giá trị reset khi khởi chạy lại chưởng trình  dẫn đến xử lý bit sai => cấu hình sai và tốn quá nhiều thời gian cho việc tìm lỗi. 
 
 --- Ngắt ngoài và 1 vài chú ý

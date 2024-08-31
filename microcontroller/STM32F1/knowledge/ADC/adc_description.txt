@@ -1,0 +1,45 @@
+* sao lại phải có vdda vssa bởi vì điện áp tham chiếu vref lấy từ điện áp cấp cho adc này vì vậy nếu như 
+mk muốn đo một adc mà có điện áp đưa vào chân lớn hơn điện áp của chip thì chúng ta phải cấp nguồn cho vdda vssa thì mới 
+có nguồn thích hợp cho vref lấy để tham chiếu 
+
+* analogue thường được gọi là tín hiệu liên tục không phải là truyền liên tục mà ý nghĩa ở đây là: 
+	ví dụ : 0->5 volt nó sẽ là một giải vô hạn 0->0.000000... trong khi đó digital sẽ là một số cụ thể và có những 
+	bước nhảy nhất định 0.5 volt 1 volt, mức 0 mức 1 : nó là rời rạc 
+	digital sẽ luôn biết được có bao nhiêu trạng thái mà nó có thể biểu diễn tùy vào số bit trong khi analogue thì 
+	không từ 0->5 volt là vô hạn giá trị mà mk có thể lấy được.
+	- vì dữ liệu của nó là vô hạn nên ko thể lưu trữ dữ liệu analogue được thay vào đó người ta sẽ chuyển về digital.
+
+* lượng tử hóa tín hiệu analogue thành tín hiệu rời rạc, tùy theo dải bit được cung cấp mà dãi biểu diễn sẽ chính xác hơn 
+và điện áp lấy mẫu sẽ làm tròn lên mức điện áp gần nhất. 
+* tốc độ lấy mẫu phải cao ít nhất là gấp đôi so với tần số tín hiệu analogue vào (fnyquist), nếu không tín hiệu thu được 
+sẽ sai so với tín hiệu thực tế. 
+
+* tín hiệu analogue dễ bị nhiễu và xử lý, lưu trữ vì vậy người ta chuyển sang digital để dễ dàng xử lý, lưu trữ hơn.  
+
+* độ phân giải 12 bit , khối APB2 
+
+* có 20 kênh ADC : ADC1,2_IN0->IN9 và 2 kênh cảm biến trong chip : vrefint và cảm biến nhiệt độ chỉ thực hiện đc với ADC1
+
+* clock ADC không đc vượt quá 14 Mhz 
+
+* Tconv = samling time + 12.5 cy
+	ví dụng ADCCLK = 14 MHz và sampling timer = 1.5 cycles 
+	=> Tconv = 14 cycles = 1 us
+
+* mặc dù theo tài liệu thì mọi chân đều có thể dùng analogue nhưng trên thực tế số lượng channel của adc là có hạn 
+và mỗi channel chỉ ánh xạ đến một vài chân nhất định và ko cách nào thay đổi điều đó thế nên mỗi channel sẽ tương 
+ứng với một chân nhất định đã được thiết kế bới chip (bảng ánh xạ chân có trong picture manual), chân injected cũng được quy định 
+với một số chân nhất định. 
+
+* việc dùng 2 adc độc lập sẽ cho phép convert đồng thời vì thế tăng tốc độ quét, tốc độ convert. 
+* có thể đọc cùng lúc 1 channel trên cả hai adc nhưng nếu muốn sử dụng nó một cách chính xác thì cần sự đồng bộ ( thời gian lấy
+mẫu, tốc độ lấy mẫu, cùng một trigger kích hoạt...). 
+
+* tốc độ lấy mẫu sẽ dựa trên tổng thời gian chuyển đổi 
+thời gian chuyển đổi một channel = thời giann lấy mẫu + thời gian chuyển đối (1 channel) 
+nếu dùng nhiều channel ta sẽ nhân nó lên và ra đươc tổng thời gian chuyển đổi => tốc độ lấy mẫu  
+
+
+
+
+

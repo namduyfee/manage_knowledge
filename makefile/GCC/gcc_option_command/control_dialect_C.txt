@@ -1,0 +1,9 @@
+
+* các option này dùng để chỉ định compiler sẽ biên dịch code theo chuẩn nào. 
+* mặc địch sẽ biên dịch theo c11 nếu không thêm các option này vào. 
+
+* -ansi : biên dịch code theo chuẩn c89, c90. ( -ansi tương tự như -std=c90)
+
+* -std=(version) : compiler sẽ biên dịch theo chuẩn version đấy: ví dụ -std=c11, -std=c99, ..... , nó cx có thể dùng để chọn tính năng mở rộng của GNU nữa. 
+
+* 

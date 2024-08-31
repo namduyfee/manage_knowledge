@@ -34,7 +34,9 @@
 * - vậy sự khác biệt ở chỗ delayUntill() là delay theo thời gian tuyệt đối , mk có thể truyền mốc thời gian ở quá khứ hoặc 
     một thời điểm vào để tính toán , tùy thuộc mục đích người dùng. 
   - Trong khi đó delay() là mốc thời gian mà hàm này lấy sẽ là ngay lúc gọi , nó là khoảng thời gian chứ không phải thời điểm. 
-
+- nó sẽ phù hợp khi muốn delay một khoảng so với thời điểm A nào đó mà thời điểm B là lúc gọi hàm delay thì mk không biết chắc                   là đã bao nhiêu thời gian đã trôi qua từ thời điểm A đến lúc được gọi delay ở B. lúc đó thời gian delay có thể trừ bớt đi thời gian đã trôi qua (A -> B) làm cho việc delay so với thời điểm A sẽ được chính xác vì nó là thời gian tuyệt đối. 
+- ví dụ thời điểm A muốn delay 5s nhưng chưa kịp gọi hàm delay thì task khác chiếm và chạy sau 0.5s thì nó mới quay lại lúc đấy 
+mà gọi delay 5s => delay 5.5s thay vào đó dùng delayuntil sẽ chính là 5s hơi nó sẽ ko bị + thêm 0.5s
 
 /~~~~~~~~~~~~~~~~~~~~ IDL TASK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/ 
 

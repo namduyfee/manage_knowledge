@@ -1,0 +1,12 @@
+
+
+có 4 step: preprocessing, compilation proper, assembly and linking
+preprocessing: 	    tạo ra file .i 
+compilation proper: tạo ra file .s 
+assembly:           tạo ra file .o 
+linking:            tạo ra file .elf
+
+arm-none-eabi_gcc : bao gồm tất cả quá trình tạo ra file elf, và output : file elf
+tuy nhiên ta có thể hiệu chỉnh nó theo ý muốn: 
+
+arm-none-eabi-gcc -c main.c -o main.o : biên dịch file c thành file o 

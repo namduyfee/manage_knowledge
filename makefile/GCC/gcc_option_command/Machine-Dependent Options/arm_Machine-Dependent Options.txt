@@ -1,0 +1,13 @@
+
+
+* -mthumb : làm cho trình biên dịch sẽ dịch code thành các lệnh 16bit thay vì arm 32bit 
+lệnh 16 bit tiết kiệm bộ nhớ hơn, hiệu năng cao hơn ở một số tình huống, nhưng lệnh 32bit thường sẽ có hiệu suất cao hơn, tính  toán 
+nhanh hơn và sử dụng tối đa chức năng của chip. 
+
+* -mno-mthumb : tắt chế độ tập lệnh 16bit. 
+
+* -marm : đưa về tập lệnh 32bit, mặc định nếu không gọi -mthumb, -marm thì tập lệnh 32bit sẽ được sử dụng. 
+
+* -mthumb-interwork : đây là lệnh cho phép chuyển đổi qua lại giữa lệnh 16bit và 32bit trong chương trình. 
+và nó chỉ có hiệu lực khi đi kèm với -mthumb ( -mthum -mthum-interwork ) phải dùng cả hai cái như này thì mới có tác dụng bởi mặc 
+định là tập 32bit nên nếu không dùng -mthumb kèm theo thì vô tác dụng, và chương trình sẽ chỉ được dịch theo tập lệnh 32bit. 

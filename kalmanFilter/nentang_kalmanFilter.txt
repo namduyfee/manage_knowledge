@@ -1,0 +1,16 @@
+* Giá trị kì vọng là giá trị bạn tiên đoán sau nhiều lần quan sát thử nghiệm.
+
+* giá trị trung bình.
+
+* phương sai và độ lệch chuẩn : biểu thị mức độ trải rộng của tệp dữ liệu so với giá trị trung bình. 
+
+* phân phối chuẩn : là dạng phân phối xác suất hình chuông các giá trị dữ liệu phân bố xung quanh một giá trị trung bình theo
+một cách đối xứng, hình chuông. 
+
+* ước tính : giá trị thực được giấu(đang cần phải tính toán), và vị trí của máy bay có thế ước tính bởi các cảm biến áp dụng nhiều 
+cảm biến và thuật toán thì giá trị ước tính sẽ trở nên chính xác hơn. 
+
+* độ chính xác : cho biết độ xác thực của phép đo với giá trị thực. 
+
+* 1/n : kalman gain
+

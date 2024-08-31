@@ -1,13 +1,21 @@
 /********************* Plan ************************/ 
+tháng 8
+
 - RCC
 
 - GPIO, Alternal function, Interrupt
 
 - DMA
 
+- ADC
+
+tháng 9-10
+
+-  DAC
+
 - Watchdog , timer, RTC
 
-- ADC, DAC
+tháng 10-11
 
 - UART 
 
@@ -15,16 +23,22 @@
 
 - SPI 
 
+tháng 11-12
+
 - CAN 
 
 - USB 
 
 - Ethernet 
 
+tháng 12-1
+
+- Flash 
+
 - SDIO
 
 - FSMC 
 
-- Flash 
-
 - CRC, Power control
+
+

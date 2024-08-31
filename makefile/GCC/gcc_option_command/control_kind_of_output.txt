@@ -1,0 +1,52 @@
+
+* như đã biết một quá trình tạo ra file executable sẽ gồm : prerocessor (.c -> .i), compiler proper (.i -> .s), assembly(.s -> .o), linking (.o -> .elf)
+* nếu không có nhưng option (-S, -c..) và chỉ có file input gcc sẽ luôn thực hiện đầy đủ các bước trên và tạo ra file executable. 
+
+tuy nhiên không phải lúc nào nó cx sẽ diễn ra đầy đủ các bước như thế chúng ta có cho dừng ở một giai đoạn bất kì nào đó, và cũng 
+có thể nó bắt đầu từ giai đoạn nào đó ( điểm start, và điểm stop ) bằng các option, bởi vì thực tế trong một giai đoạn chỉ cần 
+có file đầu vào phù hợp thì việc thực thi quá trình đó có thể được diễn ra. 
+
+* Note: sẽ luôn phải có file đầu vào cho một quá trình. 
+
+* file.c : nếu lựa chọn option này nghĩa là bắt complier phải đi qua bước preprocessor cho file đó, và đương nhiên là sẽ thực hiên 
+tất cả các giai đoạn tiếp nếu không có option (-S -c ...) được gọi. 
+
+* file.i : không cần preprocessor cho file này nữa ( vì đã preprocessor sẵn rồi hoặc không muốn preprocesser file đó vì một lý do 
+nào đó) và quá trình sẽ tiếp tục diễn ra bình thường (chỉ là ko preprocesser thôi). 
+
+* file.s : file đầu vào là file assembly và nó sẵn sàng tạo ra file.o luôn thực hiện từ bước assembly. 
+
+* file.S : cũng là file assembly nhưng nó phải được tiền xử lý lại. - nhìn chung quá trình thì khá giống với option file.c đều phải tiền xử lý tuy nhiên file.c sẽ phải thêm compiler proper còn assembly sẽ không cần (gcc có thể dùng cho người code c và cả người code assembly chứ không nên nhìn ở mỗi góc độ của người code C thôi đâu vì thế có việc .S sinh ra là cho người code assem). 
+
+* file.h : lưu lại file.h đã được biên dịch để lần sau không phải biên dịch lại nữa ( tăng tốc độ biên dịch ), 
+có thể dùng -include file.h để chỉ chính xác file cần chức năng này ( thường là file header của standar bời nó ko thay đổi nội dung nên tránh việc build lại) nó sẽ tạo ra file .gch (file .h đã được biên dịch) 
+
+* -x language (ex : -x c) : chọn ngữ ngôn ngữ của tệp đầu vào thay vì dựa vào hậu tố (.), tất cả các file sau sau -x c là file kiểu input kiểu c và nó sẽ áp dụng cho đến lần -x language tiếp theo.
+
+* -x none : đây là câu lệnh dùng để hủy đi -x language khi mà chúng ta muốn sử dụng hậu tố cho file (.c .s .i ...) bởi vì nhưng file sau -x language (nếu option -x language được dùng) đều được coi là file.language vì vậy để dừng option -x language thì dùng 
+-x none. 
+
+* -c : compile or assemble, not linker, không tạo ra file elf, có thể tạo file .c .i .s .o
+
+* -S : stop ngay sau khi compiler proper, ko qua assembly, chỉ có thể tạo file .c .i .s
+
+* -E : stop ngay sau preprocessing, chỉ tạo file .c .i (preprocessed C code) 
+note : .i còn đc gọi là preprocessed C code.
+
+* -o file : là tạo ra file output chúng ta cần. đừng thắc mắc như: ví dụ cho compiler thực hiện full quá trình nhưng option file output chúng ta cần là file .o .s thực tế điều quan trọng nhất khi cho compiler ở giai đoạn nào là để lấy đầu ra của file đó chẳng hạn nếu nhưng cho qua quá trình linker thì bản chất chúng ta đang muốn file .o còn nếu ko muốn file .o thì linker để làm gì, mọi giai đoạn đều được phản ánh bởi file đầu ra, hãy làm việc dựa trên tiêu chuẩn của file đầu ra sau đó mới thực hiện quá trình mà bạn mong muốn. 
+trên thực tế việc không dùng -c mà vẫn dùng -o file.o thì vẫn được (chỉ cần trong các bước mà bn cho compiler thực hiện có tạo ra kiểu file đó là được), sau đó nếu muốn tạo file thực thi thì linker file.o lại nhưng việc dùng như thế có thế gây khó hiểu và nhầm lân cho compiler
+
+* nếu không có -o thì mặc định:  
+	không có tùy chọn: tạo ra file a.exe. 
+	Tùy Chọn -c: Tạo file mã đối tượng. Nếu không có -o, file đầu ra mặc định là a.o.
+	Tùy Chọn -S: Tạo file Assembly. Nếu không có -o, file đầu ra mặc định có tên là file.s.
+	Tùy Chọn -E: Tạo file tiền xử lý. Nếu không có -o, file đầu ra mặc định có tên là file.i.
+
+* -v , --help, 
+
+
+
+
+
+
+

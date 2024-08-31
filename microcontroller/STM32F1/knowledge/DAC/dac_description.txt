@@ -1,0 +1,13 @@
+
+- dùng một op-amp và cho đóng cắt điện trở ta có thể tạo ra điện áp mong muốn ở đầu ra tỉ lệ với Vref
+
+- số lượng bộ DAC tùy MCU cung cấp (DAC1, DAC2..) 
+- một DAC sẽ có tối đa 2 channel.
+- tuy nhiên một số chip như F1 thì chỉ có một DAC và cx chỉ có một channel trên 
+DAC đó là có thể sử dụng (PA4). và vì chỉ có 1 DAC => ngta dùng luôn DAC thay cho DAC1
+
+- analogue trong input mode nó không chỉ dùng cho mỗi input mà nó có thể hiểu là chuyển chân đó sang analogue mode 
+nó có thể dùng cho adc (input) và dac (output). dù dac trên thực tế là output thì việc cấu hình input để dùng analogue sẽ không 
+ảnh hưởng đến, analogue sẽ không phân biệt in-out. còn việc gộp vào input là vì giới hạn về mặt tài nguyên của chip. ví dụ dòng 
+H7 sẽ có thanh ghi mode riêng chứ không gộp như kia.
+

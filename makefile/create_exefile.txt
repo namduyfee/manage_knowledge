@@ -1,0 +1,28 @@
+
+* sau quá trình preprocesser thì file .c -> file .i (nếu ko chỉ định compiler thì chúng ta sẽ không nhìn thấy file này)
+
+* sau đó sẽ tạo file .s (nếu ko chỉ định compiler thì chúng ta sẽ không nhìn thấy file này xuất hiện)
+
+* sau đó sẽ tạo ra file .o file này chứa mã máy nhưng chưa được liên kết, địa chỉ bộ nhớ cũng là tương đối... 
+
+* cuối cùng linker sẽ tạo ra file executable (file .elf) từ những file .o và file .a (standar lib...)
+
+* từ file .elf bạn có thể tạo ra file .bin .hex ...
+
+* file .o đơn giản là dịch file .c đấy sang mã máy thôi chưa có sự liên kết hay qui định gì, nó chỉ là một phần của chương trình. 
+
+* file object (.o) và file executalbe (exe) đều là mã máy và máy tính đều có thể hiểu được, tuy nhiên một file .o là file 
+được biên dịch từ một file .c nó chưa được link với các other file, lib với nhau, chưa được file linker quy định vùng nhớ...
+vì vậy nó không thể nào chạy được (dù máy vẫn hiểu) và sau khi quá trình linker kết thúc thì nó sẽ tạo ra một file executable
+có thể chạy được. 
+
+/****** tại sao không để luông là file .o mà phải .exe trong khi đều là mã máy? ***************/
+* sẽ thế nào nếu một ngày bạn được đưa 1000 file .o và không biết file nào là file được gộp(hoàn chỉnh) từ những file kia, như
+thế sẽ rất loạn chính vì thể file exe có thể hiểu là file nạp code(file to run) trong đống file kia. nội dung của hai file là 
+khác nhau và vai trò cũng thế => thế nên hai file này không thể thay thế nhau như vậy. 
+
+/************************** LINKER ************************/
+- liên kết các file .o tham chiếu các hàm, biến mà các file gọi lẫn nhau.
+- liên kết thư viện standar.
+- xác định địa chỉ, phân đoạn bộ nhớ cho chương trình.
+- tạo file exe. 

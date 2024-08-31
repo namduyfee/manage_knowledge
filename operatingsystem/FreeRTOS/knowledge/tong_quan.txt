@@ -3,3 +3,9 @@
 -- nên ở mục SYS nên dùng Timer khác thay vì systemtick 
 
 -- những câu lệnh sau osKernelStart đều vô nghĩa 
+
+--- Handle là kiểu dùng để quản lý một đối tượng nào đó ví dụ : TaskHandle, QueueHandle,... 
+nó đại diện cho dối tượng đó khá giống con trỏ, và đương nhiêu một biến Handle có thể gán cho một biến handle (tạm coi khái niệm 
+này như một con trỏ). 
+- câu hỏi : ở đối tượng là task sao ko dùng tên task để quản lý luôn mà cần dùng hanlde có thể là để nhất quán với các đối tượng 
+khác, có thể tên cx là một thông số cần được quản lý, và cx có thể ngta thích vậy.
