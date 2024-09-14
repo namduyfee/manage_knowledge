@@ -1,0 +1,76 @@
+
+* có 4 nguồn: internal clock, external clock mode 1, external clock mode 2, internal trigger inputs (TIM master, slave). 
+
+- tùy thuộc vào cấu hình chế độ hoạt động mà các nguồn có thể dùng làm trigger kích hoạt hoặc là nguồn trực tiếp làm CNT đếm. 
+
+- internal: clock cấp từ khối APBx clock 
+
+- external clock mode 1: lấy từ TIxFPy với input của nó là TIx (một TIx có thể lấy từ một hoặc nhiều chân input channel của timer). 
+
+- external clock mode 2: có chân ETR
+
+- internal trigger inputs: tín hiệu từ các timer khác (master-slave).
+
+* các mode control: 
+
+- encoder mode 1, encoder mode 2, encoder mode 3.
+
+- reset mode  : khi có cạnh lên (TRGI) CNT sẽ bị đưa về giá trị khởi tạo (0 nếu ở mode đếm lên, ARR nếu mode đếm xuống), thanh ghi shadow 
+cũng sẽ được cập nhật giá trị.
+
+- gate mode   : đếm khi TRGI (trigger input) ở mức cao, và dừng đếm ở mức thấp tuy nhiên CNT vẫn sẽ lưu giá trị và đếm tiếp ở giá trị 
+đấy khi có mức cao của TRGI trở lại, chính vì cao đếm và thấp stop nên nó có thể điều khiển được cả start lẫn stop. 
+
+- trigger mode: bộ đếm sẽ đếm khi có cạnh lên (TRGI), nó sẽ không bị reset tức là vì một lí do nào đó CTN ngừng đếm và nó lưu lại giá trị ở lúc đấy khi hoạt động ở trigger mode và gặp cạnh lên nó sẽ tiếp tục đếm ở với giá trị được lưu lại trước đó mà không đưa CNT về giá trị khởi tạo. 
+
+- external clock mode 1: mỗi khi có một cạnh lên (TRGI) CNT sẽ cộng lên 1 hoặc giảm 1 (tùy đếm lên đếm xuống).  
+
+# nên chú ý TRGI là TIxFPy chứ không phải TIx điều đó có nghĩa xung đầu vào sẽ qua chế biến rồi mới được dùng làm TRGI, ví dụ 
+qua filter, qua bộ bắt cạnh-đảo xung. bộ đảo xung sẽ được thiết lập trong CCER register, nghĩa là cấu hình input/out và capture/compare người ta đang đặt vào chung 1 số thanh ghi tuy nhiên cấu hình input không có nghĩa là phải liên quan phải dùng đến capture, còn việc sâu bên trong phần cứng nó hoạt động để phù hợp với cấu hình đảo hoặc ko đảo điều đó không quan trọng bởi đó là 
+phần cứng mk là người điều khiển thanh ghi điều đó nghĩa là việc đem ra kết quả cuối cùng mới quan trọng. 
+ví dụ: 
++ khi cấu hình CCER là ko đảo (đối với TRGI), bắt cạnh lên (đối với capture) thì các mode control sẽ hoạt động khi 
+xung input của TIx là mức cao, cạnh lên. 
++ khi cấu hình CCER là đảo (đối với TRGI), bắt cạnh lên (đối với capture) thì mode control sẽ hoạt động khi xung input của 
+TIx là mức thấp, cạnh xuống 
+=> bởi vì mk đã cấu hình cho nó là đảo nên mức thấp sẽ thành cao, lên thành xuống còn việc xử lý vấn đề đó là của phần cứng 
+
+* một chân channel của timer có thể là input hoặc output: 
+
+- nó là trigger hoặc capture nó là input và cần được cấu hình là input trong capture/compare mode register. trong đấy thì khi chọn 
+làm input thì nó cũng tiết kiệm bit và dùng để map IC với các TIxFPy luôn tuy nhiên nếu không dùng capture thì ở CCER không enable nó là được việc chọn đấy ko tác dụng, còn nếu dùng capture thì chọn luôn (1 công đôi việc, tiết kiệm bộ nhớ).
+
+- khi chọn channel đó là input thì chân channel đó sẽ là input và có thể dùng cho cả TRGI và capture, tuy nhiên IC không nhất thiết phải map với chân đó mà có thể map với chân của channel khác chẳng hạn, hai điều này là độc lập với nhau, TI1FP1 vẫn được 
+tạo và có thể dùng cho TRGI. 
+
+- tín hiệu TI1 sau khi lọc nhiễu và bắt cạnh cùng với TI2FP1 ( nếu IC1 map TI2) sẽ được bắt cạnh-đảo xung tùy vào bit CC1P  hai 
+xung đưa vào này thì sẽ cùng đảo hoặc cùng không đảo phụ thuộc vào bit CC1P sau đó với TI1 sẽ tạo ra TI1FP1, còn TI2FP1 sẽ được đưa đến IC theo đúng chế độ mà CC1P đã chọn. 
+
+=> TỔNG KẾT IC và chân channel là độc lập, khi được cấu hình là input chân channel vẫn sẽ có thể lọc nhiễu,.. bình thường dù IC không map đến nó, tín hiệu mà IC map đến TI2FP1 sẽ sử dụng chung bit CC1P với tín hiệu của chân channel (cùng đảo hoặc cùng ko đảo).    
+
+* Figure 78. Capture/compare channel (example: channel 1 input stage)
+- TI1FP1 : lấy tín hiệu từ TI1 lọc nhiễu và đảo hay không đảo phụ thuộc CC1P
+- TI2FP1 : lấy tín hiệu từ TI2 lọc nhiễu và đảo hay không đảo phụ thuộc CC1P
+
+** tên TI1FP1 : có thể đại diện cho ý nghĩa : nguồn xung TI1F đưa qua polari 1 (P1) => TI1FP1
+** tên TI2FP1 : có thể đại diện cho ý nghĩa : nguồn xung TI2F đưa qua polari 1 (P1) => TI2FP1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

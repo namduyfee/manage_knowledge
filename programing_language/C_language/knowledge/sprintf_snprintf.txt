@@ -1,0 +1,18 @@
+
+* sprintf(char* str, const char *format,...) 
+	ví dụ: 
+	char buffer[50];
+	spinrt(buffer, "hello world %d \n", 50); 
+	thì buffer = "hello world 50 \n" 
+	chuổi sẽ được lưu vào buffer đầy đủ kể cả \n 
+
+* snprintf(char* str, size, const char *format,...) 
+	char buffer[50];
+	snprintf(buffer, sizeof(buffer), "hello world %d \n", 50) 
+	thì lúc đó data buffer trỏ đến sẽ lưu "hello world 50 \n" 
+
+- nếu dùng con trỏ thì đổi số truyền vào cho char* str phải là được cấp phát động, và không nên truyền một biến char* buffer; vì nó có thể sẽ bị lỗi thay vào đó char* buffer = (char*) malloc(50 * sizeof(char)); 
+
+* điểm khác biệt giữa sprintf() và snprintf() là snprintf() có size nên khi const char *format có dài vượt quá size thì 
+nó sẽ tự động cắt đi phần quá và lấy đủ phần từ bằng size và kí tự cuối là null 
+còn  sprintf() nó không có size nên khi const char *format dài quá size của mảng thì nó sẽ xảy ra lỗi. 

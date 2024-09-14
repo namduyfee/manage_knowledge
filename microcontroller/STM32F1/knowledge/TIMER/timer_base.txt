@@ -1,0 +1,51 @@
+
+* thanh ghi shadow (active) là các thanh ghi mà timer sẽ trực tiếp sử dụng, khi ta ghi vào ARR, PSC (và preload là enable)
+ thì nó sẽ không ghi trực tiếp vào shadow mà nó ghi vào preload register khi có UEV nó sẽ ghi vào shadow (active) register.
+
+* bit UDIS là bit enable các nguồn tạo update event: 
+
+	0 : all nguồn sẽ tạo ra update event. 
+	1 : disenable 
+
+* bit URS là bit lựa chọn nguồn tạo interrupt khi có update event 
+
+	bit này chỉ có tác dụng khi bit UDIS = 0 khi đấy mới có nguồn update event để tạo ngắt. 
+
+	0 : all nguồn sẽ tạo (interrupt or DMA request) khi tạo update event 
+	1 : Only counter overflow/underflow generates an ( update interrupt or DMA request )
+
+* khi có môt update event thanh ghi ARR, PSC, RCR sẽ được cập nhật giá trị và tùy thuộc vào UDIS mà UIF (cờ ngắt update) sẽ 
+được set. 
+
+* khi UDIS là disenable thì khi set bit UG thì các thanh ghi ARR, PSC, RCR vẫn sẽ được cập nhật tuy nhiên sẽ không có ngắt tạo ra
+bởi nó không được enable. giá trị CNT sẽ được khởi tạo ngay lập tức, để timer chạy với giá trị vừa mới nhập vào shadow register.
+
+* khi đang có ngắt thì timer vẫn đếm bình thường.
+
+* chiều đếm lên đếm xuống cài đặt ở bit DIR CR1_register
+
+/************* center aligned mode *************/ 
+
+* sử dụng tạo PWM, điều này sẽ làm PWM căn giữa và gây ra ít nhiễu... có ích trong điều khiển động cơ...
+
+* không cho phép đôi chế độ edge aligned mode sang center aligned mode khi counter đã enable. 
+
+* luôn bắt đầu từ đếm lên 0->ARR-1 rồi đếm xuống A
+ 
+* mode 1 : cho phép tạo output compare interrut khi CNT đang đếm lên 
+* mode 2 : cho phép tạo output compare interrut khi CNT đang đếm xuống
+* mode 3 : cho phép tạo output compare interrut cả khi CNT đang đếm lên hoặc xuống
+
+* khi đếm lên : bắt đầu đếm từ 0 -> ARR-1 thì sẽ tạo ra overflow event -> UEV 
+* khi đếm xuông : bắt đầu đếm ARR -> 1 thì sẽ tạo ra underflow event -> UEV 
+
+* khi có update event ARR, PSC sẽ được cập nhật và CNT sẽ đếm lại từ 0
+
+* có thể phối hợp repetition với center aligned mode. ( đọc thêm khi cần ) 
+
+
+
+
+
+
+

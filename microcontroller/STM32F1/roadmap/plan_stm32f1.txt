@@ -11,25 +11,27 @@ tháng 8
 
 tháng 9-10
 
--  DAC
-
-- Watchdog , timer, RTC
-
-tháng 10-11
+-timer
 
 - UART 
 
 - I2C
 
-- SPI 
+tháng 10-11
 
-tháng 11-12
+- SPI
 
 - CAN 
 
 - USB 
 
+tháng 11-12
+
 - Ethernet 
+
+-  DAC
+
+- Watchdog , RTC
 
 tháng 12-1
 

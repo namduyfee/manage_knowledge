@@ -1,4 +1,4 @@
-
+* khi được gọi nhưng không thấy sự thay đổi thì compiler cx sẽ không biên dịch file đó.
 
 * instruction của một rule cơ bản : 
 	
@@ -13,8 +13,11 @@
 		   + nhưng chú ý khi hành động trùng với tên của một file trong folder khi gọi hành 	
 		   động đó thì máy sẽ hiều là lệnh tạo ra file có tên của hành động và không thực hiên 
 		   hành động đó vì thế cần có từ khóa PHONY trong trường hợp này 
-	- prerequisites : là các yêu cầu đầu vào, một target thường phụ thuộc vào một số file 
-
+	- prerequisites :  
+		   + đầu tiên nó sẽ kiểm tra prerequisites có phải là target hay không nếu có thì nó sẽ thực hiện theo target đấy, nếu không phải là target nó sẽ kiểm tra xem 
+		   prerequisites là file hay không. nếu không phải là file luôn thì nó sẽ báo lỗi. 
+			+ chỉ có thể cách hoạt động của nó là thế này, và hiểu như thế này sẽ là an toàn nhất (dự trên thử nghiệm) , còn nó có thế hoat động theo kiểu khác nhưng việc hiểu 
+			như trên vẫn có thể vận hành đúng dù thực tế nó hoạt động thế nào đi nữa.
 	- recipe : là các câu lệnh thực hiện 
 	
 	- mỗi câu lệnh tương ứng một dòng tách biệt, nếu một câu lệnh quá dài mà quá dài mà muốn 

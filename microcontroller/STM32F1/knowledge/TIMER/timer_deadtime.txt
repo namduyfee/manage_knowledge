@@ -1,0 +1,28 @@
+
+* khi cả OCx và OCxN cùng được bật, đồng thời break function tắt, thì deadtime sẽ tự động được kích hoạt 
+
+- khi chỉ một OCx hoặc OCxN hoạt động việc cấu hình CCxP và CCxPN sẽ tuân thủ đúng với yêu cầu đảo hay không đảo, tuy nhiên 
+khi cả hai cùng hoạt động CCxE=CCxEN=1 thì OCx sẽ là mức cao và OCxN sẽ là mức thấp khi OCxREF là mức cao. 
+- đấy đang là dựa trên việc cấu hình CCxP = 0 và CCxPN = 0 còn cấu hình CCxP = 1 và CCxPN = 1 hay CCxP = 0 và CCxPN = 1 hay CCxP =1 
+và CCxPN = 0 thì chưa test tuy nhiên không cần phải bận tâm về điều đấy lý do: 
+	+ thứ nhất việc CCxP = 0 và CCxPN = 0 hay CCxP = 1 và CCxPN = 1 nếu có thể cũng chỉ là hai chân đổi chỗ cho nhau thay vì 
+	OCxN ngược thì OCx ngược và OCxN cùng chiều OCxREF tuy nhiên điều đó ko có ích lợi gì vì 2 chân là chân thôi mà việc chân 
+	nào không quan trọng chỉ cần trên mạch dùng đúng chân là được thôi
+	+ thứ 2 CCxP = 0 và CCxPN = 1 hay CCxP =1:CCxP = 0 và CCxPN = 1 hay CCxP =1 và CCxPN = 0 ý là muốn tạo ra 2 chân có cùng xung như nhau 	nhưng điều đó thì có thể dùng 1 channel khác cùng với channel này thì sẽ tạo ra được thôi còn mục đích khi 
+	dùng 2 chân của cùng 1 channel chính là để tạo deadtime, điều khác biệt khi có thêm chân phụ chính là tạo deadtime phụ vụ cho việc khi 	muốn hai chân đầu ra có chiều đối xứng nhau nhưng sẽ không có cùng thời điểm cùng xung dương lúc chuyển mức 
+	logic điều đó có thể dẫn tới đoạn mạch. 
+
+* center aligned mode an toàn nhất là không viết vào CNT khi nó đang chạy và nên set bit UG trước khi enable counter
+
+* DTG[7:0] bits of the TIMx_BDTR dùng để tạo deadtime cho tất cả các channel.
+
+
+* vậy tại sao lại cần dead time bởi vì ở một số tác vụ chúng ta cần sự chính xác tuyệt đối  
+ví dụ như điều khiển mạch cầu H ta sẽ cấp áp cho các trans phù hợp để làm đcơ quay theo chiều ý muốn nhưng tại thời điểm 
+chúng ta đổi chiều động cơ trans phía trên và phía dưới kề nhau sẽ cùng đc dẫn và dòng sẽ chạy luôn từ nguồn xuống mass mà ko qua đcơ
+điều này làm cho mạch sẽ bị hỏng 
+với việc dùng OCx và OCxN dead time đc tạo ra và sẽ ko có thời điểm mà cả hai cùng dẫn chỉ có cùng tắt hoặc 1 dẫn 1 tắt 
+điều này làm cho mạch tránh bị đoạn mạch (chi tiết xem ở dead time RM)
+
+* tùy vào các trường hợp bit 7:5 mà sẽ có công thức khác nhau ví dụ 7:5 = 0xx => DT = DTG[7:0] * t(dtg) với t(dtg) = t(DTS); các t.h khác 
+tương tự 

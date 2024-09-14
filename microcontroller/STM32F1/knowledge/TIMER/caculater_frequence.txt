@@ -1,0 +1,12 @@
+
+
+thời gian một lần ngắt = (ARR + 1) * (PSC + 1) / ftimer 
+
+- cứ dựa theo công thức này mà tính ARR tính được sẽ là giá trị nhập thẳng vào thanh ghi ARR luôn không có trừ 1 gì hết cả 
+bởi vì người ta đã + 1 ở kia rồi, PSC cũng tương tự 
+
+- ví dụ ARR mình nhập là 72 ý là sẽ đếm thành 73 và người ta cx đã cộng 1 ở trên : 72 + 1 = 73 
+vậy nên giá trị ARR PSC sẽ là giá trị nhập thẳng vào thanh ghi mà không +- 1 gì nữa.  cứ dựa vào công thức trên mà tính toán 
+ra giá trị ARR tức là giá trị của thanh ghi ARR, PSC cx tương tự 
+
+- khi dùng  repetition counter thì ngắt uev được tạo ra khi timer đếm được (repetition counter register + 1) lần 

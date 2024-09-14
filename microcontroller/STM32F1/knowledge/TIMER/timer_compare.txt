@@ -1,0 +1,26 @@
+
+* đối với timer advance để compare tác động được với chân đầu ra thì bit MOE phải được set 
+
+* các mode compare: 
+
+- 001: OCxREF có mức cao khi TIMx_CNT = CCRx : điều đó có nghĩa chỉ một xung có chu kì như chu kì cấp vào timer ở mức cao sau đó 
+nó lại trở lại mức thấp.
+
+- 010: OCxREF có mức thấp khi TIMx_CNT = CCRx : điều đó có nghĩa chỉ một xung có chu kì như chu kì cấp vào timer ở mức thấp sau đó 
+nó lại trở lại mức cao. 
+
+- 011:  Toggle - OC1REF toggles when TIMx_CNT=TIMx_CCR1.
+
+- 100: Force inactive level - OC1REF is forced low. xung của OCxREF luôn ở mức thấp không phụ thuộc vào thanh ghi compare tuy nhiên 
+khi compare = CNT thì vẫn có event, ngắt xảy ra như thường. 
+
+- 101: Force active level - OC1REF is forced high. xung của OCxREF luôn ở mức cao không phụ thuộc vào thanh ghi compare tuy nhiên 
+khi compare = CNT thì vẫn có event, ngắt xảy ra như thường. 
+
+- 110: pwm mode 1 
+
+- 111: pwm mode 2
+
+# chế đệ compare tác động trực tiếp vào tính hiệu OCxRER chứ không tác động trực tiếp vào OCx và OCxN, OCx OCxN còn phụ thuộc vào 
+CCxP nếu CCxP = 0 nghĩa là xung cấp vào (có thể là OCxREF) sẽ giữ nguyên, CCxP = 1 xung cấp vào sẽ bị đảo lại so với nó và đưa ra 
+chân output 

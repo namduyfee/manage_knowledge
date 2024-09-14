@@ -4,10 +4,47 @@
 
 * được cấp phát ở HEAP 
 
+* ở một thời điểm queue không thể cùng nhận và gửi được ví dụ task A đang gửi data, task B nhận data thì nếu A đang gửi thì B phải 
+đợi A gửi xong mới được nhận, hoặc B đang nhận data thì A phải đợi B nhận xong thì mới được gửi 
+* gửi nhiều task gửi vào một queue nên dùng stucture consist of: 1 element là id nơi gửi và data mà nó gửi 
+
+* cùng đọc hoặc cùng ghi thì có thể xảy ra, khi task A đang ghi task B cũng có thể ghi mà không phải chờ tuy nhiên data task A vẫn
+sẽ theo tứ tự trước (hoặc sau tùy vào fron or back) so với task B, đọc cũng sẽ như thế. nghĩa là các task sẽ không phải đợi nhưng 
+task nào đến trước thì vẫn sẽ ưu tiên thứ tự cho task đó.
+
+* không có sự ưu tiên nào giữa gửi và nhận, cái nào đến trước thì cái đó sẽ được chiếm quyền. 
+
+* vận dùng vào cấu hình mức độ ưu tiên cho các task việc đọc ghi sẽ diễn ra theo ý mình 
+ví dụ task đọc ưu tiên cao hơn task gửi -> sẽ không thế có hơn 1 element trong queue và nó sẽ luôn được đọc bởi task ưu t cao
+      task đọc ưu tiên thấp hơn -> queue sẽ luôn đầy và mỗi lần đọc đc 1 element thì task ghi ngay lập tức thoát khỏi block và ghi
+      task đọc ưu tiên ngang task gửi thì ghi full queue rồi đọc hết queue rồi lại ghi full ... 
+ 
 * có hai cách để đưa biến vào queue 
 	- copy value của variable và đưa vào queue 
 	- lưu con trỏ đến variable vào queue 
-	+ FreeRTOS dùng cách copy value 
+	- FreeRTOS dùng cách copy value 
+	+ ví dụ : một biến value có giá trị 42 được gửi vào queue (&value) giá trị này chưa được đọc bởi task receive thì 
+	value bị thay đổi ở task gửi và có giá trị 100. khi đó giá trị lưu trữ ở queue vẫn sẽ không đổi, giá trị trong queue vẫn 
+	sẽ có 42. việc truyền vào địa chỉ không phải truyền vào vùng nhớ mà là để queue lấy giá trị.
+
+	+ vậy để queue lấy giá trị của biến nào cứ đưa địa chỉ của biến ấy vào 
+	+ phải chú ý đến kiểu dữ liệu khi tạo queue xcreatqueue() điều này ảnh hưởng đến việc sẽ gửi giá trị gì.
+	ví dụ : xcreatqueue(5, sizeof(char*)); 
+	ý nói chúng ta sẽ xin một queue có thể chứa con trỏ char 
+	khi đó ở task gửi ta có char* tem; tem = (char*)malloc(20*sizeof(char)); 
+	và ở vùng nhớ cấp phát đó ta gán vào một string, mục đích thực sự là để truyền string nhưng truyền con trỏ sẽ ngắn hơn 	chưa kể việc là ko thể xin size của mỗi phần tử trong queue là string đc vì ko thể xác định điều đó, size của mỗi element 
+	trong queue chỉ có thể là char, int,char*, int*,  structer... chứ không có size của string điều đó buộc phải truyền con 
+	trỏ, lúc đó nên phân biệt địa chỉ của tem và địa chỉ của vùng nhớ là khác nhau. thế nên để truyền vào queue có các element 
+	là con trỏ char thì chúng ta sẽ truyền (&tem) nó sẽ sao chép giá trị của tem chính là địa chỉ bắt đầu của vùng nhớ.  
+	không được truyền vào queue (tem) bởi truyền như này là truyền địa chỉ vùng nhớ và queue sẽ copy giá trị vùng nhớ đó, lúc 
+	đó thứ queue lưu trữ là phần tử đầu tiên của chuỗi tem[0] chứ không phải địa chỉ của chuỗi.
+
+* NOTE: điều cót lõi nhất và quan trọng của queue trong freeRTOS là 	
+		+ nó copy giá trị của địa chỉ được truyền vào. 
+		+ nếu địa chỉ truyền vào là đ chỉ của biến thông thường thì nếu thay đổi giá trị của nó thì điều đó ko ảnh hưởng  
+		đến giá trị trong queue vì nó chỉ copy giá trị
+		+ nếu nó là địa chỉ của con trỏ và con trỏ đấy đang trỏ đến một ô nhớ, thì sau khi truyền xong mà thay đổi địa chỉ của con trỏ đấy trỏ đến thì địa chỉ trước đấy cũng vẫn sẽ 		được lưu, tuy nhiên nếu thay đổi giá trị của ô nhớ mà con trỏ đấy trỏ đến thì giá trị của ô nhớ vẫn sẽ thay đôi, bởi thứ mà nó copy là địa chỉ của con trỏ kia trỏ đến 
+		chứ không phải giá trị của ô nhớ đấy.
 
 * queue có thể được nhiều task cùng đọc, cùng ghi vào một lúc 
 
@@ -22,3 +59,30 @@
 	- khi nhiều task chờ thì ưu tiên vẫn như đọc 
 
 * hãy coi queue là dạng cấu trúc dữ liệu và nó sẽ hoạt động như một variable thông thường khác ( phạm vi khai báo, extern...).
+
+* khi muốn truyền một chuỗi, mảng... người ta sẽ chỉ truyền con trỏ của nó, chứ không truyền từng phần tử. 
+
+* khi truyền vào là một con trỏ thì để tranh mâu thuẫn, xung đột: cho tới khi được truyền vào queue thì vùng nhớ đó sẽ chỉ được bên task truyền modify giá trị, và sau khi bên task nhận đã đoc được từ queue thì chỉ bên task nhận là thay đổi được giá trị của 
+vùng nhớ đó.
+
+* khi con trỏ truyền vào trỏ vào data được cấp phát động thì chỉ nên một task có thể free nó 
+* khi truyền con trỏ tức là truyền đi vùng nhớ thế nên 
+
+
+
+/************************* QUEUE SET ****************************************/ 
+
+* thường một queue được thiết kế phải yêu cầu có thể lưu size data khác nhau, lenth data khác nhau, và nhiều task có thể thao tác với nó. 
+* khi muốn gửi Different Types and Lengths of Data thì nên dùng một structer và trong structer có chứa id,và con trỏ void*, con trỏ void* có thể trỏ đến
+char, int, hoặc structer chứa dữ liệu của mỗi đối tượng đầu vào đấy trong structer này có thể có số lương data.. tùy thích, lúc đấy có thể đáp ứng được điều đó.
+
+* tuy nhiên đôi 1 task được thiết kế phải yêu cầu có thể lưu size data khác nhau, lenth data khác nhau,ý nghĩa data và nhiều task có thể gửi đến nó. như cách trên dùng single queue vẫn 
+sẽ giải quyết được, tuy nhiên với một số hoàn cảnh, yêu cầu, mục đích riêng, người ta cần 1 queue riêng cho 1 task gửi lúc đó là cần queue set
+* queue set quản lý tất cả các queue add vào nó (quản lý cùng lúc nhiều queue) 
+
+
+
+
+
+
+

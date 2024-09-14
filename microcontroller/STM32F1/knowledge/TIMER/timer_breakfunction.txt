@@ -1,0 +1,44 @@
+
+* khi có break thì CNT vẫn sẽ đếm và hoạt động bình thường. 
+
+* break function có thể đc kích hoạt dựa và pin input hoặc RCC 
+	bit BKE enable break, BKP lựa chọn cạch để break hoạt động 
+
+* khi break function hoạt động thì  bit MOE sẽ = 0 cho đến khi break function là ko hoạt đông (tín hiệu ở chân input) 
+	khi đó tín hiệu OCx, OCxN đc enable thì tín hiệu là focus 1 or 0 tùy thuộc vào cấu hình bên CR2 register. 
+
+* khi break function ko hoạt động trở lại thì MOE có thể chỉ đc set bằng soft hoặc tự set lên ở update even tùy thuộc vào bit AOE 
+
+* khi MOE đc set thì nó hoạt động mọi thứ trở lại như cũ và sau khi break ko hđ ở thời điểm đó để set bit MOE thì sẽ mất một ít thời gian trong khi đó OCxREF thì vẫn đc chạy nhưng OCx hay OCxN thì vẫn chưa do MOE chx đc set thế nên dead time sẽ dài thêm môt ít khoảng 2 chi kì ck_tim
+
+* polarity break : 
+	active high: break pin mức cao thì breakfunction sẽ hoạt động. 
+	active low : break pin mức thấp thì breakfunction sẽ hoạt động.
+
+// điều này quan trọng  
+* bit BKE, BKP khi được ghi cần phải delay ít nhất 1 chu kì xung rồi mới tiếp tục ghi vào BDTR register nếu không hai bit kia sẽ không được 
+ghi xuống một cách chính xác. 
+	ví dụ: TIMx->BDTR |= 1<<13 // active high
+	       delay(1 chu kì xung); 		  // phải chờ 1 chu kì xung để ghi xuống chính xác, bit enable break cx tương tự 
+	       TIMx->BDTR |= 1<<15 // set MOE 
+
+* khi dùng break thì nên set AOE = 1 để MOE sẽ được set khi break inactive và ở event UEV kế tiếp. 	
+
+* chú ý việc MOE có thể bị clear ngay khi mở nguồn do mức logic của input break là low, polarity BKP = low, enable BKE, set MOE thì 
+ngay khi mở nó cx sẽ clear luôn MOE do nó vào luôn breakfunction. 
+
+* OCx_EN : nó không phải là một bit, nó đại diện cho việc có cho phép tạo tín hiệu ra ở chân output hay không 
+	 + OCx_EN = 1: là có cho phép tạo đầu ra, sau đó ta có thể tạo đầu ra là mức 0 hoặc 1  
+	 + OCx_EN = 0: không cho phép tạo đầu ra, nên nhớ không cho phép tạo đầu ra sẽ khác với việc tạo đầu ra với mức 0, mức 0 ở đâu 
+	 sẽ qui định rõ điện áp (có thể là 0v hoặc điện áp mức thấp mà con chip đang dùng) nó khác với việc không tạo đầu ra lúc này đầu ra 
+	 sẽ không được gim ở mức điện áp nào cả 
+
+NOTE: khi test: chân input muốn kéo xuống mức 0, thì cắm thẳng nó xuống GND chứ không chỉ rút dây mức cao ra đâu, như vậy thì mức điện áp sẽ 
+lưng chừng và không phải là mức 0 hoàn toàn. 
+
+* nên xem bảng liên quan giữa các bit MOE, OSSI, OSSR, CCxE, CCNxE để hình dung rõ hơn các kiểu tín hiệu có thể tạo ra 
+
+
+
+
+
