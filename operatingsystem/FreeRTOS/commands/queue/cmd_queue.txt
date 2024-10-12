@@ -2,6 +2,8 @@
 
 * QueueHandle_t xQueueCreate (UBaseType_t uxQueueLenth, UBaseType_t uxItemSize); 
 
+NOTE: configSUPPORT_DYNAMIC_ALLOCATION phải được set bằng 1 hoặc undefine trong FreeRTOSConfig.h để dùng xQueueCreate(); 
+
 	- tham số uxQueueLenth : độ dài của queue cần tạo 
 	- tham số uxItemSize   : size của mỗi phần tử trong queue 
 
@@ -58,6 +60,59 @@
 
 	- xQueue : the handle of the queue 
 		
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~ QUEUE SET ~~~~~~~~~~~~~~~~~~~~~/
+
+* QueueSetHandle_t xQueueCreateSet( const UBaseType_t uxEventQueueLength ); 
+
+NOTE: configUSE_QUEUE_SETS phải được đặt thành 1 trong FreeRTOSConfig.h để được dùng xQueueCreateSet(); 
+
+- uxEventQueueLength: số lượng item có thể chứa trong Queue set 
+- ví dụ: Queue set chứa queue_1 có 3 elements, queue_2 có 5 elements, 1 semaphore 
+=>  uxEventQueueLength = (3 + 5 + 1); 
+
+- RETURN: NULL: nếu không tạo được Queue set
+	  !NULL: chính là một QueueSetHandle_t
+- các elements của 2 queue không cần phải cùng kiểu dữ liệu, ví dụ queue_1 là char, queue_2 là int thì nó cx sẽ hiểu là items 
+và mỗi items đều sẽ lấy đi 4 bytes dù là kiểu gì đi nữa.
+
+* BaseType_t xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore, QueueSetHandle_t xQueueSet );
+
+NOTE: configUSE_QUEUE_SETS trong FreeRTOSConfig.h phải được đặt là 1 nếu muốn dùng xQueueAddToSet(); 
+
+- xQueueOrSemaphore: handle của queue or semaphore muốn add vào queue set. 
+- xQueueSet: là handle queue set được add vào.
+- RETURN: pdPASS: add thành công. 
+	  pdFAIL: add không thành công.
+
+* QueueSetMemberHandle_t xQueueSelectFromSet( QueueSetHandle_t xQueueSet, const TickType_t xTicksToWait );
+
+NOTE: configUSE_QUEUE_SETS phải được set lên 1 nếu muốn dùng hàm xQueueSelectFromSet(); 
+
+- xQueueSet: handle của queue set cần đọc.
+- ticksToWait: giới hạn chờ khi queue set is empty.
+
+- RETURN: NULL: nếu sau khi hết TickstoWait mà vẫn không có queue or semaphore nào để đọc 
+	: return về handle của queue hoặc semaphore mà có thể đọc được. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

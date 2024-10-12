@@ -47,6 +47,13 @@ ví dụ mình dùng một chuỗi để lưu lại data đc nhận mỗi lần 
 truyền đc 1 byte thì CNDTR sẽ giảm 1 và khi đến 0 nó sẽ đc cập nhật lại giá trị ban đầu ( ở đây chính là size của 
 chuôi ) và tiếp tục truyền một chuỗi mới và chuỗi đó sẽ lại đc lưu 
 
+* dma sẽ truyền và nhận liên tục khi cấu hình ở chế độ cicular mode, kể cả việc data có giá trị giống với data trước 
+- ví dụ ở bên truyền ngta truyền nhiều byte mà vô tình giá trị 2 byte giống nhau thì có phải là sẽ miss mất một byte không, 
+thế nên bên truyền sẽ vẫn truyền liên tục dù giá trị của biến đấy vẫn chưa đổi, nó sẽ truyền liên tục giá trị đó (đã quan sát xung) 
+bên nhận cx vậy cứ nhận liên tục 
+- dma chỉ đảm bảo quá trình truyền từ mem to periph, periph to mem thôi còn lại thì peripheral vẫn sẽ hoạt động như bình thường
+và dma ấy sẽ truyền từ mem to periph, periph to mem liên tục nếu cấu hình cicular mode 
+
 
 
 

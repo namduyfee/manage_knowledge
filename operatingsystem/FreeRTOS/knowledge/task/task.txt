@@ -27,3 +27,17 @@ while(1) {
 	++ kích thước ngăn xếp (của task) ( vùng heap)
 	++ tham số truyền vào (parameter) 
 	++ một con trỏ đại diện (xTaskHandler) - giúp các task tác động lên nhau 
+
+* khi task bị supend rồi sau đó resume(resupend) nó thì nó sẽ chạy tiếp tục ngay chỗ bị supend 
+ví dụ for(;;) {
+		
+	while(1) {}
+
+      }
+- khi nó rơi vào while(1) sau đó nó bị supend thì khi được resume thì nó vẫn sẽ ở trong while chứ không thể chạy từ trên for xuống đâu 
+nó cx chỉ hoạt động theo logic hàm thông thường thôi.
+
+
+
+
+

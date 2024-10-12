@@ -1,0 +1,64 @@
+
+* nối hai vế với nhau 
+
++ example 1: 
+
+#define TEM(X) X_command 
+
+TEM(abc) -> X_command 
+
++example 2: 
+
+
+#define COMMAND(NAME)  { #NAME, NAME ## _command }
+
+struct command
+{
+  char *name;
+  void (*function) (void);
+};
+
+struct command commands[] =
+{
+  COMMAND (quit),	-> { "quit", quit_command}, 
+  COMMAND (help),	-> { "help", help_command}, 
+  …
+};
+
+
+* giống với stringzing đối số đầu vào sẽ không được mở rộng 
+ví dụ: 
+#define Y GPIO
+#define TEM(X) X ## ABC
+
+tem = TEM(Y) 	-> tem = YABC  
+
+macro Y GPIO sẽ không được mở rộng trong ngoặc trước mà nó sẽ giữ nguyên đối số đấy, khi làm đối số ở hàm này (giống stringzing) 
+
+* nó sẽ thực hiện lệnh trước rồi mới mở rộng tiếp các macro nếu có. 
+
++ example: 
+
+#define Y GPIO
+#define TEM(X) X ## Y
+
+tem = TEM(ABCD) -> tem = ABCD ## Y -> ABCDY 
+
+- nó sẽ không mở rộng Y GPIO trước mà thực hiện lệnh preprocessor trước và nối Y vào ABCD -> ABCDY 
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

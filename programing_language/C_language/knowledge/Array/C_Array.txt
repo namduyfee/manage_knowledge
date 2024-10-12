@@ -1,0 +1,23 @@
+
+- example: int tem[] = {1, 2, 4, 5}; 
+
+- khi quan tâm một đôi tượng chúng ta nên quan tâm về các thông số sau: 
+
++ tên của nó 
++ giá trị của nó 
++ địa chỉ của nó 
++ kiểu, size của nó 
+
+- với array trên: 
++ tên của nó: tem 
++ giá trị của tem = &tem[0]
++ địa chỉ của nó, địa chỉ bao giờ cx lấy vị trí ô nhớ đầu tiên => nó trùng luôn với &tem[0], trùng chứ không bằng 
++ size của nó = size của array, nó là tập hợp của nhiểu element (có thể hiểu là kiểu tập hợp các int...) (kiểu của nó giống như structer
+ấy bởi nó không phải là một datatype thông thường và nó cx ko đc định nghĩa như structer mà bản thân mk phải hiểu điều đó). 
+
+* nó không nên hiểu là con trỏ mà nó chỉ có một tính chất giống với con trỏ là giá trị của nó là địa chỉ đầu tiên. 
+và đương nhiên không thể dùng một con trỏ int* p = &tem; bởi vì kiểu của tem không phải là int để dùng int* mà kiểu của tem (là tập hợp các 
+số int). 
+
+NOTE: địa chỉ của tem+1 và &(tem)+1 là khác hẳn nhau mặc dù tem và &tem là như nhau bởi như đã nói size của nó là khác nhau điều đó dẫn đến 
+tem+1 = &tem[1] và &(tem)+1 chính là địa chỉ ngay sau vùng nhớ của cả array đấy.

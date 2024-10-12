@@ -1,0 +1,30 @@
+
+* khi dùng uart lưu ý việc bên truyền được enable trước so với bên nhận   
+- khi đó thứ tự byte mk đọc sẽ bị dịch chuyển, ví dụ bên truyền truyền đến byte thứ 3 thì bên nhận mới được enable điều đó làm cho bên nhận 
+xem đó là byte thứ nhất và xảy ra sai sót, vòng byte thể dịch chuyển nhưng thứ tự nối đuôi vẫn sẽ là đúng bới vì việc truyền không sai cái 
+sai là do user enable sai thời điểm 
+- lúc này có hai cách khắc phụ 
+1. bên nhận sẽ gửi tín hiệu báo sẵn sàng nhận rồi bên gửi mới gửi lúc đó sẽ là đồng bộ về thứ tự byte 
+- nhược điểm hơi loàng ngoàng và phải phụ thuộc vào nhau 
+- nếu như 1 uart gửi đến nhiều uart khác thì nó không khả thi 
+2. đặt lable "FEE" chằng hạn và từ đó sẽ biết được vị trí chính xác của các byte theo lable 
+- có thể dùng thuần ngắt uart để đọc đến FEE mới bắt đầu lưu, điều này lại làm chương trình bị ngắt liên tục 
+- dùng dma và ngắt khi hết một cicular để sắp xếp và sao chép sang một buffer khác, điều này cx đc nhưng vẫn sẽ có ngắt 
+- dùng dma và không dùng ngắt tuy nhiên sẽ phải liên tục sắp xếp và sao chép sang một buffer khác ở hàm main điều này cx không tốt 
+
+- dùng một biến index lưu lại vị trí của 'F' trong "FEE' 
+
++ dựa vào index mk sẽ biết được vị trí cần tìm buffer[ (index + vị trí cần tìm ) % tổng element của mảng ]
+ví dụ: vị trí byte góc ở vị trí 3 sau FEE 
+
+-> buffer [ (index + 5) % tổng element) ] = giá trị góc 
+
++ không nhất thiết mỗi lần có ngắt là phải vào ngắt để sắp xếp và copy buffer 
+- có thể vào đấy để tìm 'FEE' thôi rồi lưu index cx được 
+
+NOTE: hoặc là mỗi lần dùng đến giá trị nào đó của buffer thì mk mới kiếm tra chẳng hạn 
+
+ví dụ: tay PES không phải lúc nào cx check vậy thì tại sao lại phải vào đấy liên tục trong khi có thể tại câu lệnh mà mk cần dùng tay PES 
+thì mới check, chư kể mk sẽ check vị trí mà trc đó mk đã biết nó là vị trí lable đầu tiên chứ không phải đi check từ 0 -> sizeof điều đó 
+sẽ giảm thời gian rất nhiều và tránh việc ngắt liên tục. 
+

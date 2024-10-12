@@ -80,6 +80,8 @@ char, int, hoặc structer chứa dữ liệu của mỗi đối tượng đầu
 sẽ giải quyết được, tuy nhiên với một số hoàn cảnh, yêu cầu, mục đích riêng, người ta cần 1 queue riêng cho 1 task gửi lúc đó là cần queue set
 * queue set quản lý tất cả các queue add vào nó (quản lý cùng lúc nhiều queue) 
 
+* sô
+
 
 
 

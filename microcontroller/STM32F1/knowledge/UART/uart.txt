@@ -1,27 +1,47 @@
--- truyền song công , không đồng bộ 
-	hệ thông baud rate tốc độ truyền và nhận lên tới 4.5Mhz 
-	dải bit data truyền alf 8 hoặc 9 
-	bit stop có thể là 1 hoặc 2 bit 
-	Lin master 
-	transmiter clock output để truyền đồng bộ 
-	bộ giải mã hóa IrDA 
-	giao diện smartCArd
-	xử lý với DMA 
-	
-	
-	receive data : RX : nhận dữ liệu và là input , nó có lọc nhiễu 
-	transmit data : TX : truyền dữ liệu 
-		khi disenable IO thông thường. khi đc enable và đang không có dữ liệu đc truyền thì pin TX sẽ đc set ở mức cao 
-		trong chế độ single wire và smartcards thì IO này dùng để truyền và nhận ( ở cấp độ uart dữ liệu này sẽ đc nhận trên chân SW_RX. )
-		
-	thông qua các chân cơ bản này USART sẽ bao gồm : 
-		An Idle Line prior to transmission or reception
-		1 bit start 
-		8 or 9 bit data 
-		0.5, 1, 1.5, 2 bit stop 
-		a baud rate 12 bit mantissa 4 bit fraction 
-		1 state _SR register 
-		data register _DR 
-		1 baud rate register 
-		1 guard time register ( _GTPR) in case smartCArds 
+
+* truyền song công, vừa truyền vừa nhận đồng thời.
+
+* stm32f1 chỉ có một DR chung cho nhận và gửi, tuy nhiên ví dụ stm32h7 thì sẽ có hai thanh ghi dữ liệu riêng cho 2 quá trình 
+
+* UART chỉ có thể truyền không động bộ, USART có thể truyền đồng bộ hoặc không đồng bộ. 
+
+* receive data : RX : nhận dữ liệu và là input , nó có lọc nhiễu 
+* transmit data : TX : truyền dữ liệu 
+	khi disenable IO thông thường. khi đc enable và đang không có dữ liệu đc truyền thì pin TX sẽ đc set ở mức cao 
+	trong chế độ single wire và smartcards thì IO này dùng để truyền và nhận ( ở cấp độ uart dữ liệu này sẽ đc nhận trên chân SW_RX. )
+
+* công thức tính baud rate. 
+
+baud = Fck / (16 * USARTDIV) 		
+
+- Fck: tần số của uart 
+- baud: tốc độ bit muốn có 
+- USARTDIV giá trị mà BRR register sẽ biểu diễn. 
++ BRR có hai phần DIV_Mantissa chứa 12 bit trong số cao, biểu diễn phần nguyên của USARTDIV 
+		  DIV_Fraction chứa 4 bit trọng số thấp, biểu diễn phần thập phân của USARTDIV
+
++ ví dụ từ baud và Fck => USARTDIV = 428,125 
+
+- khi đó DIV_Mantissa = 428 = 0x...
+- khi đó DIV_Fraction = 16 * 0.125 = 2 = 0x02
+
+BBR = DIV_Mantissa<<12 | DIV_Fraction 
+
+NOTE: không phải lúc nào DIV_Fraction cx sẽ ra số đẹp mà đôi khi nó sẽ ra như là 2.76 lúc đó phải làm tròn nó, việc làm tròn sẽ phải quy ước 
+cho cả hai bên truyền nhận, bởi vì mục đích cuối cùng vẫn là cùng baud rate (thì truyền đúng) thế nên có thể làm tròn lên hay xuống thì tùy 
+tuy nhiên nên làm tròn đến số gần với nó nhất (<.5 tròn xuống >.5 tròn lên) để giảm sai số với baud rate mong muốn ban đầu bởi khi làm tròn thế 
+này thì baud cx sai lệch một xíu nhưng không sao. 
+
+NOTE: chú ý tiếp theo là việc nhân với 16 rồi làm tròn dẫn đến luôn luôn DIV_Fraction <= 16 ( bới 16 * một số < 1), nếu rơi vào trường hợp 
+làm tròn và bằng 16 -> DIV_Fraction 4 bit thì không biểu diễn được value 16 (max 15) -> ta làm tròn luôn USARTDIV
+
++ example: 50.99 -> 16 * 0.99 -> DIV_Fraction  = 16 
+nên ta làm tròn luôn USARTDIV = 51
+-> DIV_Mantissa = 51
+-> DIV_Fraction = 0
+
+
+
+
+
 		

@@ -1,0 +1,8 @@
+
+* one pulse mode: 
+- sử dụng trigger mode để cho phép đếm khi có cạnh lên 
+- set bit OPM để tự động không cho CNT ngừng đếm ở UEV kế tiếp. 
+- và có thể xuất output ở trên output khác (PWM, compare...) lúc đó sẽ chỉ có một xung được xuất ra. 
+- Ở chế độ Một xung, phát hiện cạnh trên đầu vào TIx đặt bit CEN cho phép bộ đếm. Sau đó, phép so sánh giữa bộ
+đếm và giá trị so sánh làm đầu ra chuyển đổi. Nhưng cần một số chu kỳ xung nhịp cho các hoạt động này và nó giới hạn
+độ trễ tối thiểu tDELAY min mà chúng ta có thể nhận được điều này phụ thuộc vào bit OC1FE: Output compare 1 fast enable

@@ -1,0 +1,26 @@
+
+* encoder: có hai chân A B mỗi chân sẽ dùng để soi các lỗ trên đĩa một chân hàng dưới, một chân hàng trên. 
+- xem ảnh về đĩa encoder để biết rõ hơn 
+
+* vì cách sắp xếp của hai dãy lỗ nên dựa vào trạng thái của lỗ này và cạnh bắt được của lỗ kia chúng ta có thể biết 
+được rằng nó đang quay chiều nào để cộng hoặc trừ CNT. 
+
+* timer ở mode encoder cũng hoạt động tương tự 
+
+* chúng ta có thể lựa chọn 3 mode đếm: 
+- chỉ đếm trên cạnh của TI1FP1 	(có thể hiểu là A)
+- chỉ đếm trên cạnh của TI2FP2	(có thể hiểu là B)
+- đếm trên cả 2 
+* mỗi khi có cạnh rising hoặc falling thì nó đều sẽ tự động đếm 
+
+* polarity chỉ quyết định xem xung TIx có đảo hay không đảo thôi, không quyết định cạnh mà nó sẽ đếm trên cả hai cạnh  
+s
+* đếm cộng hay trừ thì cũng phụ thuộc trạng thái của chân kia nữa. 
+
+* To select Encoder Interface mode write SMS=‘001’ in the TIMx_SMCR register if the counter is counting on TI2 edges only, SMS=’010’ if
+it is counting on TI1 edges only and SMS=’011’ if it is counting on both TI1 and TI2 edges
+- 001: đếm dựa trên cạnh TI2
+- 010: đếm dựa trên cạnh TI1
+- 011: đếm trên cạnh của cả hai 
+
+* có nhiều cách để đo tốc độ có thể dựa vào timer khác, cho đếm và đo; cx có thể dùng reset mode,... để đo tốc độ 

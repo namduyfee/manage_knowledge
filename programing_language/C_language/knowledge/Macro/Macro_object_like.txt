@@ -1,0 +1,86 @@
+
+* #define name_of_macro token 
+
+- example: 
+
+#define BUFFER_SIZE 1024
+foo = (char*) malloc (BUFFER_SIZE); 
+sau khi qua proprecessor => foo = (char*) malloc(1024); 
+
++ nó sẽ dán token vào đúng vị trí của BUFFER_SIZE 
++ 1024 ở đây tại thời điểm gán cho BUFFER_SIZE nó chẳng biết đấy là kiểu char, int... gì cả nó chỉ biết đấy là một nhãn dán hình 1024 :vv
+và cứ thế dán vào nơi có BUFFER_SIZE sau khi xong preprocess và ctr chạy lúc đó 1024 sẽ mới có ý nghĩa. 
+
++ nên nhớ việc gián với đọc thẳng giá trị hoàn toàn khác nhau 
+
+example: 
+
+#define PIN_BUTTON ReadPin(GPIOA, GPIO_PIN_12);  // hàm ReadPin đọc trạng thái của GPIOA12 
+
+lúc này PIN_BUTTON sẽ được dán ReadPin(GPIOA, GPIO_PIN_12); chứ không phải nó sẽ tiến hành đọc ReadPin(GPIOA, GPIO_PIN_12); rồi làm token cho 
+PIN_BUTTON chẳng hạn ReadPin(GPIOA, GPIO_PIN_12) = 0 => #define PIN_BUTTON 0 : điều này là sai bởi đây không phải cách hoạt động của macro 
+macro không thực hiện tính toán mà nó đang định nghĩa một cái gì đó, thứ hai prorecessor cx chỉ dán nhưng nơi được gọi PIN_BUTTON thành 
+ReadPin(GPIOA, GPIO_PIN_12); chứ không đọc hộ rồi gián thành 0 or 1
+
++ token có thể coi như nhãn dán nó ko có ý nghĩa gì cả, nó chỉ có ý nghĩa khi được dán sau quá trình preprocesser còn ở thời điểm gán nó 
+cho name_of_macro nó không là cái gì hết.
+
+
+* có thể dùng define mutil line bằng cách dùng '\' để xuống dòng, tuy nhiên chúng sẽ thành một dòng sau khi dán ở quá trình processer 
+nhưng điều đó ko đáng lo vì thụt dòng.. cx để chỉ nhìn cho đẹp!
+
+- example: 
+#define NUMBER 1, \
+	       2, \
+               3
+int x[] = { NUMBER }; => int x[] = { 1, 2, 3 }; 
+
+* kể cả việc dùng như thế này: 
+
+#define TABLESIZE BUFSIZE
+#define BUFSIZE 1024
+
+- nó không có lỗi gì cả dù TABLESIZE được định nghĩa trước và token của nó là BUFSIZE và BUFSIZE thì được định nghĩa sau bởi 
+TABLESIZE chỉ coi BUFSIZE là một nhãn dán và trong ctr nhưng nơi có BUFSIZE sẽ được dán thành 1024 còn những nơi có TABLESIZE 
+sẽ được dán BUFSIZE và nhưng nơi có dán BUFSIZE sẽ có giá trị hiện hành của BUFSIZE chứ không nhất thiêt là 1024.
+
+#define TABLESIZE BUFSIZE
+#define BUFSIZE 1024
+TABLESIZE
+     → BUFSIZE
+     → 1024
+
+* nó sẽ không dán trực tiếp một #define vào một #define 
+
+#define BUFSIZE 1020
+#define TABLESIZE BUFSIZE
+#undef BUFSIZE
+#define BUFSIZE 37
+
+int tem = TABLESIZE; -> tem = 37; 
+
+-> nếu nó dán trực tiếp thì tại dòng #define TABLESIZE BUFSIZE thì #define TABLESIZE 1020 
+
+
+* macro chỉ có hiệu lực từ dòng macro nó trở xuống 
+
++ example: 
+foo = X; 
+#define X 4 
+bar = X; 
+-> foo = X và bar = 4 
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+	
+

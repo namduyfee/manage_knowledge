@@ -30,6 +30,18 @@
 	- xTimeIncrement     : khoảng thời gian sleep so với thời gian gốc 
 
 	- khi ta truyền mốc thời gian cho pxPreviousWaketime thì sau pxPreviousWaketime + xTimeIncrement thì nó sẽ wakeup 
+	- mốc thời gian truyền vào sẽ tự động cập nhật chính bằng mốc thời gian ban đầu + thời gian delay. 
+
+	ví dụ: uint32 start_time = xTaskGetTickCount(); 
+	       xTaskDelay(500); 	// delay 500 ms 
+	       xTaskDelayUntil(&start_time, 300); 	// delay 300 so với start_time
+	     => DelayUntil sẽ là vô nghĩa bởi delay(500); đã vượt quá 300 ms so với start_time rồi nên nó sẽ không delayUntil nữa 
+	ví dụ: uint32 start_time = xTaskGetTickCount(); 
+	       xTaskDelay(300); 	// delay 300 ms 
+	       xTaskDelayUntil(&start_time, 700); 	// delay 700 so với start_time
+	     => thì delayUntil sẽ tương đương 400ms nữa thôi vì đã delay 300ms ở câu lệnh trên ; đã vượt quá 300 ms so với start_time rồi nên nó 		sẽ không delayUntil nữa
+	     * sau khi xong câu lệnh delayUntil thì start_time = start_time + 700 (nó sẽ tự động cập nhật) (tuy nhiên mk vẫn có thể thay đổi 
+	       được nó
 
 * - vậy sự khác biệt ở chỗ delayUntill() là delay theo thời gian tuyệt đối , mk có thể truyền mốc thời gian ở quá khứ hoặc 
     một thời điểm vào để tính toán , tùy thuộc mục đích người dùng. 

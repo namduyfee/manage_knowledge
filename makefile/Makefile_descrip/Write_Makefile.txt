@@ -1,0 +1,42 @@
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAKEFILE CONTAIN ~~~~~~~~~~~~~~~~~~~~~~~/ 
+
+* trong một makefile sẽ có thể chứa: 
+
+- explicit rule: rule mà mk phải chỉ định rõ quy tắc, phải viết đầu ra đầu vào rõ ràng, hoàn toàn kiểm soát nó
+
+- implicit rule: rule mà mk không phải chỉ định rõ ràng mọi thứ mà make file sẽ tự ngầm hiểu 
+
+- variable definetion: biến
+
+- directive: có thể hiểu là preprocessor của makefile: include makefile khác, conditional parts, defining multi-line
+
+- #: comment 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TÁCH DÒNG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ / 
+
+* có thể dùng dấu '\' để tách dòng nhưng thực tế chúng vẫn trên một dòng 
+
+* khi chỉ dùng dấu '\' thì dòng trên và dòng dưới sẽ luôn cách nhau bởi một dấu cách khi chúng được đưa lên cùng một dòng 
+bên macro của C cũng có tình chất này.
+
++ example: 	ABC\ 		hay 	ABC \	hay	ABC        \	
+		XYZ			XYZ 		XYZ 
+
+- chúng sẽ chỉ luôn được đem về một dạng duy nhất: ABC XYZ 
+
+- nếu muốn bỏ dấu cách đi thì ta thêm $ ở dòng thứ nhất 
+
++ example: 	ABC$ \	
+		XYZ 
+-> ABCXYZ 
+
+- nếu muốn hai dòng có thế nối không dấu cách thì $ phải đặt ngay sau và liền với dòng trước không được đặt ABC  $\ như này là không được 
+nó sẽ tình luôn dấu cách đặt ở giữa, còn dấu '\' đặt như nào cx được nó cx chỉ quy về 1 dấu cách thôi. 
+
+
+
+
+
+
+

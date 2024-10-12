@@ -1,0 +1,17 @@
+
+* tên biến, tên hàm đặt theo cú phát con lạc đà và không có dấu gạch dưới. 
+
+ví dụ: LcdInit(); 
+       configTimer; 
+
+* macro function like tên không viết hoa và có dùng '_' 
+
+example: #define lcd_init()
+	 #define gpio_init() 
+
+* tên const và macro object like đều viết hoa và có dấu '_'
+
+example: #define PI 3.14 		const int PI = 3.14;
+	 #define FIBONACY_NUMBER 	const int FIBONACY_NUMBER 
+
+- việc đặt trùng tên giữa const và macro object là không được 

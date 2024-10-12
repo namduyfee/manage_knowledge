@@ -1,0 +1,158 @@
+
+* #define ten_function() /* noi dung */ 
+
+* phần /* noi dung */  người ta gọi nó là phần mở rộng của macro function. 
+
+- ngoặc nhọn đặt liền với ten_funtion. 
+- nội dung thì phải có một dấu space với ten_macro không được viết liền.
+
++ example: #define ten_function () (a+b)      / ten_function() =>() (a+b)(); 
+=> như này nó sẽ hiểu nhầm ten_function là một macro object
++ chuẩn  : #define ten_function() (a+b) 
+
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MACRO ARGUMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ / 
+
++ example: #define min(X, Y) ( (X) < (Y) ? (X) : (Y) )
+
+min(3, 4) -> ( (3) < (4) ? (3) : (4) ) 
+
+min(GPIOReadPin(PIN1), GPIOReadPin(PIN2)) -> ( (GPIOReadPin(PIN1)) < (GPIOReadPin(PIN2)) ? (GPIOReadPin(PIN1)) : (GPIOReadPin(PIN2)) ) 
+
+- nó sẽ dán argument vào các vị trí tương ứng rồi dán macro vào vị trí được gọi. 
+- nó cũng sẽ không tính (hay cx không thực hiện lệnh đọc GPIOReadPin trước) argument trước mà nó sẽ dán luôn 
+
++ example: #define sum(a, b) (a*2 + b) 
+
+sum(4 + 2, 5) -> sum(4 + 2*2 + 5) -> kq = 13 
+
+* #define foo(x) x, "x" 
+foo(bar)    		-> bar, "x" 
+
+- kí tự xuất hiện trong "" sẽ không bị thay thế 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~ NGUYÊN TẮC CỦA CÁC HÀM có CHỨC NĂNG PREPROCESSOR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /
+
+* thường các hàm mà có liên quan đến chức năng của preprocessor như stringzing, concatenation... đểu phải có đối truyền vào, và thường nó sẽ thực hiện các chức năng trước rồi mới thực hiện dán các define nếu có. 
+- về điểm phải có đầu vào: 
+example: giả sử #define X Y  #define TEM #X vẫn có thể thực hiện chẳng hạn vậy lúc này bạn muốn "X" thì chẳng phải sẽ không thực hiện được do 
+dán Y vào hay sao, làm sao máy biết được bạn muốn dán hay là không, thế nên để dễ dàng quản lý người ta sẽ cần paramater cho các chức năng như vậy  
+- việc nó sẽ thực hiện trước các lệnh preprocessor rồi mới dán nếu có: điều này sẽ đồng bộ với việc phải có đầu vào 
+example 1: 
+#define Z Y 
+#define TEM(X) X ## Z
+tem = TEM(T) -> TZ
++ nó sẽ không gián Y thay Z rồi mới thực hiện mà nó thực hiện xong rồi mới dán nếu có việc này sẽ đồng bộ với việc phải có đầu vào nếu bạn 
+muốn Y thay cho Z bạn nên thêm một paramater nữa rồi truyền Z vào, còn khi viết thế tức là bn muốn Z chứ không phải macro Z, nếu như vậy sẽ 
+dễ dàng cho việc quản lý hơn. 
+
++ sau khi thực hiện xong lệnh preprocessor thì nó vẫn sẽ dán nếu có 
+example 2: 
+#define Z Y 
+#define TEM(X) X ## Z Z
+tem = TEM(T) -> TZ Y
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Stringizing ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /
+
+* bắt buộc phải có parameter nếu muốn dùng chức năng này. 
++ example: 
+#define TEM #X 
+char tem[] = TEM; 	-> tem = #X
+- nó sẽ hiểu là nhãn #X chứ không hiểu đó là một Stringizing
+
+* ở phần mở rộng của macro nếu sử dụng # trước tham số thì nó sẽ biến tham số ấy thành một chuổi   
+
++ example: #define str(X) #X 
+	   string tem = str(x == 0)   -> string tem = "x == 0" 
+
+- dấu "" ở đây chỉ để biểu thị nó là một string ở ví dụ trên "x == 0" dấu nháy "" chỉ để hiểu là x == 0 là string chứ nó không hiện hữu 
+
++ example: 
+1. #define print(T) printf("adc "#X" xyz")   -> "adc T xyz" 
+2. #define print(T) printf("adc #X xyz")     -> "adc #X xyz" 
+khi macro nằm trong một chuỗi và muốn dùng macro stringzing thì đặt nó trong " " 
+
+* đối số sẽ không được mở rộng mà sẽ lấy luôn làm đầu vào 
++ example: 
+#define str(X) #X
+#define foo Y 
+
+char tem[] = str(foo); -> tem = "foo" . nó sẽ không thay thế foo bằng Y mà foo bị chuyển đổi luôn 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~ QUY TAC DÁN CỦA MACRO ~~~~~~~~~~~~~~~~~~~ /
+
+#define SUM(X) X+X
+
+#define Y 10 
+
+SUM(Y) -> SUM(10) -> 10+10 
+
+- nó sẽ xử lý phần trong ngoặc trước nếu trong ngoặc là một macro khác nó sẽ thay thế token của macro đó rồi mới đến token của chính nó 
+với giá trị token của macro trong ngoặc kia. 
+
+* mk cx đã từng hiểu: 
+
+SUM(Y) -> Y+Y -> 10+10 
+
+- tuy nhiên thứ tự này có vẻ sai, mà nó ưu tiên việc giải quyết, thay thế trong ngoặc trước. 
+
+NOTE: tuy nhiên với chắc năng Stringzing thì nó sẽ không xư lý, thay thế Macro trong ngoặc mà lấy nguyên đối số ban đầu 
+
+example: 
+
+#define str(X) #X
+
+#define Y 10 
+
+- str(Y) -> "Y" chứ không phải là "10" bởi vì đây là chắc năng chuyển đổi thành string nên nó sẽ không xử lý trong ngoặc mà lấy nó làm đầu 
+vào luôn. 
++ cũng có cách hiểu khác là: str(Y) -> #Y -> "Y" tuy nhiên cách hiểu này sai và ko hợp lý với các trường hợp khác nên cách hiểu đúng sẽ 
+là đối với chức năng này nó sẽ không xử lý trong ngoặc cho chúng ta mà trực tiếp thực hiện với đối số đấy. 
+
+- cách khắc phục 
+
+#define strstr(X) str(X) 
+
+#define str(X) #X
+
+#define Y 10 
+
+strstr(Y) -> "10"
+
+- lúc này macro strstr(X) là một macro thông thường ko có chức năng chuyển đổi string nên nó sẽ xử lý trong ngoặc trước 
+
+=> strstr(Y) -> strstr(10) -> str(10) -> "10". 
+
+NOTE: tuy nhiên nó chỉ thực hiện trong ngoặc trước nếu trong ngoặc là một #define (những thứ mà nó đã được định nghĩa trước) còn nếu nó là một biến thì nó sẽ không thực hiện thay thế
+
++ example: 
+
+#define strstr(X) str(X) 
+
+#define str(X) #X
+
+int tem1 = 10; 
+
+strstr(tem1) -> str("tem1") -> "tem1"
+
+- bởi vì đây là quá trình preprocessor nên tem1 nó sẽ hiểu là một nhãn dán chứ không phải là một biến và nó cx sẽ không thay thế giá trị của 
+tem1 vào, còn đối với #define Y ở trên thì Y là một macro object được định nghĩa do đó trong preprocessor thì nó sẽ hiểu Y là nhãn dán 10
+
+- dưới góc nhìn của macro các đối số đều là nhãn (trừ trường hợp đối số là một macro khác), phần mở rộng cũng vậy 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

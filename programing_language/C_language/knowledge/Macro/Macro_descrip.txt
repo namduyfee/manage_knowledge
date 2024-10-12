@@ -1,0 +1,62 @@
+* khi nào dùng macro: 
+- khi muốn biểu diễn một con số thành một thứ có ý nghĩa ta có thể dùng biến để làm điều đó tuy nhiên như vậy lại tốn bộ nhớ và ta dùng 
+macro object nó làm cho việc đọc code dễ dàng hơn lại không tốn biến vì nó sẽ dán giá trị vào, nó sẽ là số magic nhưng đó là khi qua preprocessor (thời điểm này con người sẽ ko cần đặt tiêu chí clean code nữa). 
+- khi muốn viết một số câu lệnh đơn giản
++ có thể viết trực tiếp nhưng nếu như vậy sẽ rất khó sửa và rối nếu như cần viết 100 đoạn như vậy vào main 
++ dùng hàm, sẽ đỡ rối code nhưng dùng hàm sẽ tốn tài nguyên hơn so với viết trực tiếp chưa kể phải điều hướng đến hàm, xử lý... tốn thời gian 
++ dùng macro function kết hợp giữa viết hàm và viết trực tiếp khi mà nó làm code trở nên dễ đọc, chỉnh sửa hơn và nó sẽ thành viết trực tiếp 
+khi qua preprocessor tại lúc này code thực sự sẽ như code trực tiếp nhưng chúng ta chỉ sửa code ở trc preprocessor nên sẽ không lo về vấn 
+đề clean code mà vẫn đạt hiệu suất tốt hơn so với viết hàm. 
+
+* về nguyên tắc bất kì cái gì từ viết dưới macro mà trùng với macro đó nó sẽ thay thế hết, đối với preprocessor tất cả ở dưới dạng nhãn. 
+
+- trừ khi nó là string "X" thì macro X ko thay thế vào được, trừ khi nó được viết liền XABC thì macro X cx không chèn vào được đâu. 
+
+- kể cả nó là một kiểu dữ liệu 
++ #define int INT 
++ int x; -> INT x; 
+
+- kể cả là tên một function 
++ #define sum() STM
++ void sum() {} -> void STM {} 
+NOTE: để hàm không bị thay thế bởi macro thì định nghĩa hàm trên macro đấy (chỉ khai báo trên thôi thì vẫn bị thay thế). 
+
+- kể cả là một thuộc tính của structer
++ #define REGIS ODR 
+
++ typedef struct {int REGIS; ...} 	-> typedef struct {int ODR;...}
++ GPIO.REGIS 				-> GPIO.ODR
+
+- nếu là string: #define int INT char tem[] = { " "int" " }   -> { " "INT" " } 
+
+
+* IMPORTAN: nó sẽ không thay thế trực tiếp giữa #define: 
+
+- không có thay thế một define vào một define 
+
++ example: 
+
+#define str #X 
+#define strstr(X) str
+#define ADC DAC 
+
+char tem[] = strstr(ADC); 
+
+- nếu có thay thế strstr(X) str -> strstr(X) #X -> strstr(ADC) -> "DAC" 
+- nhưng khi test nó sẽ không thay thế tức strstr(X) str vẫn sẽ là như vậy chứ không thay #X cho str trực tiếp 
+-> strstr(ADC) -> str -> #X -> char tem[] = #X; 
+ 
+- vậy tại vị trí gọi macro thì nó mới dán theo trình tự của từng macro 
+
+NOTE: chính vì thế khi:
+
+#define BUFSIZE 1020
+#define TABLESIZE BUFSIZE
+#undef BUFSIZE
+#define BUFSIZE 37
+
+int tem1 = TABLESIZE; 	-> tem1 = 37; 
+int tem2 = BUFSIZE;	-> tem2 = 37; 
+
+
+
