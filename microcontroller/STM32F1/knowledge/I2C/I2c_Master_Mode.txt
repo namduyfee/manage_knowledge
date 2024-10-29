@@ -1,0 +1,2 @@
+
+* mặc định của nó là slave mode, để chuyển từ slave -> master cần một start condition 

@@ -1,3 +1,12 @@
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ một folder có nhiều file makefile ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ / 
+
+* mặc định khi gọi make thì nó sẽ tìm file makefile or Makefile để chạy, thế nên khi trong một folder có nhiều file makefile ( Makefile, 
+test, gpio ... ) những file makefile đấy có thể có tên được đặt tùy chọn theo người dùng, lúc đó nếu muốn chạy make cho các file makefile có tên
+test or gpio thì chúng ta phải gõ: make -f test or make -f gpio trong cmd để thực hiện chạy make cho các file này 
+
+* option  ‘-f name’ or ‘--file=name’ sẽ chỉ định tên makefile được chạy 
+	example: make -f gpio
+		 make --file=test 
 
 / ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAKEFILE CONTAIN ~~~~~~~~~~~~~~~~~~~~~~~/ 
 
@@ -13,6 +22,10 @@
 
 - #: comment 
 
+- thêm @ trước lệnh sẽ làm cho lệnh không hiện lên trên commandline 
+	@echo ("abc")  -> abc
+	echo  ("abc")  -> echo ("abc") abc 
+	
 / ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TÁCH DÒNG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ / 
 
 * có thể dùng dấu '\' để tách dòng nhưng thực tế chúng vẫn trên một dòng 
@@ -33,6 +46,22 @@ bên macro của C cũng có tình chất này.
 
 - nếu muốn hai dòng có thế nối không dấu cách thì $ phải đặt ngay sau và liền với dòng trước không được đặt ABC  $\ như này là không được 
 nó sẽ tình luôn dấu cách đặt ở giữa, còn dấu '\' đặt như nào cx được nó cx chỉ quy về 1 dấu cách thôi. 
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INCLUDE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /
+
+* syntax: 
+- nếu dùng include ... thì make sẽ báo lỗi khi file include không được tìm thấy 
+
+- nếu dùng sinclude hoặc (-include ...) thì sẽ không báo lỗi khi file include không được tìm thấy và nó sẽ tiếp tục thực hiện lệnh trong file 
+make hiện hành 
+
+* Makerfile hiện hành chỉ include được Makefile ở  trong các folder con 
+
+* khi include một Makefile khác nó sẽ chạy câu lệnh đầu của makefile được include vào mà ko chạy câu lệnh đầu của Makefile hiện tại 
+
+* option -I dùng để tìm một tệp mà không phải chỉ rõ ràng đường dân cho nó ( cần tìm hiểu thêm về điều này ) 
+
+
 
 
 

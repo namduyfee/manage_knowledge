@@ -28,3 +28,14 @@ var3 ?= ($var)
 var = "ccc" 
 
 kết quả là var1 = "ccc", var2 = "bbb", var3 = "aaa"
+
+
+/ ~~~~~~~~~~~~~~~~~~~~~~~~ SOME VARIABLE SPECIAL ~~~~~~~~~~~~~~~~~~~~~ / 
+
+* $@ : lấy list target ( bên trái dấu chấm ) 
+* $^ : lấy list prerequisites ( bên phải dấu chấm ) 
+
+
+
+
+

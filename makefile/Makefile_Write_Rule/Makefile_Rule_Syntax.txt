@@ -2,10 +2,15 @@
 
 * instruction của một rule cơ bản : 
 	
-	target .. : prerequisites ..
+	* target .. : prerequisites ..
 		recipe 
 		...
 		...
+	hoặc
+	* target .. : prerequisites ; recipe
+		recipe
+
+
 
 	- target : + thường là tên của một file được tạo bởi chương trình : có thể là file thực thi 
 		   hoặc file .o 

@@ -1,0 +1,26 @@
+
+* Parallel-bus/I2C protocol converter
+
+*  I2C Master features:
+– Clock generation
+– Start and Stop generation
+
+*  I2C Slave features:
+– Programmable I2C Address detection
+– Dual Addressing Capability to acknowledge 2 slave addresses
+– Stop bit detection
+
+* Generation and detection of 7-bit/10-bit addressing and General Call
+
+*  Interrupt vectors: 
+– 1 Interrupt for successful address/ data communication
+– 1 Interrupt for error condition
+
+* Mode selection: 
+- Slave transmitter
+- Slave receiver
+- Master transmitter
+- Master receiver
+
+
+
