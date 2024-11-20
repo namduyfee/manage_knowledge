@@ -1,0 +1,6 @@
+
+* $@ : lấy list target ( trước dấu ':' ) 
+* $^ : lấy list prerequisites ( sau dấu ':'  ) 
+* $< : lấy giá trị đầu tiên sau dấu ':' 
+
+

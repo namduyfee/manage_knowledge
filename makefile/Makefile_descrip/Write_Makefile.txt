@@ -57,9 +57,18 @@ make hiện hành
 
 * Makerfile hiện hành chỉ include được Makefile ở  trong các folder con 
 
-* khi include một Makefile khác nó sẽ chạy câu lệnh đầu của makefile được include vào mà ko chạy câu lệnh đầu của Makefile hiện tại 
+* cứ hiểu là khi có một include thì nó sẽ dán file được include ngay tại vị trí đấy 
+- ví dụ a.mk có rule4 rule5, file makefile có rule1 rule2 rule3 và include a.mk 
 
-* option -I dùng để tìm một tệp mà không phải chỉ rõ ràng đường dân cho nó ( cần tìm hiểu thêm về điều này ) 
++ nếu để include tại đâu thì rule4 rule5 sẽ xuất hiện tại đó 
+nếu đặt include ở đầu thì makefile sẽ là rule4 rule5 rule 1 rule2 rule3 
+nếu đặt include ở sau thì makefile sẽ là rule1 rule2 rule2 rule3 rule4 rule5  
++ và sau đó makefile hoạt động như thường 
+-> vậy include chỉ là thay thế nội dung file a.mk tại vị trí mà nó được include ở file thôi ( hoạt động như một include thông thường ) 
+
+* option -I chỉ dẫn đến các file.h khi mã nguồn có các chỉ thị #include file.h 
+
+
 
 
 

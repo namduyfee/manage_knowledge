@@ -7,6 +7,7 @@
 		...
 		...
 	hoặc
+
 	* target .. : prerequisites ; recipe
 		recipe
 
@@ -31,5 +32,18 @@
 
 	** việc đặt target trùng tên với file.đuôi chỉ là cho chương trình mạch lạc rõ ràng hơn 
 	còn tên file phụ thuộc vào câu lệnh ở dưới
+
+* có hai kiểu prerequisites: Normal Prerequisites và Order-Only Prerequisites
+- Normal Prerequisites : nếu có sự cập nhật trên Normal Prerequisites hoặc Normal Prerequisites chưa được chạy lần nào thì target sẽ được thực thi 
+- Order-Only Prerequisites : chỉ kiểm tra xem Order-Only Prerequisites exist hay không nếu không nó sẽ chạy và tạo Order-Only Prerequisites
+và chạy target, tuy nhiên khi Order-Only Prerequisites có sự cập nhật sửa đổi thì target lại không được chạy, Order-Only Prerequisites chỉ 
+là điều kiện tiên quyết đảm bảo  Order-Only Prerequisites đã được hiện hữu. 
+
+
+
+
+
+
+
 
 	

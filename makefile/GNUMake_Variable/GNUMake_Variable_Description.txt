@@ -1,5 +1,5 @@
 
-phép gán '=' , ':=' , '?='
+phép gán '=' , ':=' , '?=' '!=' 
 
 
 * phép gán '='   : là phép gán mà biến tiếp nhận có thể thay đổi khi đối tượng dùng để gán thay đổi giá trị 
@@ -29,11 +29,34 @@ var = "ccc"
 
 kết quả là var1 = "ccc", var2 = "bbb", var3 = "aaa"
 
+* != : thực thi lệnh xong rồi mới gán, ví dụ: TEM != echo "hello" => TEM sẽ được gán là hello chứ không phải echo "hello"
+trong khi các phép gán =, := , ::= đều không thực hiện lệnh trước 
 
-/ ~~~~~~~~~~~~~~~~~~~~~~~~ SOME VARIABLE SPECIAL ~~~~~~~~~~~~~~~~~~~~~ / 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ NHỮNG ĐIỀU CẦN QUAN TÂM VỀ BIẾN ~~~~~~~~~~~~~~~~
 
-* $@ : lấy list target ( bên trái dấu chấm ) 
-* $^ : lấy list prerequisites ( bên phải dấu chấm ) 
+* nó có thứ tự trên dưới nghĩa là biến trên không thể dùng giá trị của biến khai báo sau nó được 
+
+- điều này có nghĩa là khi biến được được khai báo nó sẽ có luôn giá trị chứ không phải đợi đến khi rule gọi nó thì mới tồn tại 
+
+* chú ý đến dấu gán của biến: tạm chia thành hai dạng 
+
+- thực thi ngay tại thời điểm gán: command sau dấu gán sẽ chạy luôn rồi gán vào biến 
+
+- không thực thi tại thời điểm gán: lúc này biến hoạt động giống với macro 
+
+-> nó là sự kết hợp giữa biến và macro 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

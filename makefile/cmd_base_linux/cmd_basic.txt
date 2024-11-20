@@ -15,15 +15,17 @@ một số lệnh thao tác folder, file
 
 * cat <tên file> : xem nội dung của file đó. 
 * cd ..      : trở về folder trước đó (giữa hai dấu chấm có dấu cách).
-* cd/	    : di chuyển thẳng đến folder, thư mục cụ thể 
+* cd/	    : di chuyển thẳng đến folder, thư mục cụ thể ( cần đường dẫn cự thể d/.../...)
 * cd <tên folder or file> : di chuyển vào folder or file 
 * pwd 	    : lấy đường dẫn folder đang làm việc 
 * ls 	    : hiện danh sách folder or file trong folder hiện hành 
 * mkdir <tên folder>  : tạo folder mới 
 
 * rm 	    : xóa file 
-* rmdir     : xóa thư mục , thông thường xóa all file trong folder trước r xóa folder sau 
+* rm -f	    : xóa file dù file đó có tồn tại hay không thì vẫn xóa và không thông báo lỗi 
 * rm -r <tên folder> : xóa folder ( dù nó đang trống hay không ) 
+* rm -rf    : xóa cả file và thư mục trong một thư mục mà không cần quan tâm nó tồn tại hay không.
+* rmdir     : xóa thư mục , thông thường xóa all file trong folder trước r xóa folder sau 
 * rm -d <tên folder> : chỉ xóa được folder trông (emtry)
 
 * touch <tên file><mở rộng>  : dùng để tạo một file 

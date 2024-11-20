@@ -1,0 +1,63 @@
+* mã thường nằm trong flash và chương trình sẽ chạy trong flash chỉ khi trong chương trình có gọi đến biến local thì lúc đó nó 
+sẽ dùng SRAM để truy cập nhanh chóng, chứ chương trình không hề đẩy lên SRAM chạy, mà chương trình nó chạy ở flash sau đó tùy vào dữ liệu cần thiết mà nó sẽ ánh xạ đến vùng nhớ cần thiết ví dụ var local là stack, rồi data, heap.... flash là chương trình và những vùng nhớ kia sinh ra 
+để phục vụ cho nó. 
+
+* ENTRY (); chỉ rõ vị trí bắt đầu chạy của chương trình
+
+* MEMORY 
+{
+	FLASH(rx) : ORIGIN = 0x08000000 (start FLASH datasheet), LENGTH = 1024K (datasheet) 		
+	SRAM(rwx) : ORIGIN = 0x20000000 (start SRAM datasheet), LENGTH = 128K (datasheet)
+}
+
+- đây không phải cấu hình phần cứng. 
+
+- phần này không làm thay đổi cấu trúc phần cứng start FLASH, LENGTH ... là những thứ đã có trước, là những thứ được quy định lúc 
+sản xuất mcu rồi, còn phần MEMORY{} có thể hiểu là tạo ra một structer FLASH gồm thuộc tính start address, lenth, chỉ đọc và cho phép thực thi. 
+dựa vào structer này việc viết script sẽ trở nên tường minh hơn, dễ dàng cho linker thực thi hơn. 
+
+- việc viết FLASH(rx) không phải đang cấu hình cho nó chỉ đọc và cho phép thực thi mà nó đã luôn như vậy, còn mk chỉ đang thông báo cho linker 
+biết thôi. 
+- có MEMORY {} thì > FLASH, > SRAM tại section thì nó mới hiểu đấy là cái gì, thật ra bạn có thể dùng tên khác thay thế cũng được, nhưng đã 
+quy ước như vậy rồi thì không nên làm ngược nó. ( bởi vì bản chất thứ nó quan tâm vẫn là địa chỉ. )
+
+- có thể viết trực tiếp địa chỉ tại section thay cho > FLASH, > SRAM tuy nhiên điều này không phải cách tốt. 
+
+- việc cung cấp cho linker FLASH(rx) cũng đảm bảo cho việc ghi các section chỉ định ghi vào flash luôn đúng về mặt phần cứng, nếu nó ghi sang 
+vùng nhớ có thể ghi lúc đó sẽ báo lỗi ngay. 
+
+r: cho phép đọc (read) 
+w: cho phép ghi (write) 
+x: cho phép thực thi
+
+* SECTION 
+{
+	.text: 
+	{
+		*(.isr_vector)
+		*(.text)	
+		*(.rodata)
+		_etext = .;
+	}> FLASH
+	.data: 
+	{
+		_sdata = .; 
+		*(.data)
+		_edata = .; 
+
+	}> SRAM AT> FLASH
+	.bss: 
+	{
+		_sbss = .; 
+		*(.bss) 
+		_ebss = .; 
+	}> SRAM
+
+}
+
+
+
+
+
+
+

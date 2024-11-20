@@ -1,0 +1,27 @@
+~~~~~~~~~~~~~~~~~~~~~ CHỈ DÙNG CHO PREREQUISITES ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- hay phân biệt rõ giữa quá trình make và quá trình compile 
++ make chỉ định đầu vào đầu ra, đưa công thức 
++ compile là quá trình thực thi khi make gọi 
+
+* vpath
+- nó giúp tìm kiếm các tệp được chỉ định 
+
+- vpath %.c SRC_DIR : khi ở prerequisite xuất hiện một xuất hiện một một file.c không rõ đường dẫn thì nó sẽ đi tìm file đó trong SRC_DIR 
+sau đó thay thế file.c bằng đường dẫn đến file.c ( ./../file.c)
+
+- vpaht %.h INC_DIR : khi ở prerequisite xuất hiện một xuất hiện một một file.h không rõ đường dẫn thì nó sẽ đi tìm file đó trong INC_DIR 
+sau đó thay thế file.h bằng đường dẫn đến file.h ( ./../file.h)
+
+* với parten rule %.o: %.c 
+- khi nhập x.o ở target thì x.c cx sẽ tự động được điền ở prerequisite 
+- khi có x.c ( không  rõ đường dẫn ) ở prerequisite lúc này vpath sẽ có hiệu lực và nó sẽ đi tìm đường dẫn của x.c ở trong tập đường dẫn 
+và khi tìm thấy nó sẽ thay thế x.c bằng đường dẫn /../../x.c vì chỉ có mỗi đường dẫn .../x.c là được dán vào thôi nhé chứ không phải tất cả 
+đường dẫn .c có trong tập đường dẫn cung cấp cho vpath.
+
+- trong khi đó -I INC_DIR sẽ đưa ra chỉ dẫn trong quá trình biên dịch khi mã nguồn có chứa các chỉ thị #include
+
++ khi include một thư viện trong file mã nguồn luôn cần option -I INC_DIR để khi quá trình biên dịch diễn ra nó có thể biến file được include 
+nằm ở đâu. 
++ make chỉ giúp chỉ định và chế biến chứ không giúp biên dịch 
+  

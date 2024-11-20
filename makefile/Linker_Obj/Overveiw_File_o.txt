@@ -1,0 +1,112 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LINKER , GCC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* gcc, linker là những công cụ, cỗ máy mà khi đưa input, OTP nó sẽ cho ra output theo mong muốn, và để tạo ra output ta cần computer để tính toán và hiện thực nó, lúc đó là có môi trường dòng lệnh khi thao tác trên đó bạn sẽ yêu cầu có phần cứng để thực thi, tuy nhiên việc thao tác 
+trực tiếp như vậy khiến chúng ta khó sửa đổi và quan sát chúng vì thế người ta sinh ra make file nó cũng là input đầu vào và để thực thi nó 
+ta lại cần thêm make để thực thi nó. 
+
++ chốt lại để có đạt được mục đích nào đó: bao giờ ta cũng input và một thứ hiểu cái input đó và thực thi để tạo ra output. 
+
+* GCC 
+- khi ta đưa có OTP và những file input đầu vào, mục đích của ta là tạo ra một file, hoặc thực thi một nhiệm vụ gì đó vậy những OTP, file input 
+chỉ là INPUT và chỉ dẫn còn để thực hiện nó chúng ta còn một thứ dựa trên những INPUT ta có thể tạo ra những cái ta cần vậy thứ dùng để thực thi 
+đó là gcc, và mỗi chip với các INPUT đầu vào như nhau lại muốn các đầu ra khác nhau phù hợp với cấu trúc của nó chính vì thế chính ta cần các 
+trình gcc tương ứng với loại chip đó. 
+
+* LINKER 
+- cũng tương tự nhi GCC, ở quá trình nó có các file object, file lib đầu vào và file linker script để chỉ dẫn yêu cầu và cái thực thi quá trình đó dựa trên INPUT để tạo ra những cấu trúc, yêu cầu phù hợp với các con chip thì chúng ta phải có trình linker, và mỗi chip khác nhau cần trình 
+linker khác nhau để có được đầu ra đáp ứng mong muốn của nó, phù hợp với cấu trúc của nó. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~ FILE LINKER SCRIPT BIỂU THỊ ĐIỀU GÌ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* đầu tiên nó tạo ra file executable 
+.text: {
+	*(.isr_vector) 	// vector table
+	*(.text)    	// kết tất cả .text của các file object 
+} FLASH 
+-> ta có section .text trong file executable. 
+
+... các section khác tương tự và từ đó ta có file executable hoàn chỉnh. 
+
+
+* chỉ định các vùng nhớ sẽ được ghi nội dung các section của file executable xuống mem
+trong file script ta thiết lập start FLASH và chỉ định địa chỉ của các section, dựa vào thông tin này trong file executable sẽ có những địa chỉ tuyệt đối cho các section thay vì tương đối như file object. 
+
+* và khi nạp nó cx chỉ quan tấm đến mỗi file .hex nơi đã có địa chỉ tuyệt đối được chỉ định để ghi vào mem, và mcu thì không biết các section 
+là cái gì cái nó quan tâm cuối cùng là địa chỉ vùng nhớ và cứ thế mà nó nạp vào. 
+
+* các mem ( FLASH, RAM ...) không có vùng .section hiện hữu trong nó, mà nó là dãy ô nhớ có địa chỉ, mọi hoạt động được hiểu dưới dạng địa chỉ. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LINKER SCRIPT và SECTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* .text .bss .data ... chỉ là quy ước tại các file object, executable và trong quá trình linker còn các bộ nhớ như FLASH, RAM ... chỉ là một 
+khối mem và có địa chỉ chứ nó không chứa các vùng có tên .text .bss ..., nó cx không quan tâm đến chúng; chỉ là nó được linker chỉ định sẽ được 
+ghi cái gì và địa chỉ nào.  
+
+* các section có thể được lưu dựa trên địa chỉ mà ta cung cấp. 
+* chỉ khi ta không cung cấp địa chỉ rõ ràng cho section thì lúc đó linker mới tự qui đinh địa chỉ ghi cho section nó sẽ ghi section ngay sau tại địa chỉ của một section khác được ghi ngay trước nó. 
+
+- ví dụ .text .rdata ... nó sẽ ghi .text vào đầu sau đó là .rdata theo ngay sau .text; bởi vì cả .text và .data đều không chỉ định rõ ràng 
+nên linker sẽ tự qui định, với .text viết đầu nên sẽ start 0x800000000000 vì đó là start của flash. và .data start tại end của .text 
+
+- ví dụ : section 1 = 0x80000000, section2 = 0x800FF0000, section3 
+
++ ở đây ta chỉ định rõ địa chỉ ghi cho section1 và section2 còn section3 được viết ngay sau section2 trong script điều đó dẫn đến linker sẽ tự đông qui định section3 sẽ được ghi vào ngay sau section2, chứ không phải giữa endsection 1 và startsection2, bởi section3 theo ngay sau section2.
+
++ tuy nhiên mk vẫn có thể chỉ định rõ ràng vị trí cho section buộc nó phải ghi ở đâu chứ không phụ thuộc vào vị trí. 
+
+* máy tính nhìn source code dứa góc nhìn nhị phân và vùng nhớ 
+
+* file.c là file code do user viết vì thế hình thức, nội dung của nó chỉ là góc nhìn user còn khi tạo ra file.o lúc này 
+code sẽ được tổ chức theo mô hình mà máy tính sẽ hiểu. 
+- các section trong file.o đều có địa chỉ bắt đầu là 0, nó không phải là địa chỉ tuyệt đối trong chip. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CÁC SECTION CƠ BẢN MÀ CHƯƠNG TRÌNH SẼ CÓ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++ .text: nội dung mã nguồn ( hàm, vòng lặp, if..) sẽ nằm trong này, tại các vị trí mà có dùng đến biến nó sẽ có lệnh để trỏ đến vùng 
+nhớ của biến được lưu ở các vùng khác. 
+
++ .data: var global init = number (not 0); var local static initialized, pointer đã cho nó trỏ đến vùng nhớ xác định. 
+
++ .bss: var global not init or init = 0; var local static uninitalized, pointer chưa được khởi tạo giá trị hoặc cho nó trỏ đến NULL. 
+
++ .rodata: const global stored in .rodata
+
++ var local (trừ static local) include const local,...
+
+	- được lưu ở stack khi runtime, còn khi compiler hay linker thì sẽ không thấy được nó, và vị trí được lưu của nó có thể
+	sẽ khác nhau ở mỗi lần chạy. ( vì nó là stack của RAM )
+	
+	- var local được gán giá trị ở một thời điểm bất kỳ ( ý là có sử dụng đến nó ) thì nó được coi là một phần của mã và tồn tại trong .text
+	  (nó sẽ có các lệnh cấp phát đặt vào vị trí var và khi gọi đến thì nó sẽ được cấp phát trên stack), vì thế size .text tăng lên. 
+
+	- khi runtime và nó được gọi đến thì nó sẽ được lưu trong stack và bị clear khi hết phạm vi khai báo của nó. 
+
+	- var local mà trong cả chương trình không gán cho nó giá trị nào thì có nghĩa là nó không được dùng trong chương trình và 
+	nó sẽ bị bỏ đi. 
+
+	+ nếu biến local mà cấp pháp heap thì nó cx sẽ đặt lệnh cấp phát tại vị trí đấy, làm tăng size .text và cx sẽ chỉ được cấp phát 
+	khi runtime thôi. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VẤN ĐỀ KHI THAO TÁC VỚI VÙNG HEAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi cấp phát động thì phải dùng con trỏ để trỏ đến vùng nhớ đó, nó sẽ trỏ đến đấy chứ không phải là lưu biến đấy trong đấy, nó chỉ là một 
+khối memory mà chúng ta chỉ trỏ đến nó và quy ước, sử dụng thôi. 
+
+* thế nên nếu pointer trỏ đến vùng nhớ được phát ở heap: 
+	- nếu là global pointer thì nó sẽ lưu ở .data nếu nó được khởi tạo giá trị khác NULL, còn 
+	nếu chưa được khởi tọa hoặc khởi tạo NULL thì nó sẽ lưu ở .bss 
+	- nếu nó là local pointer thì nó sẽ lưu pointer ở stack sau đó trỏ đến vùng được cấp phát. với local pointer xin cấp phát thì chú ý 
+	khi hết hàm local pointer trong stack sẽ được clear tuy nhiên nếu chưa free() thì vùng heap đó vẫn sẽ tồn tại mà không có pointer nào 
+	trỏ tới nó cả, và nó không thể được sử dụng -> leak mem , do đó  cần chú ý free() khi không cần thiết. 
+
+* NOTE: Sau khi free() nếu con trỏ vẫn có tồn tại thì nó vẫn trỏ đến đúng nhớ được giải phóng đó chứ không phải NULL, và vùng nhớ đó có thể được cấp phát nếu được yêu cầu, điều này có thể gây sai sót trong quá trình run nếu bạn truy cập vùng nhớ sau khi đã free(); . 
+
+
+* 
+
+
+
+
+
+
+
+
