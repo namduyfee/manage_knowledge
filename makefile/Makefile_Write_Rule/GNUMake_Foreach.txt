@@ -1,0 +1,25 @@
+
+$(foreach var, list, text) 
+
+* list là danh sách mà mình cần duyệt
+list = A B C D 
+
+* var là biến tạm cho mỗi phần tử của list 
+- var = A
+- var = B
+- var = C
+- var = D
+
+* text là đoạn lệnh cần thực hiện với mỗi phần tử của list, chúng ta dùng biến var để làm đối số. 
+* NOTE: list không được mở rộng: nghĩa là khi ta đưa ../*/.. vào list thì nó sẽ không tự mở rộng * cho mình. 
+chúng ta phải dùng wildcard để mở rộng * 
+
+
+ví dụ: 
+SRC_DIR := A B C D
+SRC_FILES = $(foreach tem, $(SRC_DIR), $(Wildcard $tem/*.c))
+
+NOTE: foreach sẽ được chạy ngay tại thời điểm gán chứ không đợi đến lúc biến được gọi thì mới chạy. 
+
+
+

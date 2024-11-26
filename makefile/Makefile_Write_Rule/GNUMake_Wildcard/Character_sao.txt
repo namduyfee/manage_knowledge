@@ -1,0 +1,34 @@
+
+* WILDCARD CHARACTER 
+
+- là các kí tự đại diện, biểu thị cho ý nghĩa nào đó 
+- &? : chỉ lấy các file ( ở prerequisite ) có sự cập nhật
+- *.c *.h 
+
+- kí tự '*' đứng một mk thì nghĩa là tất cả mọi thứ (folder,...), khi đi kèm *.c nghĩa là tất cả file.c... 
+
+ví dụ: trong foler Driver có RCC, GPIO, I2C, SPI... và trong mỗi folder kia đều có Src và Inc 
+-> INC_DIR := ./Driver/*/Inc 
+bằng việc dùng * ta có thể lấy tất cả đường dẫn Inc tại các folder con 
+note: '+' thật ra là viết thêm vào biến đó và cách ra mà thôi.
+vi du : SRC_DIR := A
+	SRC_DIR += B
+-> 	SRC_DIR := A B 
+
+NOTE: tuy nhiên việc dùng sao luôn nên sử dụng cùng với wildcard function bởi vì chỉ có shell, wildcard thì mới mở rộng nó khi thực 
+hiện. 
+
+- với INC_DIR được dùng như trên và đưa vào foreach 
+INC_DIR_OPT = $(foreach var, $(INC_DIR), -I$(vaf)) 
+với lệnh như thế này thì kết quả thu được sẽ chỉ là -I./Driver/*/Inc bởi vì trong foreach không mở rộng * 
+
++ chính vì thế ta nên dùng wildcard function kèm theo khi có * 
+
+ví dụ: INC_DIR := $(wildcard ./Driver/*/Inc) 
+- wildcard sẽ được chạy ngay tại thời điểm gán chứ không phải khi biến được gọi rồi mới chạy 
+-> INC_DIR := ./Driver/RCC/Inc ./Driver/GPIO/Inc ... 
+
+ - '*' nên dùng kèm theo với wildcard function. 
+
+
+

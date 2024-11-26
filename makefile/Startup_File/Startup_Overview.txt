@@ -1,0 +1,66 @@
+~~~~~~~~~~~~~~~~~~~~~~~ FEATURE STARTUP ~~~~~~~~~~~~~~~~~~~~~~~
+* startup : tạo môi trường thích hợp để code main chạy 
+
+* một file startup sẽ làm những thứ sau: 
+
+- khởi tạo vector table
+- khởi tạo cho .data .bss trong SRAM 
+- gọi hàm main(); 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ STACK POINTER ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* địa chỉ bắt đầu của vùng stack 
+- trước khi chạy chương trình bao giờ cũng phải biết địa chỉ bắt đầu của stack bởi vì muốn chạy được chương trình thì yêu cầu 
+là phải có stack, điều này tránh gây ra lỗi khi mk gọi hàm, ngắt ... mà không biết stack năm ở đâu để thực hiện. 
+
+* stack thường nằm ở vị trí cao nhất của SRAM, nó nằm trong SRAM, và nó luôn cấp phát bộ nhớ theo địa chỉ giảm dần tức là start của nó 
+chính là vị trí cuối của SRAM và sau đó nó cấp phát stack cho các biến, ... theo địa chỉ dần xuống, điều này tránh tràn bộ nhớ và tận dụng tối 
+đa dung lượng. 
+
+thế nên Start_Stack = END_SRAM  và sau đó nó sẽ là END_SRAM - 1 , END_SRAM - 2,... 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~  VECTOR TABLE ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* là một mảng các địa chỉ của hàm ngắt (isr). 
+
+* vector table lưu trữ địa chỉ của các hàm handle ứng với nó 
+
+* khi có ngắt xảy ra mcu nhảy vào vector table và ánh xạ đến địa chỉ hàm mà nó đang giữ để thực hiện hàm handle. 
+
+* thứ tự của vector ngắt trong bảng phải tuân theo thứ tự nhà sản xuất quy định ( tuân thủ cấu trúc core arm ) 
+nếu không nó sẽ gọi nhầm hàm xử lý ngắt. 
+
++ ví dụ nếu ta đổi vị trí dữa uart_handle và timer_handle thì khi có ngắt uart mcu nhảy vào bảng và tìm thứ tự tương ứng được nhà sản xuất 
+cung cấp cho nó, tuy nhiên ở đây user lại đảo vị trí dẫn đến hàm mà nó nhảy đến thì lại là timer_handle thay vì uart_handle 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ BOOTING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi được mở nguồn thì mcu sẽ luôn chạy từ 0x00000000 
+
+* có 2 chân boot00 boot01 
+
+* có 3 boot mode 
+- boot from flash memory 
+- boot from system memory (bootloader) 
+- boot from RAM
+
+* vùng 0x00000000 sẽ tải 1 trong 3 vùng tùy vào boot0 boot1 hoặc yêu cầu từ phần mềm, và chạy. 
+
+* VTOR thanh ghi chỉ định đâu là bảng vector table. 
+
+
+* thường khai báo mảng toàn cục chưa init thì nó sẽ đi vào .bss nhưng thực tế nó lại đi vào vùng có tên là 
+COMMON nên phải đưa vùng COMMON này vào luôn vùng .BSS
+
+
+
+
+
+
+
+
+
+
+
+
+

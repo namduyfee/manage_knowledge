@@ -1,0 +1,22 @@
+~ WILDCARD thường được dùng ở bước link các file object thành file exucute, chúng ta cần lấy nhiều target cụ thể để làm prerequisite 
+chúng dùng WILDCARD FUNCTION để lấy nhiều file.o 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VẤN ĐỀ KHI DÙNG WILDCARD ~~~~~~~~~~~~~~~~~~~~~~~~
+
+- wildcard function lấy đường dẫn mà nó được yêu cầu. 
+
+- trường hợp: 
+
++ SRC_DIR := source1 
+  SRC_DIR += source2 
+
+  SRC_FILES := $(wildcard $(SRC_DIR)/*.c) 
+  -> SRC_FILES := $(wildcard source1 source2/*.c) 
+- vì biến SRC_DIR được thay vào là source source2 nên khi kết hợp /*.c thì chỉ có phần đứng sau là được ghép với /*.c 
+-> source1 source2/*.c khi đó nó SRC_FILES sẽ có đường dẫn là source1 và các đường dẫn file c trong folder source2 
+
+NOTE: để khắc phục điều này thì kết hợp foreach
+
+
+
+
