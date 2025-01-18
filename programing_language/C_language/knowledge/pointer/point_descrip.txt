@@ -1,0 +1,13 @@
+
+- chú ý () có thể làm thay đổi ý nghĩa lệnh 
+
+
++ chúng ta có thể khai báo con trỏ int* p; 
++ nhưng khi khai báo  (int*) p; thì nó sẽ hiểu là ép kiểu chứ không phải con trỏ.
+
+
+~~~~~~~~~~~~~~~~~~~~~~ (int*) &a là một con trỏ tạm thời ~~~~~~~~~~~~~~~~~~~~~~~
+- int *p = (int*) &a; 
++ bản chất (int*) &a sẽ tạo ra một con trỏ tạm thời trỏ đến vùng địa chỉ a (chứa 1 số int) sau đó 
+nó sẽ gán giá trị của con trỏ đấy vào con trỏ p -> p trỏ đến địa chỉ của a
++ chứ nó không phải đơn thuần là ép địa chỉ thành địa chỉ kiểu int. 

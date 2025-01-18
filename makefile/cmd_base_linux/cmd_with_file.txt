@@ -1,0 +1,30 @@
+
+~~~~~~~~~~~~~~~ CLEAN FILE ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* rm 	                              : xóa file 
+* rm<space>-f<space><file path>       : xóa file dù file đó có tồn tại hay không thì vẫn xóa và không thông báo lỗi 
+* rm<space>-rf<space><path>           : xóa cả file và thư mục mà không cần quan tâm nó tồn tại hay không.
+
+~~~~~~~~~~~~~~~ DISPLAY CONTENT FILE ~~~~~~~~~~~~~~~~~~
+
+* cat<space><file path> : xem nội dung của file đó.
+
+~~~~~~~~~~~~~~~ CREAT NEW FILE ~~~~~~~~~~~~~~~~~~~~~~~~
+
+* touch<space><tên file><mở rộng>  : dùng để tạo một file 
+- khi tạo một file có chứa dấu cách touch 'hello world.txt' nếu ko sẽ sinh ra 2 file hello và world.txt 
+- tuy nhiên không nên đặt tên file có dấu cách.
+ 
+~~~~~~~~~~~~~~~ GHI VÀO FILE ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* echo "vo dinh duy nam" > file
+- xóa hết nội dung trong file rồi ghi "vo dinh duy nam" vào file. 
+
+* echo "vo dinh duy nam" >> file 
+- ghi tiếp "vo dinh duy nam" vào dòng mới của file. 
+
+~~~~~~~~~~~~~~ LIỆT KÊ ĐIỂM KHÁC BIỆT GIỮA HAI FILE ~~~~~~~~~~~~
+
+* diff<space><file1><space><file2> 
+- nó sẽ liệt kê ra những thứ file1 có file2 không có 
+- và file2 có file1 không có 

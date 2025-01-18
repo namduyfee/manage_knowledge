@@ -1,0 +1,34 @@
+~~~~~~~~~~~~~~ khi TERMINAL BỊ TREO ~~~~~~~~~~~~~~~~~~~
++ nhấn 'ctrl + c' giúp ta ngắt lệnh. 
+
++ nhấn 'q' giúp ta thoát khỏi các công cụ less, more,git log.. ( điều này xảy ra khi ta xem nội dung thông tin của cái gì đó)
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+* git --help : hướng dẫn 
+
+* git --version: hiện thị thông tin phiên bản git 
+
+* git status: hiện thị trạng thái kho lưu trữ 
+
+* git log: hiện thị lịch sử các commit trên nhánh đang đứng 
+* git log --oneline : hiện thị lịch sử commit trên nhánh đang đứng ( thông tin ngắn gọn hơn )
+* git log --all     : hiện thị lịch sử commit trên repo.
+-- nếu các nhánh đã merge với nhánh hiện tại thì nó cx sẽ được thấy các commit đấy. 
+
+* git init <repo name> : tạo ra một kho lưu trữ 
+
+* git clone <repo name> <clone name> : để tạo một bản sao được liên kết với repo 
+
+* git config -l : xem cấu hình hiện tại, thông tin của repo hiện tại 
+
+* git config [..scope] [option_name] [value] : config 
++ scope : --system   -> tất cả người dùng 
+	  ~ có nhiểu user có thể dùng git trên PC
+	  --global   -> liên qua đến repo(s) 
+	  ~ mọi repo của user này đều bị ảnh hưởng 
+	  --local    -> liên quan đến 1 repo 
+	  ~ chỉ repo này của user hiện tại đang cấu hình là bị ảnh hưởng. 
+
+

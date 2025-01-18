@@ -1,0 +1,12 @@
+
+
+~~~~~~~~~~~~~~~ CLEAN FOLDER ~~~~~~~~~~~~~~~~~~~
+
+* rm<space>-r<space><folder path> : xóa folder ( dù nó đang trống hay không ) 
+* rmdir<space><     		  : xóa thư mục , thông thường xóa all file trong folder trước r xóa folder sau 
+* rm<spacke>-d<folder path> 	  : chỉ xóa được folder trông (emtry)
+* rm<spacke>-rf<path>             : xóa cả file và thư mục mà không cần quan tâm nó tồn tại hay không.
+
+~~~~~~~~~~~~~~~ CREAT NEW FOLDER ~~~~~~~~~~~~~~~
+
+* mkdir<space><folder path>       : tạo folder mới 

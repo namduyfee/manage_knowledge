@@ -1,0 +1,74 @@
+
+- manager có thể là người tạo ra master sau đó mỗi tk dev sẽ tạo ra nhánh riêng của họ sau đó 
+có thể merge code lại. 
+- tạo ra nhiều nhánh, nhiểu hướng 
+- sau đó có thể merge chúng với nhau 
+	
+	    HEAD (fist)    ------
+	     |			|
+	   Master(main)	      git checkout nhánh_1	
+mã	     |			|
+37237 32833 3232		|	
+	     |			|
+	   nhánh_1 <-------------
+	     |
+	    HEAD (after that) 
+
+~~~~~~~~~~~~~ CACH BRANCH HOAT DONG ~~~~~~~~~~~~~~~
+
+NOTE: một nhánh tạo ra sẽ kế thừa dữ liệu của lần commit gần nhánh tại nhánh mà nó được tạo chứ không phải là dữ liệu hiện có trên working dir 
+nghĩa là muốn kế thừa dữ liệu hiện tại bạn phải commit nó trước rồi mới tạo branch mới thì mới được. 
+
+- khi bn quay lại commit trc thời điểm tạo branch và sửa thì nó sẽ tạo ra một nhánh mới chứ không ảnh hưởng gì đến branch kia. 
+
+-> một hoạt động đều dựa trên commit (note) 
+
+* khi tạo ra branch (master, nhanh1, nhanh2,....) có thể hiểu là nó sẽ có những con trỏ tương ứng (nhanh1, nhanh2...) (những con trỏ này sẽ trỏ đến commit mới
+ nhất nằm trên trục branch của nó ). 
+
+ví dụ : 
+nhanh1-->nhanh1-->nhanh1-->nhanh1 ( nhanh1 đang nằm tại đây) 
+
+03272    3232d	  2328f	   32432c 
+
++ con trỏ nhanh1 sẽ đi theo commit mới nhất trên trục branch và khi bạn checkout đến nhanh1 thì bạn sẽ đang ở commit mới nhất của nó. 
+khi bạn muốn quay về quá khứ của nhanh1 bạn phải nhập rõ mã của nó 03272, ... thì mới nhảy đến đấy được và khi nhảy đến đến và modify thì nó lại thêm một nhánh mới tại 
+vị trí bạn chỉnh sửa đó, còn nội dung commit của các vị trí kia không bị ảnh hưởng. 
+
+~~~~~~~~~~~~~ BRANCH CENTROL REPO ~~~~~~~~~~~~~~~~
+
+* khi bạn tạo một nhánh trên local repo và push lên Central repo thì lúc này nhánh đó chưa tồn tại trên central nên bạn cần dùng push --upstream... để có thể tạo nhánh trên central và push nhánh trên local lên.
+
+_NẾU CHỈ DÙNG GIT PUSH, GIT PULL THÔNG THƯỜNG: 
+
+* khi bạn dùng git push hoặc git pull tại một nhánh thì nó sẽ chỉ có update cho nhanh đó , chứ không phải cho toàn bộ branch ( những còn lại không được push hoặc pull thì sẽ được giữ nguyên) 
+
++ giả sử dev1 dev2 chung một central repo, có master và nhanh_1 
+khi dev1 thay đổi nội dung cả hai nhánh (master và nhanh_1) mà chỉ git push tại nhánh master thì dev2 cũng chỉ nhận được sự thay đổi trên master (đương nhiên).
+khi dev1 thay đổi cả hai nội dung và push cả hai lên central (nghĩa là nó phải đứng ở branch master push, và vào nhanh1 push) thì dev2 khi pull vể sẽ nhận được cả sự thay đổi cho 2 branch tuy nhiên, nếu dev2 chỉ đứng ở master mà pull thì nó cũng chỉ nhận sự update cho master ( và nó sẽ lưu cảnh báo cần pull khi checkout sang nhanh1) vì thế dev2 cần checkout vào nhanh1 sau đó pull tiếp thì lúc này nhanh1 mới thực sự được update.
+
+-> hãy coi central repo là trung tâm nơi chứa mọi nhánh mà các repo local lưu trữ và làm việc, và các local repo vận hành xung quanh nó việc push hay pull cx dựa trên logic ấy mà 
+tuân theo. 
+-> các repo sẽ thực thi cho từng branch và chỉ có hiệu lực trên branch đó chứ không có thao tác tổng thể toàn bộ branch. 
+
+
+
+~~~~~~~~~~~~~ COMMAND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* git branch <branch name>   : tạo branch 
+* git checkout <branch name> : chuyển HEAD đến branch đấy 
+
+* git branch -l : xem nhánh hiện tại 
+
+* git push      : đẩy nhánh hiện tại đang đứng lên central repo. 
+* git push origin <ten branch> : đẩy nhánh chỉ định lên central repo. 
+* git push --all: đẩy tất cả nhánh lên central repo. 
+
+* git branch -r : xem tất cả các nhánh đang có trên central repo. 
+
+* git pull        : kéo nhánh hiện tại đang đứng (ở local) từ trên central về
+* git fetch --all : xem thông tin về commit mới update trên central repo.
+
+
+
+

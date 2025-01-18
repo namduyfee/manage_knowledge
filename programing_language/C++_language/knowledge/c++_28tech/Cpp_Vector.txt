@@ -1,0 +1,145 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~ BASIC FUNCTIONS IN VECTOR ~~~~~~~~~~~~~~~~~~~~~~~~
+
+- v.at(index) : truy cập vào vị trí bất kì 
+- v.size()    : xem số lượng element trong vector
+- v.emty()    : xem vector có trống hay không 
+
+- v.push_back()  : add vào sau 
+- v.push_front() : add vào đâu
+- v.pop_back()   : xóa last element 
+- v.pop_front()  : xóa fist element 
+
+- v.insert() 	 : chèn một số vào vị trí bất kì, chèn nhiều số vào một vị trí...
+- v.erase()	 : xóa một vị trí bất kì, xóa một dải vị trí...
+
+- sort(start iterator, end iterator) : hàm sắp xếp dải phần tử vector 
++ hàm này cx có hàm comparator để xác định rằng dải data sẽ được sắp theo gì 
+- theo độ dài, theo độ lớn .... 
+- giống comparator trong hàm qsort C
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~ VECTOR DESCRIP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* vector như mảng động, có chỉ số, linear memory tuy nhiên nó khác với mảng là nó có thể thêm, xóa các phần tử. 
+
+* syntax: vector<data type> name; 
+
+ví dụ: vector<int> v = {1, 2, 3, 5, 2};
+
+~~~~~~~~~~~~~~~~~~~~~~~ ACESS VECTOR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* có thể dùng index như mảng luôn: v[0], v[1], v[2] .... 
+
+* hoặc dùng hàm .at(index) 
+ví dụ: v.at(0), v.at(1), ...
+
+* hoặc dùng iterator 
+vector::interator it = v.begin(); ... 
+
+~~~~~~~~~~~~~~~~~~~~~~~ ITERATOR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* tham chiếu của vector đến hàm 
+* con trỏ của vector
+
+* systax: 
+	- vector<int>::iterator it = v.begin(); hoặc = v.end(); 		: iterator thuận 
+	- vector<int>::reverse_iterator it = v.rend(); hoặc = v.rbegin();	: iterator ngược 
+
++ rend() la ô nhớ trc phần tử đầu tiên 
++ begin() là phần tử đầu tiên 
++ end() là ô nhớ sau phần tử cuối 
++ rbegin() là phần tử cuối 
+
+- v.begin(); : địa chỉ của phần tử đầu tiên của vector
+- v.end(); : địa chỉ ô nhớ cuối cùng của vector (không phải là phần từ cuối cùng)
+
+ví dụ: 
+khi vector<int>::iterator it = v.end(); 
+cout << *(it-1); thì sẽ in ra 2 
+
+~~~~~~~~~~~~~~~~~~~~~~~ LOOP THOUGH A VECTOR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+vector<int> v = {4, 1, 2, 8, 3};
+
+* duyệt bảng chỉ số 
+	for(int i = 0; i < v.size(); i++); 
+
+* duyệt bằng iterator 
+
++ duyệt thuận: 
+
+    for(vector<int>::iterator it = v.begin(); it != v.end(); it++){
+        cout << *it << ' ';
+    }
+
+- begin() đi cùng end() , rbengin() đi cùng rend(). 
+
+muốn dùng rbegin() hay rend() thì phải khai báo 
++ duyệt nghịch: 
+
+- phải khai báo vector<int>::reverse_iterator it chứ không phải vector<int>::iterator it
+
+    for(vector<int>::reverse_iterator it = v.rbegin(); it != v.rend(); it++){
+        cout << *it << ' ';
+    }
+
++ nó vẫn là it++ mặc dù nó di chuyển ngược lại so với iterator thuận. 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~ AUTO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi dùng auto thì phải gán giá trị cho nó ngay tại thời điểm khai báo bởi vì nó sẽ dựa vào đó giá trị đấu để tìm kiểu dữ liệu thích hợp cho biến 
+
+* do vector<int>::iterator, vector<int>::reverse_iterator dài quá nên dùng auto sẽ đơn giản code hơn; ngoài ra mk sẽ không phải bị nhầm 
+
+auto it = v.begin(); nó tự hiều it là iterator 
+auto it = v.[0]; nó tự nhận biết it là kiểu int
+
+~~~~~~~~~~~~~~~~~~~~~~~ ADD REMOTE INSERT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/ ADD 
+
+* có thể add nó vào đầu hoặc cuối 
+
+- add vào đầu v.push_front(data); 
+
+- add vào cuổi v.push_back(data); 
+
+/ INSERT 
+
+* muốn add vào một vị trí bất kì 
+
+- v.insert(v.begin()+vị trí muốn chèn, data)
+
+* chèn vào vị trí với một số lượng data 
+- v.insert(v.begin()+vị trí muốn chèn, size, data)
++ ví dụ v.insert(v.begin(), 2, 0);  -> 0 0 ...
+
+/ REMOTE 
+
+* có thể remote vị trí đầu hoặc cuối 
+
+- remote vị trí đầu v.pop_front(); 
+
+- remote vị trí cuối v.pop_back(); 
+
+
+* có thể xóa ở vị trí bất kì hoặc xóa một dải. 
+
+- v.erase(v.begin()+ vị trí muốn xóa); 
+
+- v.erase(iterator first, iterator last);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOWER BOUND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi có một vector sắp xếp tăng dần
+* hàm lower_bound(iterator first, iterator last, value); sẽ tìm ra vị trí đầu tiên có giá trị không nhỏ hơn value.
+* nó có thể tìm phần tử đầu tiên bằng value mà nếu không có thì nó sẽ tìm tk nhỏ nhất trong vector mà lớn hơn value ( đều là vị trí đầu tiên ) 
+* nó trả về một iterator tời vị trí đó 
+
+
+
+
+ 
+
+

@@ -1,1 +1,0 @@
-* tại sao * không mở rộng trong foreach

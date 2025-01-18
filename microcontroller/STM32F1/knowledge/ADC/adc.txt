@@ -13,9 +13,13 @@
 - sử dụng nhiều hơn một channel cho ADC 
 - với regular khi dùng scan mode thì bit DMA phải được set để data sau mỗi lần convert lưu ở SRAM sau mỗi lần cập nhật thanh 
 ghi ADC_DR
-- còn với injected thì luôn lưu ở ADC_JDRx registers
+- còn với injected thì luôn lưu ở ADC_JDRx registers. 
+- mặc định thì sẽ là not scan mode ( chỉ một adc chỉ khi set bit SCAN lên thì mới dùng nhiều channel) 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*********** single mode ********************** /
+
+* HOẶC LÀ SINGLE MODE HOẶC LÀ continuous MODe 
 
 - bit CONT set 0 ( mode single not continuos mode) 
 - chỉ có một chu kì chuyển đổi sau khi có trigger kích hoạt. 
@@ -27,6 +31,7 @@ kích hoạt nhiều lần thì việc chuyển đổi có được tiếp tục
 /*********** continuous conversion *************/
 - chuyển đổi liên tục hay dùng lại sau 1 chu kì convert.
 - to start convert có thể dùng external trigger hoặc ADON.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /*********** discontinuous ******************** / 
 - không sử dụng cả regular cả injected trong chế độ này (only one). 

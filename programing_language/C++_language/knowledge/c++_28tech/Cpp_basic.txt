@@ -1,0 +1,80 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~ namespace STD và lib STL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi làm dư án lớn thì rất có thể các hàm, kiểu dữ liệu ... sẽ trùng nhau giữa các library ( do không quản lý được ) khi đó namespace sẽ giúp chương trình 
+thự sự biết là nó đến từ thư viện nào. 
+
+* và std là namespace trong c++ mọi thuộc tính nằm sau std::... thì sẽ hiểu là thuộc về thư viện của c++ 
+
+/ using namespace std; 
+
+khi khai báo using namespace std; vào đầu file điều đó đồng nghĩa là đang dùng std cho file đó mà không phải viết rõ ra là std:: 
+tuy nhiên diều này có thể sẽ nguy hiểm. 
+
+* STL là thư viện chứa các cấu trúc dữ liệu và giải thuật của c++ 
+
+- vector , set , map , pair .... 
+- cùng với các hàm cung cấp sẵn dựa trên các cấu trúc dữ liệu đấy 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~ nhập xuất dữ liệu ~~~~~~~~~~~~~~~~~~~~~~
+
+/ xuất dữ liệu 
+
+*** nếu là in nội dung của biến  
+int var = 10; 
+cout << var; 		-> 10
+string st = "nam"; 
+cout << st; 		-> nam
+
+*** nếu là in nội dung của một chuổi mà mk truyền trực tiếp vào hàm 
+cout << "noi dung"; 	-> noi dung 
+
+*** không dược in hai đối tượng cùng một chỗ 
+ví dụ 
+cout << var1 var2 << endl; // endl : xuống dòng 
+
+cout << var1 " "; 
+
+cout << var1 " " << var2; 
+
+-> kết quả đều dẫn đến lỗi
+
++ cách khắc phục là phải tách nó ra 
+
+cout << var << " " << st; 
+
+cout << var1 << var2; 
+ 
+*** về quy tắc in nó tượng tự nhi printf chỉ xuống dòng khi gặp \n hoặc endl và cách ra khi gặp whilespace nêu không nó sẽ luôn in liền 
+dù có nhiều câu lệnh cout. 
+
+/ nhập dữ liệu 
+
+string a; 
+int b, c; 
+* cin >> a >> b >> c; 
+
+- giống như scanf mỗi tham số cách nhau băng dấu whitespace hoặc enter 
+- muốn lưu cả dấu cách thì dùng hàm. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+
+- tại branch mk đang đứng và tao một branch khác nó sẽ kế thừa dữ liệu đang có của branh đấy. 
+
+
+-- coi local repos, central repo là những cái cây riêng rẽ và chúng chia sẻ thông tin với nhau (qua central), và chúng làm việc với nhau qua dựa trên commit. 
+
+* git init --bare : tạo một central repo (remote repo) 
+
+* git clone [central repo name] [clone name] : sao chép và liên kết central repo. 
+* git clone [central repo name] : nếu đã tạo local repo. 
+
+* git fetch : lấy các thông tin từ commit mới từ central. 
+
+* git pull : lấy dữ liệu của branch đang đứng từ central về local 
+
+* git push : đẩy các commit từ local của branch đang đứng lên central
+* git push --all : đẩy commit của tất cả branch lên central. 
+* git push origin <ten branch> : đẩy commit của branch chỉ định lên central.  
+
+* git push --set-upstream origin branch_name : tạo một branch mới để push branch local lên CR ( branch này chưa exist ) 
+
+* tại local chỉ gọi git add . , rồi gọi git push thì những thay đổi đó không được đẩy lên central, mà phải commit nó ở local rồi mới push khi đó những commit mới sẵn 
+sàng và được đẩy lên central 
+
+* khi tạo một central rp thì nó đã mặc định là có branch master, khi bạn clone với một central repo việc thao tác với nhánh 
+này là bình thường tuy nhiên nếu ở local tạo ra một branch khác và push lên central thì lúc này git sẽ không bit bạn muốn push 
+lên nhánh nào của CR ( nhánh này chưa exist ) nên nó sẽ yêu cầu mk chỉ định nhánh để up lên hoặc tạo một nhánh mới 
+( git push --set-upstream origin branch_name ) 

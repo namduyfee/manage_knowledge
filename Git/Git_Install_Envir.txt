@@ -1,0 +1,12 @@
+
+- trên Linux đã có sẵn môi trường unix tự nhiên mà nó sẽ hiểu hết lệnh của linux 
+còn trên windown thì không có sẵn môi trường để hiểu lệnh linux nên ta phải cài thêm 
+msys2,... dành riêng cho win, và nó có thể vừa hiểu lệnh linux vừa hiểu lệnh win 
+(msys2,.. không phải phần mềm của linux) 
+- tại sao phải tải môi trường linux trên win vì thao tác lệnh linux ưu việt hơn, và nhiều tính năng mà linux sẽ hỗ trợ khi thực hiện công việc mà ta sẽ cần đến. 
+
+
+~~~~~~~~~~~~~~~~~~~ SETUP GIT ENVIRONMENT ~~~~~~~~~~~~~~~~
+
+B1: truy cập git-scm.com  
+- download git 

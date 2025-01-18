@@ -1,4 +1,10 @@
-một số lệnh hệ thống : 
+~~~~~~~~~~~~~ KHI BI TREO VÀ MUỐN QUAY LẠI ĐỂ GÕ LỆNH ~~~~~~~~~~~~
+
++ nhấn 'ctrl + c' giúp ta ngắt lệnh. 
+
++ nhấn 'q' giúp ta thoát khỏi các công cụ less, more,git log.. ( điều này xảy ra khi ta xem nội dung thông tin của cái gì đó)
+
+~~~~~~~~~~~~~~~~~ SYSTEM COMMAND ~~~~~~~~~~~~~~~~~~~~~
 
 * exit      : thoát khỏi cmd 
 * reboot    : khởi động lại hệ thống 
@@ -11,26 +17,22 @@ một số lệnh hệ thống :
 * du-h 	    : một file/folder chiếm bao nhiêu dung lượng 
 * ipconfig  : xem địa chỉ IP 
 
-một số lệnh thao tác folder, file 
+~~~~~~~~~~~~~ DI CHUYEN GIUA CAC THU MUC ~~~~~~~~~~~~~~~~~
 
-* cat <tên file> : xem nội dung của file đó. 
-* cd ..      : trở về folder trước đó (giữa hai dấu chấm có dấu cách).
-* cd/	    : di chuyển thẳng đến folder, thư mục cụ thể ( cần đường dẫn cự thể d/.../...)
-* cd <tên folder or file> : di chuyển vào folder or file 
-* pwd 	    : lấy đường dẫn folder đang làm việc 
+
+* cd<space>..            : trở về folder cha.
+* cd/	    		 : di chuyển thẳng đến folder, thư mục cụ thể ( cần đường dẫn cự thể d/.../...).
+* cd<space><folder name> : di chuyển vào folder or file 
+
+~~~~~~~~~~~~~ LAY DUONG DAN ~~~~~~~~~~~~~~~~~~~~~~~~
+
+* pwd 	    : lấy đường dẫn folder đang làm việc
+
+~~~~~~~~~~~~~ HIEN THI ALL FOLDER, FILE ~~~~~~~~~~~~
+
 * ls 	    : hiện danh sách folder or file trong folder hiện hành 
-* mkdir <tên folder>  : tạo folder mới 
 
-* rm 	    : xóa file 
-* rm -f	    : xóa file dù file đó có tồn tại hay không thì vẫn xóa và không thông báo lỗi 
-* rm -r <tên folder> : xóa folder ( dù nó đang trống hay không ) 
-* rm -rf    : xóa cả file và thư mục trong một thư mục mà không cần quan tâm nó tồn tại hay không.
-* rmdir     : xóa thư mục , thông thường xóa all file trong folder trước r xóa folder sau 
-* rm -d <tên folder> : chỉ xóa được folder trông (emtry)
-
-* touch <tên file><mở rộng>  : dùng để tạo một file 
-	khi tạo một file có chứa dấu cách touch 'hello world.txt' nếu ko sẽ sinh ra 2 file hello và world.txt 
-	tuy nhiên không nên đặt tên file có dấu cách. 
 
 * lệnh cp   : 
 * lệnh mv   : 
+

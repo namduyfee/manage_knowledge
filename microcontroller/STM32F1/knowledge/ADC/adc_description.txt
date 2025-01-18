@@ -2,6 +2,14 @@
 mk muốn đo một adc mà có điện áp đưa vào chân lớn hơn điện áp của chip thì chúng ta phải cấp nguồn cho vdda vssa thì mới 
 có nguồn thích hợp cho vref lấy để tham chiếu 
 
+* vref+ <= vdda và vref- sẽ >= vssa và |vref+ - vref-| chính là khoảng mà ta dùng để chia tỉ lệ 
+
+* vậy thì câu hỏi là có vdda vssa để làm gì, bởi vì mặc định vref+ = 3.3v và vref- = gnd của chip tuy nhiên khi mà đang đo một adc 4v thì sao lúc này cần vdda vssa đưa vào và cung 
+cấp cho vref. 
+
+* vậy sao không dùng trực tiếp luôn vdda vssa mà chiết sang vref làm gì, bởi vì như thế sẽ flexible hơn, vdda vssa là nguồn có dùng cố định và việc mình dùng nó như thế 
+nào,, thay đổi ra sao là vref chứ không thay đổi trực tiếp nó. 
+
 * analogue thường được gọi là tín hiệu liên tục không phải là truyền liên tục mà ý nghĩa ở đây là: 
 	ví dụ : 0->5 volt nó sẽ là một giải vô hạn 0->0.000000... trong khi đó digital sẽ là một số cụ thể và có những 
 	bước nhảy nhất định 0.5 volt 1 volt, mức 0 mức 1 : nó là rời rạc 
@@ -37,7 +45,9 @@ mẫu, tốc độ lấy mẫu, cùng một trigger kích hoạt...).
 
 * tốc độ lấy mẫu sẽ dựa trên tổng thời gian chuyển đổi 
 thời gian chuyển đổi một channel = thời giann lấy mẫu + thời gian chuyển đối (1 channel) 
-nếu dùng nhiều channel ta sẽ nhân nó lên và ra đươc tổng thời gian chuyển đổi => tốc độ lấy mẫu  
+nếu dùng nhiều channel ta sẽ nhân nó lên và ra đươc tổng thời gian chuyển đổi => tốc độ lấy mẫu  ( đúng hơn là chu kì mà adc sẽ quay lại đọc chân đó) 
+
+* adc sẽ xử lý theo thứ tự đã cấu hình chứ không phải theo chế độ ưu tiên nghĩa là một channel không thể chiếm quyền, mà nó sẽ thực hiện lần lượt. 
 
 
 

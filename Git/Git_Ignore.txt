@@ -1,0 +1,21 @@
+
+* chỉ cần là đang ở trong branch thì dù ở vị trí folder nào đều dùng được lệnh git 
+tác động đến repo đó, ví dụ tại .git tạo thêm 1 folder thumuc1 thì dù đang trong thumuc1 mà dùng git add, git commit.. thì vẫn sẽ là đang thao tác với branch đó. 
+
+
+.gitignore 
+
+- chỉ định thư mục, file không bị ảnh hưởng bởi git 
+
++ hiện tại nên đặt .gitignore ngang hàng với .git thì sẽ hoạt động tốt không nên đưa nó đên các thư mục khác.
++ ghi path file, path folder,... hoặc path/*.log ... vào .gitignore để hạn chế việc git tác động lên file cần tránh. ( nên đưa đường dẫn cụ thể thì sẽ tránh sai sót hơn ) 
++ dùng lệnh echo để ghi vào file cho dễ thực hiện hoặc sẽ có một file git riêng( tương tự make). 
+
+NOTE: .git bắt buộc phải nằm ngay trong folder của repo, không được phép nằm trong folder con của repo lúc đó folder nó quản lý lại là folder con thôi. 
+ex: 
+
+tạo một file .gitignore cùng hàng với .git 
+
+
+
+

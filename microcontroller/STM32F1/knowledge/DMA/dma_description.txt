@@ -1,6 +1,11 @@
-* DMA truy cập trực tiếp bộ nhớ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DESCRIP DMA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* DMA truy cập trực tiếp bộ nhớ. 
+
 dùng để truyền trực tiếp dữ liệu giữa peripherals và memory ; giữa memory và memory; periph và 
-periph 
+periph. 
+
+* bản chất công việc của nó chỉ là copy data theo request mà thôi.  
 
 * chỉ truyền, nhận một chiều kể từ lúc thiết lập. 
 
@@ -27,11 +32,69 @@ periph
 * địa chỉ của mem or periph sẽ đc tự động tăng sau mỗi tranfer tùy thuộc vào bit PINC và MINC và tăng bao nhiêu thì 
 tùy vào số byte data truyền.  
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRINCICLE DMA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-sử dụng DMA cho uart  
+* DMA HOẠT ĐỘNG DỰA TRÊN REQUEST.  
+
+* giả sử DMA đang làm việc với UART transmit 
+
++ UART transmit (data regitster)  --------------- DMA --------------- tx_data
+
+- DMA sẽ là trung gian, khi uart đã sẵn sàng cho byte truyền tiếp theo (nếu truyền thông thường thì lúc này sẽ có ngắt xảy ra để mình cập nhật register và 
+tiến hành lần truyền tiếp theo) lúc này dma bắt được tín hiệu request thì nó sẽ copy data của tx_data qua cho data register (khi nhận xong data thì uart truyền)
+và sau đó dma tiếp tục chờ cho đến lần nhận request tiếp theo. quy trình như vậy sẽ liên tục diễn ra. 
+
+* nếu là làm việc với uart reveciver thì nó hoạt động tương tự, khi uart nhận được được data nó sẽ gửi request đến dma và khi có request dma sẽ copy 
+data đến biến quy định. 
+
+NOTE: KHI ĐÃ DÙNG DMA THÌ KHÔNG TRUY CẬP TRỰC TIẾP VÀO THANH GHI NỮA, NHƯ Ở TRÊN DMA ĐÃ CHỊU TRÁCH NHIỆM QUẢN LÝ DATA REGIS VỚI TX_DATA RỒI (DỰA TRÊN REQUEST CỦA UART) 
+THẾ NÊN NẾU TRONG CODE MÀ TÁC ĐỘNG TRỰC TIẾP VÀO REGISTER ( NÓI CÁCH KHÁC LÀ CPU TÁC ĐỘNG LÊN ) THÌ ĐIỀU ĐÓ SẼ GÂY MÂU THUẪN. 
+
+NOTE: REQUEST KHÔNG TỰ ĐỘNG TẠO RA KHI CẬP NHẬT BIẾN, ĐỪNG NHẦM LẪN.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REQUEST DMA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* nó khá giống với các hoạt động của NVIC 
+
+* sẽ có các request được gửi đến và dựa trên mức độ ưu tiên mà nó sẽ quyết định xử lý cái nào trước, tạm dừng cái thấp để xử lý cái cao... 
+
+* khi có cùng mức độ ưu tiên thì cái nào đến trước sẽ được xử lý. 
+
+* khi đang xử lý ưu tiên thấp mà có request cao gửi đến nó sẽ nhảy sang xử lý high request trước, sau khi xử lý xong cao thì nó tiếp tục xử lý thấp ( tuy nhiên nó có thể bị chiếm 
+quyền bất cứ lúc nào) 
+
+* tuy nhiên việc xử lý một request dma sẽ luôn rất nhanh so với một hoạt động nào khác (truyền byte uart, đọc adc...) thế nên một channel có độ ưu tiên cao khi thực hiện liên 
+tục cũng sẽ không thể chiếm quyền mãi vì khoảng cách giữa hai lần gửi request của nó lớn hơn nhiều so với một lần thực hiện request của dma, và trong thời gian này 
+dma có thể xử lý các request có yêu cầu thấp kia. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REQUEST DMA FOR EACH  MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Peripheral-to-Peripheral hay Peripheral-to-Memory và Memory-to-Peripheral thì đều có request được tạo ra từ PERIPHERAL 
+
+- Peripheral-to-Memory và Memory-to-Peripheral: thì dma request sẽ được tạo ra khi ngoại vi đã thực hiện xong, lúc này một dma request sẽ được tạo bởi ngoại vi 
+và thực hiện sao chép. 
+
+- Peripheral-to-Peripheral: thì có 2 nguồn có thể tạo request: 1 là đã sẵn sàng đọc 1 là đã sẵn sàng ghi lúc này đây có thể xảy rả lỗi nếu không xử lý đúng cách 
+và việc dma trực tiếp cũng sẽ có thể xảy ra tình trạng ghi đè khi mà dữ liệu cũ của tk kia chưa được truyền xong gây lỗi dữ liệu. 
+
+GIẢI PHÁP: có thể xử lý trực tiếp nếu tài nguyên không cho phép, còn nếu không hãy dùng 2 channel dma cùng với một biến trung gian lúc này đây dữ liệu của periph1 sẽ 
+gửi qua biến, và từ biến gửi qua periph2 -> tránh lỗi hơn. 
+
+* MEMORY-TO-MEMORY: 
+
+- KHÔNG ĐƯỢC DÙNG CIRCULAR MODE TRONG MEMORY-TO-MEMORY
+
+- không có yêu cầu request tự động nào được tạo ra, thay vào đó phải on off dma thủ công bằng cpu. mode này không hiểu quả khi biến có lượng ít tuy nhiên khi muốn 
+sao chép với số lượng mà không muốn tốn cpu thì chỉ cấn on off dma và sau đó data ấy sẽ do dma xử lý, tiếp kiệm thời gian hơn. 
+
+NOTE: VIỆC CẬP NHẬT MỘT GIÁ TRỊ MỚI CHO BIẾN KHÔNG TẠO RA REQUEST MÀ CHỈ CÓ PERIPH LÀ TẠO RA ĐƯỢC, ĐÂY LÀ NHẦM LẪN CŨNG NHƯ THẮC MẮC TỒN TẠI KHÁ LÂU TRONG TÔI. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ config DMA cho uart ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * kích hoạt DMA uart trước khi enable trans and receiver 
 
-* peripheral register mình có thể hiểu là thanh ghi DR của uart 
+* peripheral register mình có thể hiểu là thanh ghi DR của uart
+ 
 * memory register mình có thể hiều là bộ nhớ của biến x mà mình dùng để đọc thanh ghi DR trong ngắt ấy 
 data chỉ gửi đến DR thoi cùng muốn sử dụng thì phải đọc lúc đó thì cần thêm một biến như thế 
 nhưng nếu dùng ngắt thì CPU bị ngắt liên tục để gán x = DR thay vào đó DMA sẽ gán x = DR mà ko cần CPU để 
@@ -39,6 +102,7 @@ CPU đi tính toán cái khác và main sẽ ko bị ngắt liên tục như th�
 
 * một channel DMA ở mode periphe-memory chỉ có thể đọc từ peri->memory hoặc từ memory->peri chứ không có 
   1 channel có thể vừa truyền vừa đọc ở cả 2 đầu như thế 
+
 * CNDTR register sẽ quyết định xem chúng ta sẽ truyền bao nhiêu dữ liệu trong 1 vòng truyền 
   môi lần truyền 1 dữ liệu nó sẽ giảm đi một khi về 0 thì nó sẽ không truyền nữa dù DMA có mở 
 * circular mode làm cho việc truyền đc lặp lại liên tục khi CNDTR về 0 nó đc cập nhật lại giá trị mình 
@@ -46,16 +110,4 @@ CPU đi tính toán cái khác và main sẽ ko bị ngắt liên tục như th�
 ví dụ mình dùng một chuỗi để lưu lại data đc nhận mỗi lần size data sẽ là 8 bit ( mỗi lần truyền ) và sau mỗi lần 
 truyền đc 1 byte thì CNDTR sẽ giảm 1 và khi đến 0 nó sẽ đc cập nhật lại giá trị ban đầu ( ở đây chính là size của 
 chuôi ) và tiếp tục truyền một chuỗi mới và chuỗi đó sẽ lại đc lưu 
-
-* dma sẽ truyền và nhận liên tục khi cấu hình ở chế độ cicular mode, kể cả việc data có giá trị giống với data trước 
-- ví dụ ở bên truyền ngta truyền nhiều byte mà vô tình giá trị 2 byte giống nhau thì có phải là sẽ miss mất một byte không, 
-thế nên bên truyền sẽ vẫn truyền liên tục dù giá trị của biến đấy vẫn chưa đổi, nó sẽ truyền liên tục giá trị đó (đã quan sát xung) 
-bên nhận cx vậy cứ nhận liên tục 
-- dma chỉ đảm bảo quá trình truyền từ mem to periph, periph to mem thôi còn lại thì peripheral vẫn sẽ hoạt động như bình thường
-và dma ấy sẽ truyền từ mem to periph, periph to mem liên tục nếu cấu hình cicular mode 
-
-
-
-
-
 

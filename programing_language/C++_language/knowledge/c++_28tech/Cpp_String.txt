@@ -1,0 +1,59 @@
+
+************************* STRING **************************
+
+* khai báo: string str; 
+
+* size()  length() : trả về độ dài của xâu (số phần tử có trong xâu) 
+
+* cin , getline() : hàm nhập vào string cin không lấy dấu cách, getline() lấy dấu cách và khi gặp dấu enter thì kết thúc hàm, vì thế nên nếu trên câu lệnh getline() có thêm cin thì phải gọi hàm đọc đi một kí tự vì cin không lưu enter. 
+
+* không giống trong C , string trong C++ được phép thực hiện một số phép tính và phép so sánh 
+~ phép so sánh: a < b , a > b, a == b : đúng trả về 1 , sai trả về 0  (quy tắc so sánh như bên C).
+~ có thể cộng 2 xâu: string c = a + b; nó sẽ nối string b vào sau string a 
+a += b; ... 
+
+* cắt xâu kí tự string a = "abcdefgh" 
+string b = a.substr(chỉ số bắt đầu muốn cắt, số lượng muốn cắt); 
+hoặc string b = a.substr(chỉ số bắt đầu muốn cắt); // cắt từ chỉ số muôn cắt đến cuối 
+string b = a.substr(2, 3) -> string b = cde; 
+
+* hàm chuyển dãy string thành số 
+
+- stoi(str) dùng cho số integer 
+
+- stoll(str) dùng cho số long long 
+
+
+* hàm chuyển đổi số thành string 
+
+- string s = to_string(n); 
+
+* tách các từ theo yêu cầu 
+
+string s = ...; 
+
+stringstream ss(s); 
+
+string tem; 
+
+while(getline(ss, tem, yêu cầu muốn tách) {
+	
+
+}
+
+
+/*
+ví dụ tách theo dấu cách 
+while(getline(ss, tem, ' ') {
+	
+
+}
+
+
+*/
+
+
+
+
+
+ 

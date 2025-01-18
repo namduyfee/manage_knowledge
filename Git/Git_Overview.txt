@@ -1,0 +1,33 @@
+
+* Git là tk điều hành, nó có thể thao tác với local và server để quản lý version, code một cách hiệu quả 
+và Git sẽ là thứ không đổi 
+
+LOCAL(PC) ------------- GIT ------------------ SERVER (github, ...) 
+|			 |			  |
+ <----------------------- ----------------------->
+
+* server có thể khác tùy vào yêu cầu company... nhưng GIT thì luôn được dùng để thực hiện công việc quản lý. 
+
+
+~~~~~~~~~~~~~ MỘT SỐ KEY WORD ~~~~~~~~~~~
+
+* repository (repo) : kho lưu trữ 
+* commit: một đơn vị làm việc 
+* branch: nhánh 
+* main/master: tên của repo chính (main repo)
+* merge/rebase: kết hợp 2 nhánh
+* develop: tên của nhánh, lập trình viên. 
+
+ 
+~~~~~~~~~~~~~ STATE ~~~~~~~~~~~~~~~~~~~~~~~~
+* có ba state : working , staging , repo
+
+- working: nơi chúng ta đang làm việc 
+
+- repo   : nơi lưu trữ commit (branch...) 
+
+- staging: trung gian giúp việc thao tác commit trở nên rõ ràng, và linh hoạt hơn. 
+	 + lưu trữ history (history khác code) 
+	 + cho file nào vào commit file nào không 
+	 + chia nhỏ commit dễ dàng quản lý ...
+

@@ -1,0 +1,22 @@
+
+* tại vị trí của nhánh gọi câu lệnh git rebase <ten nhanh khác> thì nhánh khác sẽ nằm phía trước của nhánh đang gọi rebase 
+
+* ta có hai nhánh tương ứng với các commit 
+
+master: A1 A2 A3 A4 
+
+B     : B1 B2 B3 B4
+
+đang đứng ở nhánh B gọi git rebase master : -> A1 A2 A3 A4 B1 B2 B3 B4 
+
+
+* khi đó nếu muốn nhánh master cũng có commit tương tự như B thì ta cần vào master và merge với B 
+
+Master
+A1 A2 A3 A4 
+A1 A2 A3 A4 B1 B2 B3 B4
+B
+
+lúc đó những commit master sẽ trùng với với các commit đầu tiên của nhánh B và nó sẽ thêm commit của nhánh B không bị trùng vào sau và 
+kết quả sẽ là -> A1 A2 A3 A4 B1 B2 B3 B4 
+

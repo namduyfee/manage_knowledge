@@ -1,0 +1,17 @@
+
+
+working DIRECTORY 	|    INDEX(straging)    |	  HEAD
+  nơi làm việc          |      khu tổ chức      |      repository
+file đang làm việc  -git add ->         - git commit -> 
+
+- HEAD nơi lưu trữ, output cuối cùng, commit hiện hành
+- index nơi xử lý, tổng hợp yêu cầu ... 
++ việc có index sẽ làm quản lý dễ dàng và rõ ràng hơn thay vì làm trực tiêp 
+
+
+* git add [file, files name] : thêm tệp vào index 
+* git add .                  : thêm tệp (tất cả) 
+* git commit -m "nội dung"   : tạo commit -> repo
+* git status                 : sự khác biệt giữ giữa 3 cây. 
+* git diff                   : so sánh với commit cuối cùng. 
+* git log                    : xem lịch sử. 

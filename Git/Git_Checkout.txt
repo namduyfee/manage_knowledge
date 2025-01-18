@@ -1,0 +1,23 @@
+
+* quay lại bất kì commit nào
+
+			      HEAD
+             HEAD
+				|
+       	       |	      master
+mã				
+3d679       32937ds          3233d32
+	    
+		|------> 732378d
+
+* git checkout 'mã'
+
+- working sẽ trở về tạng thái tương ứng với mã 
+
+- sau đó nếu sửa tiếp từ vị trí này thì có thể hiểu là nó sẽ sinh ra một nhánh mới từ vị trí này 
+- sau khi sửa và commit tại vị trí này sau đó git log thì nó sẽ không hiện thì commit mà  bạn đã rời đi 
++ như ví dụ trên HEAD đang 3233d32 thì quay về 32937ds sau đó sửa và commit -> 732378d  lúc này nếu dùng git log nó sẽ không có 3233d32 tuy nhiên chỉ cần nhớ mã 3233d32 thì vẫn quay vê lại lúc này được.
+
++ trục ban đầu sẽ chứa master, master là last commit của trục chính, khi chuyển HEAD từ master đến commit bất kì khác thì nó sẽ có warning 'detached HEAD' 
+
+

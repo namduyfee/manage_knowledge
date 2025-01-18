@@ -1,0 +1,11 @@
+
+* nếu quy trình diễn ra người này push xong thì người kia pull về chỉnh sửa rồi lại push tiếp 
+nếu quy trình ấy diễn ra, nghĩa là bản cập nhật mới nhất muốn push lên thì nó đang dựa bản mới nhất có trên central thì điều này không sao. 
+
+* nhưng nếu có một file.txt hai người đều pull file này về và chỉnh sửa , sau đó dev1 push file.txt_of_dev1 lên oce nó thỏa mãn vì nó dựa trên (pull) bản mới nhất đang có trên central. sau đó dev2 cũng push bản chỉnh sửa dev2 file.txt_of_dev2 lúc này sẽ xảy ra hiện tượng conflic bởi vì bản chỉnh sửa của dev2 dựa trên bản file.txt ban đầu trong khi bản mới nhất của nó thì đã đc update bởi dev1 mà dev2 chưa pull nó về để work nên nó sẽ không cho phép dev2 push lên central. 
+
+~~~~~~~~~~~~~~ CÁCH KHẮC PHỤC ~~~~~~~~~~~~~
+- lúc đó bạn phải pull file trên kia về 
+- sau đó vào mở file đấy lên nó sẽ chỉ ra sự khác biệt giữa bản mới nhất trên central mà mk vừa pull về và bản của mk muốn push lên hiện tại 
+- sau đó chúng ta sẽ sửa trực tiếp vào nội dung của file và xóa các dòng <<<<HEAD... 
+đi thì lúc đó chúng ta có thể add commit và push lên central được.  

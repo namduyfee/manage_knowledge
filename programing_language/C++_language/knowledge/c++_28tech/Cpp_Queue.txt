@@ -1,0 +1,17 @@
+
+* hoạt động theo FIFO : vào đầu ra đầu , như xếp hàng 
+
+* syntax : queue<datatype> var; 
+
+* một số function: 
+- var.push(value); 	: đẩy một giá trị vào hàng đợi (đẩy vào sau) 
+
+- var.pop() 		: xóa thằng xếp đầu tiên trong hàng đợi 
+
+- var.size()            : số lượng phần tử trong hàng đợi 
+
+- var.empty()           : trả về 1 là trống , trả về 0 là không trống 
+
+- var.front()           : truy cập vào phần tử đang xếp đầu queue 
+
+* không nên truy cập, xóa một phần tử trong hàng đợi khi hàng đợi trống. 

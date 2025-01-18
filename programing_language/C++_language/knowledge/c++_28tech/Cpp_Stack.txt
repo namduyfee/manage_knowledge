@@ -1,0 +1,17 @@
+* cấu trúc dữ liệt stack trong c++ theo FILO 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ SYNTAX ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* stack<datatype> var; 
+
+
+* có các hàm cần nhớ 
+var.push(value); : đẩy giá trị vào stack 
+
+var.pop();       : xóa phần tử trên cùng của stack 
+
+var.top();       : trả về giá trị trên đỉnh của stack và nó sẽ không xóa phần tử 
+		   đó 
+var.size()       : trả về số lượng phần tử có trong stack 
+
+var.empty(); 	 : trả về 1 nếu stack đấy trống và trả về 0 nếu stack không trống. 
+ 

@@ -6,10 +6,15 @@ typedef structer {
 
 hoc_sinh nam; 
 
+// nam nên dùng khi có đối tượng cùng loại stuct
+hoc_sinh duy = nam; 
+
+// &nam nên dùng khi có con trỏ
 hoc_sinh* p = &nam; 
 
 - &nam sẽ trùng với địa chỉ của element đầu tiên trong structer và cx là địa chỉ của structure 
 - nam là giá trị của structer đấy và nó chỉ gán cho một biến cùng loại hoc_sinh (nó không lưu địa chỉ đầu tiên như array đâu đừng nhầm lẫn). 
+có thể hiểu là nó lưu một nhóm giá trị và chỉ sao chép sang stuct cùng loại.
 
 * nên chú ý việc dùng con trỏ kiểu gì để trỏ đến một đối tượng kiểu gì ví dụ không nên dùng hoc_sinh* p = &(nam->diem); đúng là nó sẽ trùng với 
 địa chỉ của structer đấy tuy nhiên nó là kiểu int chứ ko phải hoc_sinh. 

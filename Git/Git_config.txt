@@ -1,0 +1,37 @@
+* scope : --system   -> tất cả người dùng 
+	  ~ có nhiểu user có thể dùng git trên PC
+	  --global   -> liên qua đến repo(s) 
+	  ~ mọi repo của user này đều bị ảnh hưởng 
+	  --local    -> liên quan đến 1 repo 
+	  ~ chỉ repo này của user hiện tại đang cấu hình là bị ảnh hưởng. 
+
+- hiểu đơn giản : 
++ system là cấu hình base của global, dù là global được sửa theo yêu cầu của người này, người kia thì nó vẫn luôn default là có sẵn ở đó 
++ global là khi cấu hình global xong thì mọi repo không được cấu hình local thì đều tuân theo global này. 
++ local là cấu hình chỉ riêng cho repo đấy thôi. 
+
+* mức độ ưu tiên sẽ là local > global > system thông  tin sẽ bị ghi đè lên nếu có sự sửa đổi trong mối scope với local là ưu tiên cao nhất. 
+
+- bản thân user pc là admin và sẽ cấu hình system, sau đó là cấu hình global và global thì có thể sửa nhiều lần có thể xóa và thay thế bản global mới nhưng system luôn cấu hình default nên dù là sửa global thì những thuộc tính được yêu cầu bởi system thì vẫn nằm đấy, còn local thì hiểu là cấu hình riêng cho repo. 
+
+~~~~~~~~~~~~~~~~~~~~ XEM CẤU HÌNH ~~~~~~~~~~~~~~~~~~~~~~
+
+* git config -l : xem cấu hình 
+* git config -l --global : xem cấu hình global 
+* git config -l --local  : xem cấu hình local 
+
+~~~~~~~~~~~ CẤU HÌNH USER NAME, USER EMAIL ~~~~~~~~~~~~~
+
+* cấu hình USER NAME 
+
+git config --global user.name "duy nam"
+
+* cấu hình EMAIL NAME
+
+git config --global use.email "namduy@gmail.com"
+
+** NẾU MUỐN CẤU HÌNH NAME, EMAIL CHỈ CÓ PHẠM VI LOCAL 
+
+git config --local user.name "duy nam"
+
+git config --local use.email "namduy@gmail.com"

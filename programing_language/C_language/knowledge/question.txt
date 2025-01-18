@@ -1,0 +1,33 @@
+// C
+what is use of volatile key? 
+
+pointer , function pointer? 
+
+macro function , inline function? 
+
+const keyword, static keyword? 
+
+dynamic memory allocation? 
+
+// C++ 
+
+- OOP 
+
+- algothims 
+
+// other question 
+
+- what is an executable file, how to creat 
+
+- v model, scrum, jira, git 
+
+- dynamic library, static library 
+
+- makefile , linker 
+
+// 
+- realtime os 
+
+- bootloader 
+
+- 
