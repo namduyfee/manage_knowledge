@@ -9,31 +9,50 @@
 
 * có 4 option convert A/D : single , continuous , scan , discontinuous
 
-/*********** scan mode ************************* /
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REGULAR, INJECTED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* REGULAR hay INJECTED đều là những nhóm các convert, chúng dùng để phối hợp với nhau vào các mục đích nhất định 
+* với REGULAR cả nhóm chỉ có một thanh ghi data duy nhất vậy nên sau một chuyển đổi thì cần phải đọc ngay nếu không muốn channel kia ghi đè 
+* với injected một chuyển đổi sẽ được lưu vào thanh ghi riêng, ở stm32f103c8t6 thì injected có 4 vị trí và mỗi vị trí sẽ cung cấp một thanh ghi riêng 
+ADC_JDR1, ADC_JDR2, ADC_JDR3, ADC_JDR4. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCAN MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi nói đến một convertion ở scan mode ý chỉ là một lần chuyển đổi tất cả các kênh (chứ không phải một kênh). 
+* khi kết hợp single mode thì mỗi khi có trigger thì nó sẽ quét quá tất cả các kênh một lần. 
+
 - sử dụng nhiều hơn một channel cho ADC 
-- với regular khi dùng scan mode thì bit DMA phải được set để data sau mỗi lần convert lưu ở SRAM sau mỗi lần cập nhật thanh 
+- tự động chuyển đổi theo thứ tự. 
+- với regular khi dùng scan mode thì bit DMA nên ('must' không bắt buộc) được set để data sau mỗi lần convert lưu ở SRAM sau mỗi lần cập nhật thanh 
 ghi ADC_DR
-- còn với injected thì luôn lưu ở ADC_JDRx registers. 
+
+- còn với injected thì luôn lưu ở ADC_JDRx registers, chúng ta có 4 thanh ghi riêng biệt cho 4 kênh trong injected, thế nên chúng ta sẽ linh hoạt hơn. 
+
 - mặc định thì sẽ là not scan mode ( chỉ một adc chỉ khi set bit SCAN lên thì mới dùng nhiều channel) 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/*********** single mode ********************** /
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SINGLE MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* HOẶC LÀ SINGLE MODE HOẶC LÀ continuous MODe 
+* HOẶC LÀ SINGLE MODE HOẶC LÀ CONTINUOUS MODE 
 
 - bit CONT set 0 ( mode single not continuos mode) 
 - chỉ có một chu kì chuyển đổi sau khi có trigger kích hoạt. 
-- trigger kích hoạt là set bit ADON (for regular) và external trigger (for regular or injected). 
 
-??? câu hỏi đặt ra là ở chế độ single mode thì khi có trigger kích hoạt thì nó chạy 1 lần rồi dừng adc vậy thì nếu có trigger đó 
-kích hoạt nhiều lần thì việc chuyển đổi có được tiếp tục không.
++ setting bit ADCON chỉ đối với regular channel, sau khi thực hiện xong một chu kì chuyển đổi thì ADCON sẽ tự set về 0 và nếu muốn chuyển đổi tiếp thì tiếp tục set bit lên 1 
++ external trigger : trigger này có tác dụng đối với cả regular và injected
+~ trigger kích hoạt là set bit ADON (for regular) và external trigger (for regular or injected). 
 
-/*********** continuous conversion *************/
-- chuyển đổi liên tục hay dùng lại sau 1 chu kì convert.
-- to start convert có thể dùng external trigger hoặc ADON.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NOTE: cứ mỗi lần có trigger thì adc sẽ thực hiện một chu kì convert đã được cấu hình. 
 
-/*********** discontinuous ******************** / 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTINUOUS MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* HOẶC LÀ SINGLE MODE HOẶC LÀ CONTINUOUS MODE 
+
+- chuyển đổi liên tục, khi hết một chu kì convert nó sẽ quay lại chuyển đổi từ đầu. 
+
+- kích hoạt lần đầu: có thể dùng external trigger hoặc ADON.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DISCONTINUOUS MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 - không sử dụng cả regular cả injected trong chế độ này (only one). 
 - không dùng auto-injected trong chế độ này. 
 - chuyển đổi theo từng nhóm khi có external trigger. 
