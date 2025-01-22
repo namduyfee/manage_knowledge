@@ -16,6 +16,23 @@
 * với injected một chuyển đổi sẽ được lưu vào thanh ghi riêng, ở stm32f103c8t6 thì injected có 4 vị trí và mỗi vị trí sẽ cung cấp một thanh ghi riêng 
 ADC_JDR1, ADC_JDR2, ADC_JDR3, ADC_JDR4. 
 
+* INJECTED chỉ kích hoạt khi có trigger, kể cả có dùng continuous mode thì nó chỉ có tác dụng với regular. 
+* khi dùng auto-injected thì lúc này sau mỗi chu trình của regular sẽ có trigger kích hoạt để injected convert ngay sau đó. 
+
+* khi dùng DMA cho ADC thì ADC sẽ không gửi dma request khi nó convert xong injected channel mà cho gửi dma request khi convert regular channel mà thôi. 
+
+* do đó cả khi injected ngắt ngang thì nó cũng không ảnh hường gì đến data gửi đến sram, thế hãy cứ coi injected như phần tách biệt (bởi nó có DR riêng) và dma chỉ 
+làm việc với regular.
+
+* dma đảm bảo cho việc truyền data từ DR(regular) đơn giản, tối ưu hơn vì nó chỉ có 1 thanh ghi chung; trong khi đó injected lại có riêng cho mỗi kênh vì thế 
+không cần dma, thay nào đó chúng ta sẽ đọc trực tiếp giá trị từ thanh ghi của nó. (cái quan trọng nhất vẫn là lấy được giá trị phép đo mình cần). 
+
+* kể cả auto injected được dùng thì nó chỉ đảm bảo việc kích hoạt injected ngay sau regular thôi, nó như 1 trigger và mọi thứ vẫn sẽ hoạt động như thông thường. 
+lúc này muốn lấy giá trị của injected thì vẫn đọc trực tiếp thanh ghi chứ không phụ thuộc dma. 
+
+NOTE: dù là cái gì thì cũng sẽ có 2 cách kích hoạt 1 là thủ công bằng cách set bit, hai là tự động bằng một trigger nào đó. 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCAN MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * khi nói đến một convertion ở scan mode ý chỉ là một lần chuyển đổi tất cả các kênh (chứ không phải một kênh). 
@@ -43,6 +60,9 @@ ghi ADC_DR
 
 NOTE: cứ mỗi lần có trigger thì adc sẽ thực hiện một chu kì convert đã được cấu hình. 
 
+* khi enable discontinuous mode thì nó sẽ hoạt động dựa theo nguyên lý của discontinuous mode 
+- hoặc có thể hiểu là lúc này single mode cx hoạt động nhưng thay vì 1 trigger thì convert cả chu kì thì nó chỉ convert 1 group mà thôi. 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTINUOUS MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * HOẶC LÀ SINGLE MODE HOẶC LÀ CONTINUOUS MODE 
@@ -51,16 +71,31 @@ NOTE: cứ mỗi lần có trigger thì adc sẽ thực hiện một chu kì con
 
 - kích hoạt lần đầu: có thể dùng external trigger hoặc ADON.
 
+NOTE: không thể dùng cùng lúc CONTINUOUS MODE VÀ DISCONTINUOUS MODE. 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DISCONTINUOUS MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- không sử dụng cả regular cả injected trong chế độ này (only one). 
-- không dùng auto-injected trong chế độ này. 
-- chuyển đổi theo từng nhóm khi có external trigger. 
-- ví dụ : channal convert 0 1 2 4 5 6 10 8 3 và mỗi lần conver nhỏ là 3 
+- chỉ nên sử dụng một là regular hoặc injected trong chế độ này (only one, không dùng cho cả hai cùng lúc). 
+
+- chuyển đổi theo từng nhóm khi có EXTERNAL TRIGGER. 
+- ví dụ : channal convert 0 1 2 4 5 6 10 8  và mỗi lần conver nhỏ là 3 
 - fisrt trigger   : 0 1 2 are converted
 - seconde trigger : 4 5 6 are converted
-- third trigger   : 10 9 3 are converted 
+- third trigger   : 10 8 are converted 
 - fourth trigger  : 0 1 2 are converted 
+	
+- khi không dùng discontinuous mode thì một group sẽ tương ứng với một chu trình, nhưng khi dùng discontinuous thì một chu trình sẽ có thể có nhiều 
+group. 
+
+NOTE: không thể dùng cùng lúc CONTINUOUS MODE VÀ DISCONTINUOUS MODE. 
+      không dùng auto-injected trong chế độ này. 
+
+- auto-injected là chế độ mà ngay khi regular convert xong thì injected sẽ tự động được convert theo nó. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERRUPT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- thường thì nếu dùng 1 kênh thì nên dùng polling 
+- dùng nhiều kênh thì dùng dma
+- cờ ngắt ở h7 thì rất rõ ràng , còn ở f103 tài nguyên có hạn nên đang rất khó hiểu (cần tìm hiểu thêm). 
 
 /*********** injected channel management  ****** / 
 
