@@ -4,13 +4,41 @@ ghi 0 N-MOS hoạt động : N-MOS là trans nối mass trong con chip
 thế nên tùy cách mắc mạch ở ngoài thì nó sẽ có dòng chạy ra(vào) hoặc không 
 nhưng có một thứ không đổi là việc hoạt động của P-MOS, N-MoS như đã ghi ở trên. 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUT MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-input : chế độ push-up/ push dow. 
+* khi là digital signal thì tín hiệu đầu vào được đưa qua TTL thế nên mức 1 sẽ là có dòng chạy vào TTL, điện áp tại đó ở ngưỡng quy định là mức 1 và 
+mức 0 là ở ngưỡng ở mức 0. thế nên tín hiệu đo được là do TTL schmitt trigger
+
+* trong chip chúng ta sẽ thấy nó có thể cấu hình pull up, pull down, floating: như ta đã biết TTL chính là bộ quyết định mức logic đầu vào,
+- khi ta cấu hình pull up thì bản chất Vin TTL sẽ được nối lên Vcc cùng với register có sẵn trong chip điều này đảm bảo rằng ở ngoài board mặc dù chân đang chưa 
+ghim vào một mức logic cụ thể thì bản thân MCU vẫn có thể giữ mức default là 1 do Vcc cấp nguồn. 
+- khi ta cấu hình pull down thì Vin TTL sẽ được nối GND qua trở ( nằm săn trong MCU ) điều này cx tương tự như pull up nhưng nó sẽ kéo default xuống 0. 
+
++ vậy pull up, pull down ở đây là để MCU tự giữ mức cố định cho nó tránh trường hợp pin bị nhiễu do môi trường. 
+
+- floating: MCU sẽ không tự ghim điện áp xuống nưa, mà lúc này nó sẽ phụ thuộc vào việc chân được nối bên ngoài board, nếu chân ko được ghim lúc này do môi trường và
+mức điện áp nó sẽ nhảy liên tục 0 1, tuy nhiên nếu nó được nối ở mạch ngoài (ví dụ như đấu kiểu nút nhấn pull up mà mk hay dùng) thì lúc này nó được mạch ngoài ghim xuống cụ thể 
+mức logic (khi ko nhấn mức logic là 1, nhấn là 0 do mass) thế nên lúc này nó không bị nhiễu dù là floating (nó chỉ nhiễu nếu chân không ghim cụ thể nó như để hở nó bị ảnh hưởng bởi 
+môi trường ). 
+
+++ vậy nên việc cấu hình pull up, pull down, floating không nói đến việc thiết kế mạch ngoài board, nó chỉ cần đúng quy luật là cấp đủ áp và đủ dòng cho TTL thì nó là mức cao 
+còn không sẽ là mức thấp là được, việc bạn đấu như nào thì đấy là tự thiết kế cùng với việc phối hợp pull upp, pull down hoặc không. 
+
+NOTE: TRONG CHÂN CÓ TTL SCHMITT TRIGGER KHI CÓ DÒNG ĐI VÀO NÓ VÀ ÁP ĐỦ LỚN THÌ NÓ SẼ CHO LÀ MỨC 1, NGƯỢC LẠI SẼ LÀ MỨC 0. KHI BẠN PULL UP THÌ MCU CẤP VCC CÓ REGISTER KÉO LÊN 
+NỘI TRONG MCU VÀ LÚC NÀY DÒNG SẼ ĐI TỪ VCC VÀO TTL VÀ GHIM CHÂN LÊN MỨC 1, GIẢ SỬ LÚC ĐÓ NẾU Ở NGOÀI CHÂN (NGOÀI BOARD) BẠN NỐI CHÂN VỚI 1 ĐIỆN TRỜ VÀ KÉO NÓ XUỐNG MASS VỀ LÝ THUYẾT 
+VCC MUC CẤP KIA SẼ CHẢY VÀO TTL VÀ CẢ ĐIỆN TRỜ MK ĐẤU NGOÀI KIA, THẾ NÊN NẾU ĐIỆN TRỜ NGOÀI KIA QUÁ LỚN THÌ CÓ THỂ DẪN ĐẾN DÒNG ĐI VÀO TTL VÀ ÁP TẠI ĐÓ THẤP ĐI VÀ LÀM CHO ĐẦU RA CỦA TTL 
+LÚC NÀY LÀ MỨC 0 MẶC DÙ NHÌN BẰNG MẮT THÌ SẼ NGHĨ LÀ CÓ DÒNG ÁP CHO TTL (MỨC 1) NHƯNG THỰC TẾ NÓ LÀ KHÔNG ĐỦ (DẪN ĐẾN MỨC 0), NHƯNG NẾU ĐIỆN TRỞ ĐÓ BÉ LÚC NÀY NÓ LẠI LÊN MỨC 1. 	
+
+
+* input : chế độ push-up/ push dow. 
 thì đầu tiên chọn mode input và push up/ push down
 khi sử dụng làm input thì thanh ghi ODR sẽ dùng để config push up or push down cho pin 
 ODR = 1 : pull up 
 ODR = 0 : pull down 
 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SOME NOTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - analogue trong input mode nó không chỉ dùng cho mỗi input mà nó có thể hiểu là chuyển chân đó sang analogue mode 
 nó có thể dùng cho adc (input) và dac (output). dù dac trên thực tế là output thì việc cấu hình input để dùng analogue sẽ không 
 ảnh hưởng đến, analogue sẽ không phân biệt in-out. còn việc gộp vào input là vì giới hạn về mặt tài nguyên của chip. ví dụ dòng 

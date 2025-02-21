@@ -1,0 +1,27 @@
+
+* stm là vđk 32bit vì thanh ghi core sẽ là 32 bit thế nên nó sẽ đọc và thực hiện tính toán với 32 bit 
+
+ví dụ: 
+
+uint8_t tem = 0xFFU; 
+
+if(~tem == 0) 
+	return 1; 
+else 
+	return 0; 
+
+ở đây chúng ta sẽ hiểu ~tem = 0x00 nhưng do là vđk 32bit nó sẽ đọc tem = 0x000000FFU; 
+và khi thực hiện đảo thì kết quả lúc này là : 0xFFFFFF00U; -> kết quả luôn sai. 
+
+- vì thế chúng ta phải ép kiểu nó if(uint8_t(~tem)) 
+lúc này quy trình của nó là như sau b1 nó sẽ đảo thành 0xFFFFFF00U sau đó có lệnh ép kiểu và kết quả là 0x00U; 
+
+- các thanh ghi core 32 bit R0-R12 như các thanh ghi trung gian nơi đưa data từ ram vào, lưu trữ kết quả tạm, đưa kết quả ra ram... giúp việc tính toán của cpu diễn 
+ra nhanh hơn, chứ nó không thao tác trực tiếp trên ram đâu. 
+
+* các vi xử lý 32 bit là vi xử lý có thể thực hiện phép tính lên đến 32bit vì thế người ta cũng sẽ thiết kết thanh ghi, biên dịch code và lưu trữ ... sao cho việc truy xuất 
+dữ liệu và thực hiện tính toán là đơn giản và dễ dàng nhất. 
+
+* nó còn phụ thuộc vào độ rộng thanh ghi core nữa nên là khi xử lý thì cần chú ý cẩn thận. 
+
+NOTE: CÓ RẤT NHIỀU BUG MÀ BẢN THÂN MK CHƯA TÌM HIỂU ĐỦ SÂU ĐỂ HIỂU HẾT VÌ THẾ PHẢI LUÔN CẨN THẬN VÀ LÀM VIỆC THEO NGUYÊN TẮC, QUY CHUẨN TỪ NHỮNG CÁI NHỎ NHẤT : ÉP KIỂU, DÙNG ĐÚNG KIỂU DỮ LIỆU CHO TỪNG BIẾN.... LUÔN LUÔN PHẢI CHUẨN CHÍ. 

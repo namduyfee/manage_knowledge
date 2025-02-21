@@ -1,0 +1,78 @@
+
+* khi mở chế độ optimize cho compiler thì có thể varialbe sẽ không được kiểm tra nếu nó không có câu lệnh tác động trực tiếp trong code ở gần đó 
+ví dự như đó là một thanh ghi chứa giá trị được cập nhật trực từ một ngoại vi nào đó. lúc này nếu có lệnh if nào đó kiểm tra giá trị của nó thì nó 
+sẽ không được kiểm tra đúng cách với giá trị mới của nó. 
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SYNTAX ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* key word không viết hoa 
+
+* volatile có thể đặt trước hoặc sau datatype đều được 
+
+- ví dụ: volatile int var , int volatile var
+
+* khai báo một con trỏ trỏ đến một biến volatile 
+
+- volatile int *p , int volatile *p
+
++ con trỏ p trỏ đến giá trị có thể thay đổi 
+
+* con trỏ volatile trỏ đến một giá trị 
+
+- int* volatile p; 
+
++ p là một con trỏ có thể thay đổi và nó trỏ đến data kiểu int. 
+
+* con trỏ thay đổi trỏ đến giá trị thay đổi  
+
+- int volatile* volatile p; volatile int* volatile p; 
+
++ p là con trỏ có thể thay đổi và nó trỏ đến một biến kiểu int mà giá trị có thể thay đổi. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VOLATILE FOR STRUCTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* có hai cách áp dụng volatile cho struct or onion 
+- khi khai báo nếu áp dụng volatile cho đối tượng thì mọi phần tử của nó đều sẽ là volatile. 
+ví dụ: 
+
+typedef struct {
+    int status;
+    int data;
+} Sensor;
+
+volatile Sensor sick; 
++ lúc này status, data của sick đều sẽ là volatile dù lúc định nghĩa Sensor thì không có volatile nào cả. 
+
+- áp dụng cho từng đối tượng trong struct 
+
+typedef struct {
+    int status;
+    volatile int data;
+} Sensor;
+Sensor light; 
++ lúc này data sẽ là volatile trong khi status thì không. 
+
+cùng với trường hợp trên nếu ta dùng volatile Sensor light; thì lúc này cả 2 element sẽ là volatile. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ when is volatile used ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Memory-mapped peripheral registers (DMA...). 
+
+* Global variables modified by an interrupt service routine
+
+* Global variables accessed by multiple tasks within a multi-threaded application
+
+
+
+
+
+
+
+
+
+
+
+
+
