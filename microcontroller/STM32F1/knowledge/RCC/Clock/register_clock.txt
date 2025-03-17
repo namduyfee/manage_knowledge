@@ -1,0 +1,119 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RCC REGISTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* c8t6 là loại low density nên là mục 7. 
+* nên cấu hình từ gốc lên ngọn, nghĩa là từ HSE, HSI -> PLL -> APBH .... việc cấu hình theo thứ tự tránh việc sai sót 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Clock control Register (CR) ~~~~~~~~~~~~~~~~~~
+
+* nên chú ý đọc kĩ manual bởi vì có một số ràng buộc (ví dụ PLL phải off khi cấu hình chia tần cho HSE, HSI...) 
+
+* là thanh ghi enable các nguồn xung (HSI, HSE, PLL) 
+
+* có các flag đề biết là các nguồn (HSI, HSE, PLL) có đang sẵn sàng chưa
+
+* HSEBYP : HSE bypass nghĩa là không dùng nguồn xung thạch anh cho HSE mà sẽ cấp nguồn xung vào chân HSEIN và làm xung HSE. 
+
+* security clock 
+
+~~~~~~~~~~~~~~~~~~~~ Clock configuration register (CFGR) ~~~~~~~~~~~~~~~~~~~
+
+* cấu hình chia từ gốc lên ngọn, nghĩa là cấu hình chia dần từ HSE, HSI -> PLL -> ... điều này tránh gây sai trong quá trình cấu hình. 
+
+* lựa chọn hệ số nhân chia để điều tần ( PLLMUL, PLLXTPRE, ABH, APB1, APB2, ADC) 
+* lựa chọn nguồn xung cấp ra ngoài. 
+* chia tần USB
+
+* PLLSRC lựa chọn tần số vào PLL 
+ 	- HSI div 2 
+	- HSE (HSE đi qua PLLXTPRE) 
+		+ HSE vào PLLXTPRE có thể div 2 có thể không tùy vào bit PLLXTPRE. 
+
+~~~~~~~~~~~~~~~~~~~~ Clock interrupt register (CIR) ~~~~~~~~~~~~~~~~~~~~~~~~
+
+* cờ ngắt
+
+* và bit clear cờ ngắt
+
+
+~~~~~~~~~~~~~~~~~ APB2 peripheral reset register (APB2RSTR) ~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~ APB1 peripheral reset register (APB1RSTR) ~~~~~~~~~~~~~~~~
+
+* đây là thanh ghi giúp reset các ngoại vi 
+
+* reset ở đây là reset các cấu hình của thanh ghi của ngoại vi đó 
+
+- ví dụ khi cấu hình chân pin 13 của GPIOC là output thì khi set bit reset GPIOC nó sẽ đưa thanh ghi trở về trạng thái reset ban đầu là input floating.
+- sau đó clear bit reset và có thể cấu hình lại từ đầu ( clear bit không giúp việc trả lại cấu hình mà mk cấu hình trước đó mà nó sẽ đưa luôn về cấu hình reset).  
+
+* sau khi reset và clear trở lại thì nó sẽ không trả về cấu hình ban đầu của mk mà nó cấu hình với trạng thái reset luôn ( mk muốn gì thì phải cấu hình lại từ đầu ) 
+
+* bit này điều chỉnh thủ công bằng phần mềm, nghĩa là nó không tự động clear sau khi reset ngoại vi mà mk phải tự clear bit đó, nếu không clear bit đó thì nso sẽ giữ mãi 
+ở mức 1 và ngoại vi đó cứ mãi bị reset ( muốn cấu hình ngoại vi lúc đó cũng ko được ). 
+
+
+
+~~~~~~~~~~~~~~~~ AHB peripheral clock enable register (RCC_AHBENR) ~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~ APB2 peripheral clock enable register (RCC_APB2ENR) ~~~~~~~~~~~
+~~~~~~~~~~~~~~~~ APB1 peripheral clock enable register (RCC_APB1ENR) ~~~~~~~~~~~
+
+* enable clock
+
+~~~~~~~~~~~~~~~~~ Backup domain control register (RCC_BDCR) ~~~~~~~~~~~~~~~~~~~~
+
+* Backup Domain được cấp nguồn từ pin VBAT (hoặc VDD), giúp giữ dữ liệu ngay cả khi hệ thống mất điện.
+
+* back register là vùng đặc biệt giúp lưu lại giá trị quan trọng ngay cả khi bị mất điện
+
+* RTC chạy liên tục, giúp lưu thời gian mà không cần cài lại sau khi reset
+
+
+* các bit trong thanh ghi này có chức năng: 
+
+- xóa sạch RTC , backup register. 
+- enable LSE, RTC
+- LSE bypass ( lấy clock ngoài cung cấp cho LSE). 
+- chọn nguồn cho RTC
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Control/status register (RCC_CSR) ~~~~~~~~~~~~~~~~~~~~~
+
+* LSI 
+
+* reset một số chức năng 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

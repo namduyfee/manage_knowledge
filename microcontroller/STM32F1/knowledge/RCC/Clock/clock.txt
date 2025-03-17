@@ -1,3 +1,5 @@
+* dựa vào diagram để thực hiện cấu hình thanh ghi, RCC chỉ là dùng các nguồn xung được cung cấp bởi HSI HSE và từ đó chia ra tần số mà nó mong muốn. 
+
 
 * có 3 nguồn xung cho system clock 
 	- HSI oscillator clock 

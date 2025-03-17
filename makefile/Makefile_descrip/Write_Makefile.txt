@@ -70,7 +70,20 @@ nếu đặt include ở sau thì makefile sẽ là rule1 rule2 rule2 rule3 rule
 
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ NOTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 
+* make nó sẽ nhìn một đối tượng dưới hai dạng: target or link 
+
+* thế nên nếu bạn đưa một đối tượng vào nó sẽ kiểm tra xem đó có phải là target không sau đó kiểm tra xem đó phải là link không nếu nó không phải là một trong hai thứ này thì sẽ lỗi 
+- ví dụ khi bạn tạo một rule 
+target: hello.c 
+	.....
+
+hello.c đầu tiên nó sẽ tìm xem có rule nào như vậy không, nếu không tồn tại nó xét xem đây là link không và đây cx không phải link mà chỉ là một tên file do đó nó sẽ lỗi. 
+
+lúc này vpath giúp bạn tìm ra link của file đấy chỉ cần bạn đưa tên file (vpath phục vụ cho prerequisites) 
+
+- bất kì file nào được ghi trong prerequitsites mà không phải là target cx không phải link nó sẽ tìm trong vpath mà mk đặt trước 
 
 
 

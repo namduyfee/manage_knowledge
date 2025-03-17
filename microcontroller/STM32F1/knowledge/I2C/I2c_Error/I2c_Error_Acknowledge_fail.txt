@@ -1,0 +1,13 @@
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ I2C Acknowledge fail Error ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* lỗi này xảy ra khi I2c phát hiện một nonacknowledge bit 
+
+
+* khi xảy ra lỗi AF bit sẽ được set và một ngắt được tạo ra nếu ITERREN là được set. 
+
+* khi xảy ra lỗi a transmitter which receives a NaCK phải reset communication. 
+- nếu là slave: lines sẽ được giải phóng bới phần cứng. 
+- nếu là master: stop or repeated start condition phải được tạo băng PHẦN MỀM. 
+

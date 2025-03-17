@@ -1,0 +1,114 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~ CONDITION PREPROCESSOR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* #if #elif #else : dùng để kiểm tra các điều kiện ( quy tắc dùng như if else thông thường ) 
+
+
+* #ifdef #ifndef  : dùng để kiểm tra xem đã được difne hay chưa. 
+- #ifdef : đã được define thì làm 
+- #ifndef: chưa được define thì làm 
+
+* endif : kết thúc khối điều kiện, nó giúp giới hạnh khối condition, nếu không có nó thì nhưng câu lệnh ngoài khối condition sẽ bị coi là lệnh trong khối condition. 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~ #if #elif #else  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* kiểm tra điều kiên như thường 
+#define SYS_CLK PLL 
+
+#if SYS_CLK == PLL
+	...
+#elif SYS_CLK == HSE 
+	...
+#else
+	...
+#endif
+
+- #if #elif có thể + - * /, || ... 
+
+* có thể dùng #if #elif để kiểm tra xem đã define hay chưa giống như #ifdef hay #ifndef
+- #if define GPIO 
+-> câu lệnh này tương đương với #ifdef GPIO. đều là kiểm tra xem GPIO đã được define đúng ko
+
+- #if !(define GPIO) 
+-> câu lệnh này tương đương #ifndef GPIO. đều là kiểm tra xem define chưa được đúng không. 
+
+* có thể dùng kết hợp nhiều điều kiện 
+- #if (define GPIOA) || (define GPIOB) || (define GPIOC) 
+
+
+~~~~~~~~~~~~~~~~~~~~~ Phối hợp #ifdef #if #elif ... ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* chúng ta có thể phối hợp các condition trên vào một khối chứ nó không hề tách biệt, chẳng qua chức năng của nó hơi khác nhau nên mình phải sử dụng hợp lý 
+
+#ifdef GPIOA
+	...
+#elif define GPIOB
+	...
+#elif define GPIOC 
+	...
+#else
+	...
+#endif 
+~~~~~~~~~~~~~~~~~~~~ #endif ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* là câu lệnh rất quan trọng nó sẽ ảnh hưởng đến logic viết code cx như tâm ảnh hưởng của một condition 
+
+* nó khá giống với {} vì nhờ đó ta xác định được phạm vi và logic code mà mk viết 
+
+
+ví dụ: 
+
+#ifdef TEST 
+	...
+#if ... 
+
+- nếu như ở giữa #ifdef và #if không có #endif thì #if sẽ được xem là một phần trong #ifdef 
+
+- nếu ở giữa có #endif thì lúc này chúng là hai phần condition tách biệt nhau. 
+
+#ifdef TEST 
+	...
+#endif
+
+#if ... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

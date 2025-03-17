@@ -1,0 +1,36 @@
+
+* ACK và NACK LUÔN ĐƯỢC GỬI TỪ BÊN NHẬN ĐỂ BÁO CÁO VỀ TIẾN ĐỘ BYTE VỪA NHẬN VÀ DỰ ĐỊNH CHO CÔNG VIỆC TIẾP THEO ( NÓ KHÔNG ĐƯỢC GỬI TỪ BÊN TRANSMITT) 
+
+* CẢ HAI ĐỀU LÀ BIT ĐỂ XÁC NHẬN 
+
+* ACK NACK BIT SET THÌ CÁC PULSE SẼ ĐƯỢC TẠO TỰ ĐỘNG BẰNG PHẦN CỨNG, NÓ LÀ ENABLE CHỨ KHÔNG PHẢI SET THỦ CÔNG.
+
+~~~~~~~~~~~~~~~~~~~~~ Thứ tự của ack nack so với RxNE và TxNE ~~~~~~~~~~~~~~~~~~~~
+
+* nếu là master transmitt nghĩa là slave sẽ gửi ack khi slave nhận được byte data, và TxNE chỉ được set khi ACK đã được phản hồi từ slave 
+
+* nếu là master receiver nghĩa là master sẽ gửi ack và nack, và RxNE chỉ được set khi ACK NACK đã được tạo bởi master. 
+
+-> ACK NACK pulse LUÔN được tạo ra trước rồi sau đó mới là RxNE và TxNE. 
+
+NOTE: thứ tự xuất hiện của các đối tượng trên sẽ quy định đến việc nên set hay clear ở thời điểm nào đấy nhé. 
+
+- ví dụ dựa trên thứ tự trên nếu là master receiver thì ở RxNE gần cuối, nghĩa là ACK của byte gần cuối đã được tạo chúng ta phải clear ACK và set NACK 
+và khi nhận được byte cuối nó sẽ tạo ra NACK chứ không phải là ACK để slave giải phóng line, sau khi NACK được tạo thì RxNE sẽ được set. 
+
+~~~~~~~~~~~~~~~~~~~~~~ ACK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* ACK là tín hiệu được gửi đi khi bên gửi ack muốn báo là việc nhận byte đó đã thành công và có thể tiếp tục transmitt hoặc receive 
+
+- ví dụ khi gửi add và slave lúc này sẽ là bên nhận khi nhận được add nó sẽ báo ack để báo bản thân có tồn tại và tiếp tục bước tiếp theo
+
+- ví dụ khi master hay slave nhận được data thì nó cx sẽ gửi ack để báo đã nhận byte thành công và có thể gửi tiếp byte sau 
+
+--> nó là một bit được receiver gửi về sau mỗi nhận byte để báo hiệu tiếp tục
+
+
+~~~~~~~~~~~~~~~~~~~~~~ NACK ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* NACK là tín hiệu được gửi đi khi bên gửi nack muốn báo là việc nhận byte đó đã thất bại hoặc là muốn dùng truyền nhận data. 
+
+* ví dụ khi master khi nhận data cuối 

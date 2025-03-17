@@ -61,7 +61,14 @@ tuân theo.
 * git branch -l : xem nhánh hiện tại 
 
 * git push      : đẩy nhánh hiện tại đang đứng lên central repo. 
-* git push origin <ten branch> : đẩy nhánh chỉ định lên central repo. 
+
+* git push origin <ten_nhanh_local>:<ten_nhanh_central> chỉ định để nhanh ở local lên nhánh central
+* git push origin <ten branch> : đẩy nhánh chỉ định lên central repo. (câu lệnh này dùng khi đang đẩy nhánh cùng lên với nhau ở local và central Repo) 
+- đang đứng ở branch2 local và đẩy lên branch2 ở central -> git push origin branch2 
+
+-> tóm lại nếu là 2 nhánh khác tên thì nên ghi rõ ra, còn cùng tên thì cách nhanh kia : đỡ lỗi. 
+
+
 * git push --all: đẩy tất cả nhánh lên central repo. 
 
 * git branch -r : xem tất cả các nhánh đang có trên central repo. 

@@ -1,0 +1,26 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ I2C WITH DMA ~~~~~~~~~~~~~~~~~~~~~~
+
+* không giống như các peripheral khác I2c luôn cần   
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ WHEN dose dma request ~~~~~~~~~~~~~~~~~~
+
+* DMA request chỉ được tạo ra trong quá trình truyền nhận data (ko tạo ra khi truyền address ...) 
+
+* trong transmitt dma tạo ra khi data register empty
+
+* trong receiver dma tạo ra khi data register full 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ lưu ý khi dùng dma ~~~~~~~~~~~~~~~~~~~~~~
+
+* DMAEN bit phải được set trước ADDR envet 
+
+* trong master or slave mode khi clock stretching là enable thì DMAEN bit có thể set trong ADDR event nhưng phải là trước khi clear ADDR flag. 
+
+* khi kết thúc số lượng data mà DMA được thiết lập thì phần cứng sẽ gửi tín hiệu từ DMA đến i2c và xảy ngắt EOT (end of transfer) nếu được bật. TUY NHIÊN nó phải luôn được 
+bật để xử lý ở byte transfer cuối cùng để tránh lỗi. 
+
+- master transmitt: trong ngắt EOT hãy vô hiệu hóa DMA ( tránh sai sót ) và chờ cho đến khi có BTF thì gửi tín hiệu STOP (kết thúc truyền và đảm bảo byte cuối được gửi đi). 
+
+- master receive: nếu số lượng byte yêu cầu là lớn hơn hoặc bằng 2 

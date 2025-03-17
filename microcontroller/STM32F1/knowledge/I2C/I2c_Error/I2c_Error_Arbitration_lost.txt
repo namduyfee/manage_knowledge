@@ -1,0 +1,18 @@
+
+~~~~~~~~~~~~~~~~~~~ Arbitration Error ~~~~~~~~~~~~~~~~~~
+
+* lỗi này xảy ra khi trên bus có nhiều master đang tranh nhau quyền điều khiển, lúc này SDA sẽ so sánh tín hiệu mà nó tạo ra và tín hiệu đọc về được từ 
+trên bus để xem nó có đang là master được kiểm soát line không, nếu như master khác là đang kiểm soát lines chứ không phải nó thì lúc này arbitration error sẽ xảy ra. 
+
+* khi không được kiểm soát thì ARLO bit sẽ được set bởi phần mềm và một ngắt được tạo ra nếu ITERREN bit là được set. 
+
+* khi không được kiểm soát: 
+
+- I2c interface sẽ tự động trở về mode slave 
+
+- tự động giải phóng lines
+
+- trong lúc đang gửi địa chỉ cho slave thì bị tranh quyền lúc này nó không phải là master nên nó không thể tiếp tục gửi ack nữa.
+
+- nếu master thắng gửi lại start condition thì nó có phản ack bình thường (ack này không phải là ack đến slave cũ kia đâu nhé) 
+

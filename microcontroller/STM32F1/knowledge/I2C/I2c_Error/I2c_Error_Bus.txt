@@ -1,0 +1,13 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~ I2C Bus Error ~~~~~~~~~~~~~~~~~~~~~~~
+
+* xảy ra khi phát hiện start, stop condition khác khi đang truyền địa chỉ hoặc dữ liệu. 
+
+* BERR bit sẽ được set và một ngắt tạo ra nếu ITERREN được set. 
+
+* nếu đang ở mode slave thì dữ liệu sẽ bị loại bỏ và các line sẽ được giải phóng bằng phần cứng. 
+
+- nếu đó tín hiệu start thì slave coi đó là một tín hiệu tái khởi động và nó sẽ chờ địa chỉ hoặc điều kiện stop. 
+- nếu đó tín hiệu stop thì nó sẽ hoạt động như vừa gặp điều kiện stop và các line sẽ được giải phóng. 
+
+
+* nếu đang ở mode master thì nó sẽ không giải phóng line và trạng thái truyền hiện tại không ảnh hưởng, việc hủy bỏ truyền hiện tại hay không là tùy thuộc vào phần mềm. 

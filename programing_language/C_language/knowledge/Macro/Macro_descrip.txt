@@ -1,3 +1,26 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ IMPORTANT VỀ DEFINE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+* difine, macro ... nó sẽ được thực hiện trong quá trình preprocessor ( trong quy trình biên dịch code ) nghĩa là nó có hiệu lực trong quá trình mk chế biến ra file executable. 
+Khi mà máy, chip chạy nó chạy file executable kia chứ không có biên dịch code hay gì nữa do đó lúc mà chạy ấy thì chả liên quan gì đến macro nữa. 
+
+ví dụ khi mình gán #define LED HAL_GPIO_READ(..) thì LED sẽ chỉ có ý nghĩa trong quá trình mình tạo ra file executable trên máy tính khi tạo ra file executable thôi 
+
+sau khi tạo ra file executable và mk nạp vào chip lúc này khi chip run nó sẽ chạy file exe đấy chứ không dính gì đến compiler nữa hiểu chưa nghĩa là đừng tuy duy rằng khi chip run thì nó 
+mói thay LED vào các vị trí (điều đó là không phải) mà nó đã thay lúc mk biên dịch code trên mấy tính rồi ấy và khi chạy nó chỉ chạy các câu lệnh đã qua xử lý hết rồi mà thôi 
+thế nến khi chip run thì LED đã không còn ý nghĩa nữa mà lúc đó tại LED đã được thay bằng HAL_GPIO_READ() hết rồi. 
+
+* compiler và run là quy trình tách biệt compiler tạo ra file exe chứ nó không chạy bất kì câu lệnh nào hết. còn run thì sẽ chạy file exe mà đã được tạo ra sẵn rồi chứ không phải khi run 
+nó mới biên dịch code đâu
+
+* COMPILER VÀ RUN LÀ QUÁ TRÌNH TÁCH BIỆT ĐẤY MỘT TK TAO RA FILE EXE VÀ KHÔNG CHẠY CÂU LỆNH MỘT TK CHẠY FILE EXE ĐÃ CÓ SẴN CHỨ KHÔNG PHẢI BIÊN DỊCH GÌ ĐÂU
+
+* THẾ NÊN VÌ SAO KHI DÁN CÁC MACRO THÌ NÓ SẼ KHÔNG THỰC HIỆN LỆNH VÍ DỤ NHƯ TRÊN MK CÓ THỂ NGHĨ LÀ KHI THAY THẾ LED BẰNG HAL_READ(..) THÌ VÔ TÌNH ĐỌC LUÔN LỆNH NHƯNG ĐIỀU ĐÓ KHÔNG XẢY RA 
+BỞI VÌ COMPILER CHỨ KHÔNG PHẢI CHẠY CODE NÊN VỀ BẢN CHẤT TRONG QUÁ TRÌNH COMPILER SẼ KHÔNG CÓ CÂU LỆNH NÀO ĐƯỢC CHẠY HẾT. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 * khi nào dùng macro: 
 - khi muốn biểu diễn một con số thành một thứ có ý nghĩa ta có thể dùng biến để làm điều đó tuy nhiên như vậy lại tốn bộ nhớ và ta dùng 
 macro object nó làm cho việc đọc code dễ dàng hơn lại không tốn biến vì nó sẽ dán giá trị vào, nó sẽ là số magic nhưng đó là khi qua preprocessor (thời điểm này con người sẽ ko cần đặt tiêu chí clean code nữa). 
