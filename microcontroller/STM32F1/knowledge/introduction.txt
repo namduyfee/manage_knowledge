@@ -1,0 +1,13 @@
+* jtag hay swd nó là chuẩn giao tiếp để debug chứ không phải jtag <=> jlink , hay swd <=> stlink 
+
+* jlink hay stlink là bộ hardware giúp debug nó có thể hỗ trợ cả chuẩn jtag hay swd. 
+
+* swd thường yêu cầu 4-5 dây trong khi swd yêu cầu 2 dây là là chuẩn debug thường dùng. 
+
+* jlink hỗ trợ cả swd và jtag. trong kit bluepill thì dùng swd nên chúng ta dùng swd cùng với jlink
+
+* ozon chỉ hỗ trợ jlink 
+
+* trên các board kit có hỗ trợ cả 1 chip debug (chúng ta ko cần dùng mạch nạp) thì mặc định nó sẽ có firmware của stlink nhưng chúng ta có reflash nó lại thành jlink 
+còn kit slink mà muốn reflash thì cần tìm hiểu thêm.
+

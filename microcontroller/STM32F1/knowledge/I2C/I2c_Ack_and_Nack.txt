@@ -28,9 +28,20 @@ và khi nhận được byte cuối nó sẽ tạo ra NACK chứ không phải l
 
 --> nó là một bit được receiver gửi về sau mỗi nhận byte để báo hiệu tiếp tục
 
-
 ~~~~~~~~~~~~~~~~~~~~~~ NACK ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * NACK là tín hiệu được gửi đi khi bên gửi nack muốn báo là việc nhận byte đó đã thất bại hoặc là muốn dùng truyền nhận data. 
 
 * ví dụ khi master khi nhận data cuối 
+
+* luôn phải gửi NACK trước khi muốn gửi stop condition khi đang là mode master receiver. nếu không ack sẽ được gửi đi trước khi gửi stop condition làm cho transmitt hiểu là đang muốn truyền tiếp trong khi lại gửi stop condition điều này làm cho hệ thống bị lỗi. 
+
+NOTE: ACK và NACK pulse sẽ được tạo trước sau đó các bit RxNE và TxNE mới được set. 
+
+
+
+
+
+
+
+

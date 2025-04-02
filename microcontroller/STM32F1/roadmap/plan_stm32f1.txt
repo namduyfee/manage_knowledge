@@ -43,4 +43,16 @@ tháng 12-1
 
 - CRC, Power control
 
+UART, RS232/485, SPI, I2C, USB, WiFi, Bluetooth, Ethernet.
+
+
+
+
+
+
+
+
+
+
+
 

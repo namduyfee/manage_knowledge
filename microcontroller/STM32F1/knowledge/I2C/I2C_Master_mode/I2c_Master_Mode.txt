@@ -1,2 +1,4 @@
 
 * mặc định của nó là slave mode, để chuyển từ slave -> master cần một start condition 
+
+* không nhất định phải gửi STOP condition, khi thực hiện xong byte cuối chúng ta có thể tiếp tục gửi start condition để thực hiện transfer mới chứ không phải nhả line. 

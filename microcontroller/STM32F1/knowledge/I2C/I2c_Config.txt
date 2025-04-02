@@ -1,0 +1,28 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Bits 5:0 FREQ[5:0]: Peripheral clock frequency ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+cung cấp giá trị tần số apb1 cho i2c, không phải là cấp clock mà là cho i2c biết giá trị bởi vì giá trị của clock nó không được tính toán ra số cụ thể 
+cpu chỉ biết chia, chia và chia rồi ra tần số mong muốn còn các con số 36, 72 Mhz... là do coder nó tự hiểu, thế nên i2c cần đưa một con số cụ thể (ở đây là giá trị của clock apb1) 
+để phục vụ cho việc tính toán của nó. 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ CCR[11:0]: Clock control register in Fm/Sm mode (Master mode) ~~~~~~~~~~~~~~~~~~~
+
+* tính toán ra tần số của SCL line 
+* Thigh = Tlow = CRR * TPCLK1 (TPCLK1 LÀ CHU KÌ CỦA APB1) 
+-> TSCL = 2 * CCR * TPCLK1 
+-> 1/FSCL = 2 * CCR * TPCLK1 
+* TỪ CÔNG THỨC TRÊN TA SẼ TÍNH RA CCR 
+VÍ DỤ CCR = 180, FPCLK1 = 36 MHZ -> TPCLK1 = 27.78 ns
+-> TSCL = 2 * 27.78(ns) * 180 -> FSCL = 100Khz. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ Bits 5:0 TRISE[5:0]: Maximum rise time in Fm/Sm mode (Master mode) ~~~~~~~~~~~~~~~~
+
+* thực tế xung trên scl không tăng ngay lập tức 0 -> vdd, hay vdd -> 0 mà nó là tăng dần vì thế để i2c hoạt động một cách chính xác thì cần cung cấp cho nó thời 
+gian TRISE ( thời gian tăng ). 
+
+TRISE = (trise/TPCLK1) + 1
+
+TRONG STANDARD MODE trise = 1000 ns. 
+
+từ đó ta tính được TRISE. 
+

@@ -13,17 +13,22 @@
 
 
 
-	- target : + thường là tên của một file được tạo bởi chương trình : có thể là file thực thi 
-		   hoặc file .o 
-		   + cũng có thể là tên của một hành động ví dụ như : clean 
-		   + nhưng chú ý khi hành động trùng với tên của một file trong folder khi gọi hành 	
-		   động đó thì máy sẽ hiều là lệnh tạo ra file có tên của hành động và không thực hiên 
-		   hành động đó vì thế cần có từ khóa PHONY trong trường hợp này 
-	- prerequisites :  
-		   + đầu tiên nó sẽ kiểm tra prerequisites có phải là target hay không nếu có thì nó sẽ thực hiện theo target đấy, nếu không phải là target nó sẽ kiểm tra xem 
-		   prerequisites là file hay không. nếu không phải là file luôn thì nó sẽ báo lỗi. 
-			+ chỉ có thể cách hoạt động của nó là thế này, và hiểu như thế này sẽ là an toàn nhất (dự trên thử nghiệm) , còn nó có thế hoat động theo kiểu khác nhưng việc hiểu 
-			như trên vẫn có thể vận hành đúng dù thực tế nó hoạt động thế nào đi nữa.
+	- target : 
+		   + các target đều được xem là file, nếu file đó không tồn tại nó sẽ luôn chạy cái rule đó, nếu nó là một file đã tồn tại thì lúc này nó mới kiểm tra xem 
+		     có sự thay đổi nào trong prerequisites hay không nếu có nó sẽ chạy rule lại. 
+
+		   + giả sử có một rule như clean, clean không có prerequisites nghĩa là khi nó đã tồn tại thì không cần chạy nó nữa (đơn giản bởi vì nó không phụ thuộc vào prerequisite 
+		     nào nghĩa là nó luôn không đổi chứ không phải nó không phụ thuộc vào prerequisties nào thì nó sẽ luôn chạy điều đó là thừa và không hợp logic). 
+
+		   - thế nên khi dùng những rule mà không có prerequisites chúng ta phải luôn có .PHONY để đảm bảo nó chạy kể cả khi đã có file trùng tên tồn tại. 
+
+		   - giả sử không có file trùng tên: thì actions đó sẽ luôn được chạy bởi vì make xem target là file do đó khi ta gọi clean thì nó sẽ không tìm thấy clean tồn 
+		     tại dẫn đến nó luôn chạy rule đó. 
+
+		     
+	- prerequisites : khi bạn đưa prerequisites thì nó sẽ kiểm tra xem có rule nào trùng với nó không, nếu có lúc này nó hoạt động như target, nếu không nó hoạt động như file 
+			  quyết định việc có chạy lại rule hay không. 
+
 	- recipe : là các câu lệnh thực hiện 
 	
 	- mỗi câu lệnh tương ứng một dòng tách biệt, nếu một câu lệnh quá dài mà quá dài mà muốn 

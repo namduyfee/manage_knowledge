@@ -1,0 +1,94 @@
+
+* chú ý include làm cho phần ở trên dùng phần ở dưới nhưng nó sẽ dẫn tới không hiểu
+
+ví dụ trong 
+
+stm32f103.h 
+	- include gpio.h i2c.h rcc.h 
+	- ở dưới #define __IO volatile, #define uint32_t unsigned int
+
+rcc.h 
+	- include stm32f103.h
+	- typedef struct {
+		__IO uint32_t ...
+	  } RCC_Typedef; 
+
+gpio.h 
+	- include stm32f103.h 
+	- typedef struct {
+		__IO uint32_t ...
+	  } GPIO_Typedef; 
+...
+
+- dựa vào cấu trúc trên đối với stm32f103.h khi nó được gọi thì vị trí của typedef GPIO_Typedef , RCC_typedef, I2C_Typedef sẽ nằm trên phần define __IO , uint32_t 
+có trong stm32f103.h do đó khi chương trình chạy thì nó chạy từ trên xuống dưới dẫn đến các phần define __IO , uint32_t sẽ không được thay phần định nghĩa stuct đó dẫn 
+đến nó sẽ không hiểu kiểu dữ liệu __IO hay uint32_t là gì. 
+
+stm32f103.h lúc này như sau 
+	
+	- typedef struct {
+		__IO uint32_t ...
+	  } GPIO_Typedef; 
+
+	- typedef struct {
+		__IO uint32_t ...
+	  } RCC_Typedef; 
+	- ở dưới #define __IO volatile, #define uint32_t unsigned int
+
+-> chương trình sẽ không hiểu các __IO, uint32_t phía trên vì chương trình chạy từ trên xuống 
++ ví dụ 
+int tem = X; 
+#define X 10    --> lỗi ngay vì X không thay ngược lên được 
+
++ với trường hợp này thì nó khác 
+#define B X		--> X sẽ không được thay lên đây đâu 
+#define X 10
+int tem = B; 		--> nó không lỗi, quy trình sẽ là tem = B -> tem = X -> tem = 10 vì nó là define nên B sẽ không lỗi và vì tem nằm dưới cả 2 nên nó mới được thay 
+
+tuy nhiên như thế này lại lỗi nhé 
+
+#define B X	
+int tem = B;		-> nó sẽ không biết X là gì vì nó nằm trên X 
+#define X 10
+
+=> từ ví dụ nhỏ để rút ra khi sử dụng một cái gì đó mà có sự liên quan đến phần phía dưới thì nó 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ NOTE VAR GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* biến toàn cục phải được gán với một hằng số hoặc không gán giá trị tại thời điểm khai báo. chứ nếu gán nó = một biến (nếu biến đấy là kiểu const thì ko sao)
+tại thời điểm khai báo thì nó sẽ lỗi. 
+
+
+
+* câu lệnh 
+int t = 10; 
+int tem = t;   -> không phải <=> int tem = 10; mà đúng hơn là copy giá trị từ t qua tem câu lệnh không bị thay đổi. nó vẫn là int tem = t; 
+
+-> int tem = HAL_READ_PIN();  nó vẫn là int tem = HAL_READ_PIN(); chứ không phải int tem = 1 or = 0. 
+
+
+~~~~~~~~~~~~~~~~~~~~~ COMPILER AND COMPILER VERSION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* 2 quá trình tách biệt: biên dịch code, và run. 
+
+* ở preprocessor hay compile nó luôn thực hiện từ trên xuống -> nếu một đối tượng ở trên mà dùng đối tượng ở dưới thì nó sẽ báo lỗi biên dịch ngay 
+ví dụ hàm trên gọi hàm dưới mà không có prototype thì lúc này sẽ bị báo lỗi, do nó thực hiện trên xuống thế nên tại lúc đấy nó không hiểu hàm dưới là cái gì. 
+
+* tùy thuộc vào bản compiler mà việc không dùng prototype mà vẫn gọi hàm dưới có bị lỗi hay không, ví dụ có bản thì nó không bị lỗi mà lúc đó nó sẽ hiểu là hàm kia có thể sẽ được 
+định nghĩa tại đâu đó (khi linker nó có thể hiểu) , tuy nhiên với các bản compiler yêu cầu độ chặt chẽ cao, (bản mới gần đây) đều sẽ báo lỗi ngay. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
