@@ -1,0 +1,33 @@
+
+* Linker nó giống với gcc là một cỗ máy mà khi ta đưa file Linker script hay OPT vào nó sẽ thực hiện đúng với ta yêu cầu, dựa trên quy chuẩn sẵn của nó (ví dụ arm...). 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LD AND LD_GCC ~~~~~~~~~~~~~~~~~~~~~~~
+* về arm-gcc về cơ bản nó bao gồm luôn phần compile và link thế nên chỉ cần đưa file input thì nó một số OPT cơ bản thôi, thì nó cũng sẽ tự tạo ra file elf cho chúng ta, 
+nó đã được build sẵn phần nào đó về OPT, linker script, startup file nó đều có cả. tuy nhiên ta có thể chỉ định để dùng linker script hay startup file của mình. 
+
+* trong khi đó nếu dùng arm-ld chúng đang dùng một cỗ máy linker mà chưa có sự xây dựng sẵn nào trên nó, mọi chỉ dẫn sẽ là thủ công và đôi khi sẽ khó khăn với một số OPT vì nó chỉ 
+hiểu với arm-gcc. 
+
+* tuy nhiên nhược điểm nếu ta chỉ gọi arm-gcc theo kiểu đưa input file và lấy file elf thì sẽ bị build lại toàn bộ hệ thống trong khi chỉ một file hay một số file là thay đổi, 
+để tận dụng ưu điểm makefile chúng ta sẽ tách và dùng arm-gcc cho hai công đoạn riêng lẻ: compiler và link
+
+- với compiler chúng ta sẽ dùng như thông thường, cùng với makefile chúng ta sẽ tối ưu được việc file nào sẽ được biên dịch lại hay không. 
+
+- sau đó ta dùng cho linker, ta sẽ đưa file.o có sẵn và truyền OPT, linker script, startup file để tạo file elf. Lúc này arm-gcc được dùng không khác gì arm-ld thuần, nhưng nó sẽ 
+cho ta một lợi thế là arm-gcc sẽ hiểu một số OPT mà ta đưa vào link trong khi arm-ld thì không, ngoài ra các thư viện sẽ .a sẽ được arm-gcc tìm kiếm và link dễ hơn ít bug hơn.
+
+-> dùng arm-gcc tách ra compiler và linker, sau đó điều khiển nó để tạo ra một makefile hiệu quả nhất.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SOME NOTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* OPT nên đặt cuối, vì make chạy từ trái sang phải, do đó một số OPT sẽ cần xác định input(ở đây là các file) để nó thực hiện do vậy nếu mk để trước các file_path thì nó có thể 
+dẫn đến bug. 
+
+* khi dùng các hàm liên quan đến float thì phải thêm OPT: -lm, -lc, -lgcc. 
+
+* khi dùng cho mcu không có FPU (float point unit), việc tính toán với số thực được thực hiện 'mềm' chứ không thể thực hiện trên phần cứng thì trong OPT linker chúng ta phải có thêm 
+-mcpu=cortex-m3 -mthumb -mfloat-abi=soft để bảo rằng hãy link các hàm trong thư viện tính toán số thực mà nó được thực hiện mềm (nếu không nó sẽ nhảy vào hàm default handler đấy). 
+-mcpu=cortex-m3 -mthumb -mfloat-abi=soft cũng phải có trong CC_OPT nhé. 
+
+
+

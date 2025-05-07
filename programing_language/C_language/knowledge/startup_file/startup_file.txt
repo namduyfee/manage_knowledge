@@ -1,0 +1,15 @@
+
+* void NMI_Handler(void) __attribute__((weak, alias("Default_Handler"))); 
+
+ __attribute__((weak, alias("Default_Handler"))); : có nghĩa là nếu void NMI_Handler(void) không được định nghĩa lại thì nó sẽ dùng hàm Default_Handler để thay thế khi 
+được gọi đến 
+
++ khi định nghĩa lại hàm ta không cần phải bỏ đi __attribute__((weak, alias("Default_Handler"))); ở startup giữ nguyễn vẫn ổn bởi vì nguyên lý là nó sẽ dùng hàm định nghĩa lại 
+kia và __attribute__((weak, alias("Default_Handler"))); sẽ không ảnh hưởng đến nó. 
+
+
+NOTE: TUY NHIÊN KHÔNG THỂ ĐỊNH NGHĨA HÀM KIA TRONG CÙNG MỘT FILE 
+VÍ DỤ Ở STARTUP.C TA DÙNG void NMI_Handler(void) __attribute__((weak, alias("Default_Handler"))); VÀ CŨNG TRONG STARTUP.C TA CŨNG ĐỊNH NGHĨA LẠI 
+void NMI_Handler(void) {}; THÌ NÓ SẼ DẪN ĐẾN LỖI DO ĐỊNH NGHĨA MỘT HÀM 2 LẦN TRONG CÙNG 1 FILE. NÓ GIỐNG NHƯ VIỆC TA ĐỊNH NGHĨA HÀM 2 hàm mà có cùng tên int sum(); trong một file 
+lúc đó nó cũng sẽ báo lỗi thôi. thế nên void NMI_Handler(void) __attribute__((weak, alias("Default_Handler"))); về mặt bản chất nó cũng là định nghĩa hàm thế nên phải muốn định nghĩa lại 
+nó thì làm ở file khác để tránh lỗi 2 hàm trùng tên được định nghĩa. 

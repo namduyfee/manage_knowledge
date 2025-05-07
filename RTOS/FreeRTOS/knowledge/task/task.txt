@@ -24,7 +24,7 @@ while(1) {
 -- task properties ( thông số task ) 
 	++ mức ưu tiên 
 	++ tên 
-	++ kích thước ngăn xếp (của task) ( vùng heap)
+	++ kích thước ngăn xếp (của task)
 	++ tham số truyền vào (parameter) 
 	++ một con trỏ đại diện (xTaskHandler) - giúp các task tác động lên nhau 
 

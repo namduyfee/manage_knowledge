@@ -1,0 +1,56 @@
+
+* software timer như ngắt timer thông thường nhưng được quản lý bởi FreeRtos, dựa vào timer của FreeRtos. 
+
+* thực hiện lập lịch cho một function ở một thời điểm trong tương lai hoặc là một chu kì cố định. 
+
+* những function callback được thực thi tại một task, task này được tạo tự động khi freeRtos started. 
+
+* NOTE: KHÔNG ĐƯỢC GỌI CÁC HÀM LÀM TASK RƠI VÀO BLOCK trong CALLBACK FUNCTIONS, vì nó sẽ hàm xử lý chậm không còn đúng tính chất của timer(là định thời nữa). 
+ 
+* Period là chu kì mà function callback sẽ được gọi khi started timer. 
+
+* one-shot timers : chỉ gọi callback function một lần khi started timer , nó có thể được restart bằng thủ công nhưng không thể tự động restart. 
+
+* auto-reload timers : liên tục. 
+
+* có hai trạng thái mà timers có thể có : DORMANT và RUNNING 
+
+- RUNNING: là timers đang chạy, đang đếm và khi đáp ứng period thì nó sẽ gọi callback function. 
++ ví dụ startTimer(); hoặc resetTimer(); 
+
+- DORMANT: là trạng timers đang không đếm và không gọi callback 
+
++ ví dụ như ngay sau khi gọi timerCreat(); stopTimer(); thì nó sẽ là DORMANT vì chỉ RUNNING khi gọi startTimer(); 
++ hoặc khi ở chế độ one-shot , khi chạy xong một lần TIMER lúc này rơi vào DORMANT. 
+
+* muốn xóa Timer thì gọi  xTimerDelete() ; nó sẽ xóa timer ở bất kỳ thời điểm nào. 
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~ COMPARE SOFTWARE TIMER AND TASK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~ RTOS DAEMON TASK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Timer software hoạt động dựa trên một Queue Timer , mọi câu lệnh được gọi sẽ gửi command đến Queue Timer và DAEMON TASK là task sẽ đọc queue đấy và thực hiện các command. 
+
+* kể cả startTimer, stopTimer,... callback function đều sẽ gửi command đến Queue. 
+
+* DAEMON TASK hoạt động như task thông thường trong FreeRTOS , và trong task DAEMON thì có câu lệnh QueueReceive thôi , do đó nó vẫn sẽ bị chiếm quyền bởi task cao hơn... hoạt động như task thông thường. 
+
+* DAEMON TASK sẽ đọc Queue do đó nếu Queue empty thì nó sẽ rơi vào BLOCK STATE, khi có command gửi đến Queue lúc này DAEMON TASK sẽ được đưa vào READY STATE và chờ đến lượt để chuyển sang RUNNING STATE. 
+
+* vậy nên khi gọi startTImer ở một task không có nghĩa là nó được thực hiện ngay mà nó sẽ chỉ gửi command đến Queue và sau đó phụ thuộc vào Task DAEMON. 
+
+* Tuy vậy period sẽ tính từ thời điểm gọi startTimer chứ không phải từ thời điểm DAEMON Task được running và đọc Queue , điều này đảm bảo tính chính xác khi gọi startTimer. 
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~ TIMER COMMAND QUEUE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~ ONE SHOT AND PERIODIC SOFTWARE TIMER ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~ CREAT, START, RESET, CHANGE, PERIOD ~~~~~~~~~~~~~~~~~~~~~~~~~
+

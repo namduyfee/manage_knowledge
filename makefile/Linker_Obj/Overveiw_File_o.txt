@@ -101,8 +101,6 @@ khối memory mà chúng ta chỉ trỏ đến nó và quy ước, sử dụng t
 * NOTE: Sau khi free() nếu con trỏ vẫn có tồn tại thì nó vẫn trỏ đến đúng nhớ được giải phóng đó chứ không phải NULL, và vùng nhớ đó có thể được cấp phát nếu được yêu cầu, điều này có thể gây sai sót trong quá trình run nếu bạn truy cập vùng nhớ sau khi đã free(); . 
 
 
-* 
-
 
 
 

@@ -37,19 +37,21 @@
 - #if (define GPIOA) || (define GPIOB) || (define GPIOC) 
 
 
-~~~~~~~~~~~~~~~~~~~~~ Phối hợp #ifdef #if #elif ... ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~ Phối hợp #ifdef #if #elif defined(MACRO) ... ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * chúng ta có thể phối hợp các condition trên vào một khối chứ nó không hề tách biệt, chẳng qua chức năng của nó hơi khác nhau nên mình phải sử dụng hợp lý 
 
 #ifdef GPIOA
 	...
-#elif define GPIOB
+#elif defined(GPIOB)
 	...
-#elif define GPIOC 
+#elif defined(GPIOC) 
 	...
 #else
 	...
 #endif 
+
+* NOTE: defined(SYMBOL) chứ không phải define, nên có ngoặc ở các SYMBOL tránh lỗi khi nhiều điều kiện kết hợp với nhau. 
 ~~~~~~~~~~~~~~~~~~~~ #endif ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * là câu lệnh rất quan trọng nó sẽ ảnh hưởng đến logic viết code cx như tâm ảnh hưởng của một condition 

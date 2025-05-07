@@ -1,0 +1,24 @@
+
+* các hàm FreeRtos dùng trong ISR đều phải có đuôi FromISR
+- các hàm trong ISR sẽ có tickwait = 0, nghĩa là nó không chờ, nếu không được nó sẽ thoát và trả fail luôn. 
+
+* ISR luôn có độ ưu tiên bất kì task nào, nên khi có ISR nó sẽ nhảy vào làm ngay. 
+
+* khi nhảy vào ISR , task running không bị chuyển trạng thái sang ready mà nó chỉ tạm dừng hoạt động vì không có CPU, nhưng state của nó vẫn là đang running. 
+
+* nếu trong ISR , chúng ta thực hiện hành động nào đó làm cho một task chuyển đến trạng thái ready mà task đó có độ ưu tiên cao hơn task đang chạy thì khi thoát khỏi ISR task có mức độ ưu tiên thấp hơn kia vẫn sẽ được tiếp tục running, nếu bạn muốn ngay sau khi quay lại ctrinh mà task được unlock trong ISR có mức độ ưu tiên cao hơn kia chạy luôn thì phải dùng : 
+
+// Trong ISR
+BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+xQueueSendFromISR(queueHandle, &value, &xHigherPriorityTaskWoken);
+
+// Sau đó báo cho kernel biết:
+portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
+- ở đây việc send Queue sẽ có thể làm một task nào đó từ block chuyển sang ready , đối số xHigherPriorityTaskWoken truyền vào QueueSendFromISR để biết câu lệnh vừa rồi có khiến một task có ưu tiên cao hơn task đang running từ block sang ready không, nếu có xHigherPriorityTaskWoken = pdTRUE 
+nếu không nó sẽ là pdFALSE. 
+- sau đó gọi portYIELD_FROM_ISR(xHigherPriorityTaskWoken); portYIELD_FROM_ISR(1) <=> chuyển đổi ngữ cảnh 
+và portYIELD_FROM_ISR(0) <=> không chuyển đổi ngữ cảnh. 
+
+* portEND_SWITCHING_ISR()  và portYIELD_FROM_ISR() có ý nghĩa tương đương nhưng portYIELD_FROM_ISR dùng cho c còn portEND_SWITCHING_ISR() dùng cho asembly. 
+

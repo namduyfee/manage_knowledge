@@ -1,0 +1,11 @@
+
+* DMA dù ở mode lặp lại hay single mode , dù dùng interrupt hay không , thì sau khi kết thúc một vòng thì nó luôn set bit TC flag lên 1 để báo là truyền một vòng xong. 
+
+* bắt buộc phải ghi vào TCIF để clear thủ công cờ , nếu không nó sẽ bằng 1 mãi , nó không tự động clear, dù ở mode lặp lại thì sau mỗi vòng nó set cờ TC lên và không tự động clear khi bắt đầu vòng mới đâu mà phải clear thủ công, dù dma vẫn chạy bình thường nhưng thực tế nếu không clear thì nó cứ giữ bằng 1 mãi. 
+
+* giống với ngắt ngoài để clear cờ ngắt thì phải ghi 1 vào TCIF ghi ở đây là ghi trực tiếp 
+ví dụ DMA->TCIF = 1<<3; 
+
+chứ không DMA->TCIF |= , nó không sử dụng |= đề clear
+
+ngoài ra |= về bản chất là đọc DMA->TCIF trước rồi mới |= với giá trị kia, trong khi DMA->TCIF thì chỉ cho ghi chứ không cho đọc. 

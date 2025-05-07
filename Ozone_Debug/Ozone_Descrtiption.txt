@@ -1,0 +1,29 @@
+
+* khi ta mở nút start debug thì ozone sẽ connect với chip lúc này ta có thể tiến hành control và debug nó. 
+
+* nút run : cho chương trình chạy
+
+* nút reset: reset chip
+
+* nút step over: nhảy qua hàm đó, nhưng nó có hiệu lực khi chưa nhảy vào hàm thôi còn khi nhảy vào hàm rồi mà dùng step over thì nó hoạt động như step into current
+
+* step into current: chạy từng câu lệnh nhỏ một. 
+
+* step out: nhảy đến hàm cha của hàm đang đứng. 
+
+ví dụ: main() gọi config , trong cofig có gpio, i2c, timer,... nhưng tại dùng gpio mà nhấn step out thì nó sẽ nhảy luôn đến main. 
+nếu đã lỡ nhảy vào hàm mà muốn thoát ra thì dùng step out lúc này nó sẽ thoát ra khỏi hàm (thay vì dùng step over). 
+
+* Ozone watch được cả biến local luôn chứ không chỉ global đâu. 
+
+NOTE: kết hợp breakpoint 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BREAKPOINT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- giả sử trong config đặt breakpoint ở dòng gpioconfig thì nó sẽ tính là breakpoint ở trong hàm config và tại dòng gpioconfig chứ nó chưa có nhảy vào hàm gpioconfig nó hiểu là breakpoint trong hàm config chứ không phải trong hàm gpioconfig. 
+
+* BREAK POINT LÀM CHƯƠNG TRÌNH DỪNG TRƯỚC KHI CHẠY CÂU LỆNH TẠI BREAKPOINT ĐÓ. 
+
+EX: ĐẶT BREAKPOINT TẠI DÒNG VAR++ THÌ NÓ SẼ DỪNG CHƯƠNG TRÌNH TRƯỚC KHI VAR ĐƯỢC ++ CHỨ KHÔNG PHẢI CHẠY VAR++ XONG MỚI DỪNG.
+
+* có thể xét kết hợp điều kiện cho breakpoint 
+ex : tại dòng var++ ta đặt breakpoint nhưng có thể cài đặt thêm condition, chẳng hạn var == 10 thì mới breakpoint, lúc đó chương trình tại breakpoint sẽ kiểm tra var == 10 hay không nếu nó == 10 thì sẽ xảy ra breakpoint và không thực thi var++, nếu nó không == 10 lúc này chương trình sẽ được chạy trước và đợi lần lặp sau.  
+

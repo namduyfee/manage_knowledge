@@ -11,38 +11,56 @@
 	* target .. : prerequisites ; recipe
 		recipe
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TARGET ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ các target đều được xem là file, nếu file đó không tồn tại nó sẽ luôn chạy cái rule đó, nếu nó là một file đã tồn tại thì lúc này nó mới kiểm tra xem có sự thay đổi nào trong prerequisites hay không nếu có nó sẽ chạy rule lại. 
 
++ giả sử có một rule như clean, clean không có prerequisites nghĩa là khi nó đã tồn tại thì không cần chạy nó nữa (đơn giản bởi vì nó không phụ thuộc vào prerequisite 
+nào nghĩa là nó luôn không đổi chứ không phải nó không phụ thuộc vào prerequisties nào thì nó sẽ luôn chạy điều đó là thừa và không hợp logic). 
 
-	- target : 
-		   + các target đều được xem là file, nếu file đó không tồn tại nó sẽ luôn chạy cái rule đó, nếu nó là một file đã tồn tại thì lúc này nó mới kiểm tra xem 
-		     có sự thay đổi nào trong prerequisites hay không nếu có nó sẽ chạy rule lại. 
+	- thế nên khi dùng những rule mà không có prerequisites chúng ta phải luôn có .PHONY để đảm bảo nó chạy kể cả khi đã có file trùng tên tồn tại. 
 
-		   + giả sử có một rule như clean, clean không có prerequisites nghĩa là khi nó đã tồn tại thì không cần chạy nó nữa (đơn giản bởi vì nó không phụ thuộc vào prerequisite 
-		     nào nghĩa là nó luôn không đổi chứ không phải nó không phụ thuộc vào prerequisties nào thì nó sẽ luôn chạy điều đó là thừa và không hợp logic). 
+	- giả sử không có file trùng tên: thì actions đó sẽ luôn được chạy bởi vì make xem target là file do đó khi ta gọi clean thì nó sẽ không tìm thấy clean tồn 
+	  tại dẫn đến nó luôn chạy rule đó. 
 
-		   - thế nên khi dùng những rule mà không có prerequisites chúng ta phải luôn có .PHONY để đảm bảo nó chạy kể cả khi đã có file trùng tên tồn tại. 
++ NOTE: TUY NHIÊN CHÚNG TA CÓ VPATH THẾ NÊN CHÚNG TA CÓ THỂ CHỈ ĐỊNH ĐỂ LẤY PATH CỦA TARGET VPATH %.O THAY VÌ CHỈ ĐƯA CHO NÓ CÁI TÊN VÍ DỤ
+vpath %.c $(SRC_DIR)
+%.o : %.c 
+- khi ta nhập hello.o thì nó sẽ kiểm tra ngay tại folder đang chứa makefile xem có file hello.o không đương nhiên là không có rồi bởi vì ta lưu trong OUT_DIR do đó rule này sẽ luôn chạy
+do nó thấy rằng hello.o chưa được tạo ra(tại folder có chứa makefile) còn về phần hello.c do có vpaht cho %.c nên nó có thể cho đường dẫn rõ ràng.
 
-		   - giả sử không có file trùng tên: thì actions đó sẽ luôn được chạy bởi vì make xem target là file do đó khi ta gọi clean thì nó sẽ không tìm thấy clean tồn 
-		     tại dẫn đến nó luôn chạy rule đó. 
++ nhưng nếu ta áp dụng vpath %.o $(OUT_DIR) thì lúc này nó sẽ cho ta đường dẫn rõ ràng vào target và nó có thể tránh chạy lại khi không có sự thay đổi nào trong prerequisites.
+vpath %.o $(OUT_DIR)
+vpath %.c $(SRC_DIR)
+%.o : %.c 
 
-		     
-	- prerequisites : khi bạn đưa prerequisites thì nó sẽ kiểm tra xem có rule nào trùng với nó không, nếu có lúc này nó hoạt động như target, nếu không nó hoạt động như file 
-			  quyết định việc có chạy lại rule hay không. 
+lúc này nếu file.o path chưa được tạo nó sẽ chạy rule khi đã có file.o path thì nó sẽ kiểm tra prerequisites xem có sự thay đổi không, nếu có nó sẽ chạy lại, nếu không nó sẽ không 
+chạy nữa. 
 
-	- recipe : là các câu lệnh thực hiện 
-	
-	- mỗi câu lệnh tương ứng một dòng tách biệt, nếu một câu lệnh quá dài mà quá dài mà muốn 
-	xuông dòng để đẹp mắt hơn thì dùng kí tự '\' 
-
-
-	** việc đặt target trùng tên với file.đuôi chỉ là cho chương trình mạch lạc rõ ràng hơn 
-	còn tên file phụ thuộc vào câu lệnh ở dưới
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PREREQUISITES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	     
++ khi bạn đưa prerequisites thì nó sẽ kiểm tra xem có rule nào trùng với nó không, nếu có lúc này nó hoạt động như target, nếu không nó hoạt động như file 
+quyết định việc có chạy lại rule hay không. 
 
 * có hai kiểu prerequisites: Normal Prerequisites và Order-Only Prerequisites
 - Normal Prerequisites : nếu có sự cập nhật trên Normal Prerequisites hoặc Normal Prerequisites chưa được chạy lần nào thì target sẽ được thực thi 
 - Order-Only Prerequisites : chỉ kiểm tra xem Order-Only Prerequisites exist hay không nếu không nó sẽ chạy và tạo Order-Only Prerequisites
 và chạy target, tuy nhiên khi Order-Only Prerequisites có sự cập nhật sửa đổi thì target lại không được chạy, Order-Only Prerequisites chỉ 
-là điều kiện tiên quyết đảm bảo  Order-Only Prerequisites đã được hiện hữu. 
+là điều kiện tiên quyết đảm bảo  Order-Only Prerequisites đã được hiện hữu.
+
+NOTE: FILE.H MÀ FILE TARGET CÓ INCLUDE THÌ PHẢI ĐẶT LÀM PREREQUISITES LUÔN THÌ LÚC ĐÓ NÓ MỚI TÁC ĐỘNG ĐẾN TARTGET NẾU KHÔNG NÓ SẼ KHÔNG ẢNH HƯỞNG ĐẾN VÀ MAKE FILE KHÔNG CHO 
+RULE CHẠY LẠI DÙ TRONG FILE.H CÓ SỰ THAY ĐỔI HAY CŨNG KHÔNG PHÁT HIỆN LỖI NẾU FILE.H CÓ LỖI. 
++ GIẢ SỬ TRONG FILE MAIN.H CÓ CHỨA CÁC INCLUDE CỦA FILE.H KHÁC THÌ KHI MK CHO MAIN.H VÀO PREREQUISITES THÌ LÚC ĐÓ CÁC FILE.H ĐƯỢC INCLUDE TRONG MAIN.H ẤY MÀ CÓ SỰ THAY ĐỔI 
+THÌ ĐỒNG NGHĨA MAIN.H CŨNG CÓ SỰ THAY ĐỔI VÀ LÚC NÀY RULE SẼ ĐƯỢC CHẠY LẠI HOẶC BÁO LỖI (NẾU CÓ LỖI TRONG CÁC FILE.H ĐẤY)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RECIPE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ là các câu lệnh thực hiện 
+
++ đây là lệnh của GNU compiler collection thế nên nó sẽ khác lệnh makefile chẳng hạn như chỉ thị -I(INC_DIR) không dùng thay cho vpath %.h được mỗi cái có mục đích và giới hạn riêng. 
+	
++ mỗi câu lệnh tương ứng một dòng tách biệt, nếu một câu lệnh quá dài mà quá dài mà muốn 
+xuông dòng để đẹp mắt hơn thì dùng kí tự '\' 
+
+** việc đặt target trùng tên với file.đuôi chỉ là cho chương trình mạch lạc rõ ràng hơn 
+   còn tên file phụ thuộc vào câu lệnh ở dưới
+ 
 
 
 

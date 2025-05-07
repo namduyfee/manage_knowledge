@@ -63,6 +63,8 @@ trên kia là hướng tới một điểm lượng tử thôi.
 
 / ********** Dual ************************* /
 - các adc có thể hoạt động độc lập với nhau, cùng lúc. 
+- nếu các bit dual để là 0000: independent mode nghĩa là lúc này 2 ADC hoạt động độc lập và DR sẽ lưu ở riêng của mỗi ADC 
+- khi cấu hình dual khác 0, lúc này bit[15:0] của thanh ghi ADC1->DR sẽ lưu giá trị của ADC1 còn bit[31:16] của thanh ghi ADC1->DR sẽ lưu giá trị của ADC2. 
 - tuy nhiên khi muốn 2 khối adc có mối liên kết với nhau (master, slave) thì lúc đấy mới sử dụng đến mode này 
 - các mode của dual có trong manual. 
 

@@ -1,0 +1,11 @@
+
+condition ? command 1 : command 2
+
+* ý nghĩa của toán tử 3 ngôi là nếu conditon đúng thì cả câu lệnh sẽ là command1 , fail thì sẽ còn command2 
+
+ví dụ (a > b) ? printf("namd duy") : printf("duy nam"); 
+khi a > b đúng thì cả câu lệnh còn lại printf("nam duy") else thì printf(duy nam)
+
+* hoặc int tem = (a > b) ? x : y; 
+khi a > b đúng cả câu lệnh còn lại x -> int tem = x; 
+sai thì còn lại y -> int tem = y; 

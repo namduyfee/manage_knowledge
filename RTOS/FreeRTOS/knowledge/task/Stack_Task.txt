@@ -1,0 +1,27 @@
+
+* mỗi task sẽ được cấp pháp một stack theo yêu cầu ở hàm creatTask (stack này được FreeRtos lấy từ heap cấp cho). 
+
+* nếu tại một thời điểm trong task mà số byte xin làm cho tràn stack thì nó sẽ nhảy vào hàm Overflowhook
+
+* nguyên tắc hoạt động giống như Stack thông thường về phạm vi hoạt động của biến, nếu biến ra ngoài phạm vi thì có thể tái sử dụng bộ nhớ của nó. 
+
+- ví dụ: nếu cấp pháp stack cho task là 128 
+khai báo 1 mảng int 129 elements -> nó sẽ overflow
+
+khai báo 2 mảng int mỗi mảng 100 elements cũng sẽ gây overflow 
+
+Tuy nhiên nếu khai báo while(1) {
+			{ mảng 1}; 
+			{ mảng 2}; 
+		       }
+thì sẽ không gây tràn do khi thoát ra khỏi scope vùng nhớ mảng 1 có thể tái sử dụng cho mảng 2 -> không bị overflow
+
+NGUYÊN TẮC:
+- khi thoát ra khởi Scope thì vùng nhớ của biến đó sẽ được tái sử dụng cho việc khác. 
+- Tại một thời điểm cần xem biến nào đang có hiệu lực và tổng memory có làm tràn stack không. 
+
+NOTE: nếu khai báo biến volatile thì nó sẽ không tái sử dụng vùng nhớ đó dù đã ra khỏi Scope , ví dụ như trên nếu khai báo mảng 1 là volatile thì khi ra khỏi scope nó 
+vẫn không thể tái sử dụng để cấp cho mảng 2 và dẫn đến overflow. nhưng volatile thường sẽ dùng biến toàn cục bởi volatile thường là biến kết nối với _IO hay DMA thế nên thương 
+sẽ dùng cho toàn cục và volatile là biến có thể thay đổi dù trong code không có tác động đến nó chính vì tính chất này không cần phải volatile cho biến cục bộ vì biến cục bộ thường 
+được tác động bởi code. Tuy nhiên nếu khai báo volatile trong while(1) thì không sợ bị overflow vì mặc dù tính chất là bộ nhớ sẽ không bị ghi đè nhưng nếu khai báo lại biến đó thì 
+nó sẽ dùng ô nhớ cũ. 

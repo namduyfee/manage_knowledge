@@ -1,0 +1,33 @@
+* tùy thuộc vào dòng vđk mà số byte Flash khác nhau. 
+
+* word : data/instruction 32bit
+
+* half word : data/instruction 16bit
+
+* byte : data 8bit
+
+* D-code : lưu data   
+* L-code : lưu instructinon
+* Flash chia thành pages (trang), mỗi page thường là 1KB (STM32F103x8 và xB).
+* Chỉ có thể xóa theo page chứ.
+* không thể ghi vào vùng flash nếu vùng đó chưa được xóa. 
+* muốn ghi xòa FLASH thì HSI phải được bật. 
+
+* chỉ có thể ghi theo từng half word, cần ghi vào địa chỉ chẵn. 
+
+* có thể đọc bất kì bao kiểu dữ liệu tùy ý,không cần canh địa chỉ, không cần unlock. 
+
+* bởi vì cpu chạy nhanh hơn so với flash thế nên khi cpu đọc flash nó cần delay lại một số chu kì cần thiết do đó phải set LATENCY cho chính xác với tần số. 
+
+* Prefetch Controller là bộ điều khiển trong flash chịu trách nhiệm đọc trước các lệnh và đưa vào Prefetch buffer để khi cpu cần thì dùng luôn vì flash chậm so với cpu, nên 
+tránh việc cpu phải đợi. 
+
+* Prefetch Controller chỉ nên bật/tắt khi SYSCLK thấp hơn 24Mhz, và HCLK = SYSCLK (AHB not div), bộ prefetch thường được bật/tăt trong quá trình khởi tạo khi bộ vi điều khiển đang chay 
+trên RC(HSI). thế nên nó thuường được enable ngay đâu hàm config RCC. 
+
+* kể cả bật prefetch thì vẫn phải cáu hình LATENCY đứng với tần số yêu cần. 
+
+* Prefetch buffer có 2 khổi, mỗi khối gồm 8 bytes. 
+
+
+

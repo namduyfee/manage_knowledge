@@ -1,0 +1,28 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROTOTYPE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* khi compiler chạy, nếu nó gặp một hàm mà nó CHƯA thấy trong file đó, hoặc nó nằm ở một file khác thì nó sẽ báo lỗi. 
+* lúc này PROTOTYPE sẽ báo cho complier biết rằng hàm đó sẽ được lấy ở phần dưới của file hoặc của file khác và không gây ra lỗi. 
+
+* PROTOTYPE chính là EXTERN NGẦM khi viết một prototype : void foo(void); <=> extern foo(void); 
+
+- THẾ NÊN KỂ CẢ KHI VIẾT Ở FILE.C HAY FILE.H MỘT PROTOTYPE NÓ SẼ HIỂU ĐẤY LÀ MỘT EXTERN HÀM
+- ví dụ ở file startupt.c viết void systemtick_handler(void); mà systemtick_handler được định nghĩa ở nới khác thì vẫn được vì lúc này compiler sẽ ngầm hiểu 
+void systemtick_handler(void); là extern void systemtick_handler(void);
+
+* VẬY EXTERN DÙNG CHO FUNCTION LÀM GÌ NỮA, ĐỂ ĐẢM BẢO ÍT BUG XẢY RA, CHƯƠNG TRÌNH ĐƯỢC DỄ HIỀU, SỬA KHI TRONG FILE.C TA MUỐN DÙNG MỘT HÀM CỦA FILE.C KHÁC MÀ KHÔNG MUỐN INCLUDE 
+LÚC NÀY CÓ THỂ DÙNG MỖI PROTOTYPE CỦA NÓ THÌ VẪN ĐƯỢC NHƯNG DÙNG THÊM EXTERN SẼ ĐẢM BẢO AN TOÀN HƠN. 
+
+TỔNG KẾT: PROTOTYPE CHÍNH LÀ EXTERN NGẦM THẾ NÊN KHÔNG NHẤT THIẾT PHẢI DÙNG THÊM EXTERN CHO HÀM, TUY NHIÊN KHI KHÔNG MUỐN INCLUDE MÀ CHỈ MUỐN KÉO MỘT HÀM SANG TRỰC TIẾP VÀO FILE.C
+ĐỂ DÙNG THÌ VẪN NÊN SỬ DỤNG EXTERN ĐỂ TRÁNH SAI SÓT VÀ LỖI, DÙ ĐỂ MỖI PROTOTYPE CỦA HÀM ĐÓ THÌ NÓ VẪN HIỂU NHƯNG CÓ THỂ MỘT SỐ BẢN COMPILER SẼ YÊU CẦU EXTERN. 
+
+ví dụ : hàm delay() được định nghĩa ở trong file1.c và không cần viết prototype của nó ở file1.h
+ở file2.c ta chỉ cần đặt prototype của nó void delay(); và gọi hàm delay trong file2.c thì compiler vẫn hiểu đấy là hàm được định nghĩa trong file1.c
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EXTERN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* THƯỜNG DÙNG CHO BIẾN TOÀN CỤC 
+
+* DÙNG ĐỂ EXTERN HÀM (ĐẢM BẢO ĐỘ AN TOÀN). 
+
+

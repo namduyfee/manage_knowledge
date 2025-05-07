@@ -1,0 +1,27 @@
+
+* khi dùng dma để truyền những data mà data đó thường được tách ra các byte 8 bits sau đó chúng ta gộp lại ở bên nhận thì sẽ có một vấn đề phát sinh 
+
+- giả sử truyền 2 byte để gộp 
+byte1 = tem & 0xFF; 
+byte2 = tem >> 8 ; 
+
++ nếu chúng ta tách như vậy để truyền thì có thể xảy ra lỗi khi mà byte 1 hoặc 2 vẫn đang giữ tem cũ trong khi tk kia lại giữ các bit của tem mới lúc này nếu dma mà truyền sẽ gây ra sai dữ liệu thực 
+
+- ví dụ dataraw = 0xFF00; 
+
+read tem = dataraw; 
+
+-> byte1 = 0x00; 
+-> byte2 = 0xFF; 
+
+sau đó dataraw = 0x00FF; 
+read tem = dataraw; 
+
+-> byte1 = 0xFF; 
+
+ngay lúc này dma mà truyền thì có phải sẽ truyền thàng 0xFFFF vì chưa kịp gán cho byte2 không do đó nên , khuyến nghị dùng mode single dma và mỗi lần sẽ kích hoạt thủ công nó. chúng ta sẽ update cả hai byte rồi mới cho bắt đầu dma lúc này nó sẽ đồng bộ với nhau. 
+
+- ngoài ra nên dùng biến tem để đọc dataraw rồi mới dịch bit tem chứ không đọc dịch dataraw trực tiếp vì có thể dataraw thay đổi ngay khi gán cho byte kia thì cũng dẫn đến sai, thế nên cần tem để giữ có giá trị không bị thay đổi trong một lần gán. 
+
+- nếu dùng mode single chúng ta kiểm tra bit TC flag mỗi khi nó set lên 1 nghĩa là hoàn tất vòng truyền thì ta sẽ update byte sau đó enable dma thủ công như thế sẽ tránh sai. 
+
