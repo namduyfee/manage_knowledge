@@ -1,0 +1,33 @@
+
+* kernel có thể xem là một process chạy trên máy tính và nó sẽ thực thi chức năng của kernel. 
+* device file không phải device driver, device file là phương pháp giúp user tương tác với device driver thông qua kernel.  
+
+[User Program] 
+     │
+     │ open("/dev/xxx"), read(), write(), ioctl()...
+     ▼
+[Device File: /dev/xxx]
+     │ (gửi syscall)
+     ▼
+[Kernel]
+     │
+     ▼
+[Tìm đúng device driver theo major number]
+     │
+     ▼
+[Driver xử lý → giao tiếp trực tiếp với phần cứng]
+     │
+     ▼
+[Trả kết quả về user]
+
+* DEVICE FILE CHÍNH LÀ FILE YÊU CẦU, CHỈ DẪN CỦA USER CHO KERNEL ĐỂ KERNEL GIÚP USER GIAO TIẾP VỚI DEVICE DRIVER (HARDWARE) (GỌI HÀM,..).  
+* NÊN HIỂU USER SPACE KERNEL SPACE FILE LÀ NGANG NHAU CHÚNG CHỈ GỌI ĐẾN NHAU TUY NHIÊN KERNEL CHỊU TRÁCH NHIỆM ĐIỀU PHỐI VÀ TÁC ĐỘNG ĐƯỢC VÀO HARDWARE. 
+* khi user muốn tương tác với hardware bắc buộc phải thông qua kernel, mà kernel nhìn mọi thứ là file, do đó để tương tác với kernel, chúng ta cần viết một file, khi user gọi device file, kernel sẽ theo file đó mà điều hướng đến device driver major number,.. mà user yêu cầu và driver sẽ gọi các hàm tương ứng để xử lý data. 
+
+* khi trans data giữa use space và kernel space thì không gán trực tiếp (vì có thể hiểu nó là hai vùng process song song) nó có thể gây lỗi, do đó trong chúng ta dùng các lệnh 
+
+- copy_to_user(bufferuser, bufferkernel, strlen(bufferkernel)); 
+
+- copy_from_user(bufferkernel, bufferuser, strlen(bufferuser)); 
+
+ 

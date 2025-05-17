@@ -1,0 +1,30 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PHÂN LOẠI TẬP TIN  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* File Regular
+- các file chứa dữ liệu thực tế trong ổ cứng. 
+- không bị mất đi khi khởi động lại hệ thống. 
+- mỗi loại file sẽ có format riêng. 
++ ví dụ binary file. 
++ file text 
+...
+
+* Thư Mục
+- là file nằm trên ổ cứng. 
+- dữ liệu trong thư mục là tên, thông tin của các file nằm trong đó.
+- không có format riêng (chỉ text).  
+
+* các loại file khác
+- meta data.
+- symbolic link
+- virtual file
+	+ socket
+	+ device file
+	+ STDIN, STDOUT, STDERR
+
+* File descrtiptor
+- là một số nguyên không âm. 
+- có một table chứa con trỏ đến các file
+- 3 phần tử đầu tiên là STDIN 0, STDOUT 1, STDERR 2
+- bản chất số nguyên trả về là index trong mảng. 
+
