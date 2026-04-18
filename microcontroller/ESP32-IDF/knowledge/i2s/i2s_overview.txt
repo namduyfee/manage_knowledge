@@ -1,0 +1,21 @@
+
+* âm thanh phát ra dựa trên sự dao động, do đó : 
+- dù biên độ sóng cao hay bé nếu sự thay đổi hình thù sóng giống nhau thì âm thanh nghe sẽ giống nhau, nếu sóng scale to lên thì nghĩa là âm sẽ to lên nhưng đều nghe thấy 
+âm thanh giống nhau.
+- khi không có sự dao động -> im lặng , do đó không phải 0v = im lặng mà là sự đứng im gây ra sự im lặng, nếu 1.65v, 2v, hay 3v... đứng im thì nó vẫn sẽ là im lặng.
+
+- sample : giá trị 1 slot
+- frame  : giá trị cặp slot 
+
+* i2s luôn luôn phát 1 lần 2 slot
+
+- ở slot mode : mono / stereo là cách chỉ định mode, không có mono left or mono righ
+- khi đưa mảng vào channel write thì:
++ nếu mode stereo driver sẽ hiểu các phần tử cho kênh left , right được xen kẽ trong mảng đấy, là một cặp data.
++ nếu mode mono driver sẽ hiểu toàn bộ phần từ mảng đó là phần tử đơn lẻ.
+sau đó driver sẽ đưa giá trị đó vào slot nào để phát tùy vào cấu hình slot mask:
+nếu slot mask là left thì giá trị đó phát ở left và slot right phát 0.
+nếu slot mask là righ thì giá trị đó phát ở right và slot left phát 0.
+nếu slot math là both thì giá trị đó được phát ở hai slot.
+
+-> chỉ tồn tại mode mono; không tồn tại mode mono left , mono right . left, right chỉ dựa vào vào việc slot mask

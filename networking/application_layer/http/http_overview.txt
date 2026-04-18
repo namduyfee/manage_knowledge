@@ -1,0 +1,32 @@
+
+* HTTP - HYPERTEX TRANSFER PROTOCOL - GIAO THỨC TRUYỀN TẢI SIÊU VĂN BẢN
+
+- http là mô hình server - client thực sự, client mở kết nối, gửi yêu cầu và server sẽ thực hiện xứ lý.
+- http sử dụng text format, nghĩa là thông tin của http mô tả trên ngôn ngữ con người, và chúng ta có thể đọc hiểu được ngay khi nhìn vào:
+ví dụ : lệnh get chúng ta gửi rõ ràng và đầy đủ 'G' 'E' 'T' -> chúng ta nhìn là hiểu. -> http qui định phải rõ chữ như thế để có ý nghĩa.
+trong khi đó mqtt thực hiện dựa trên bit -> lệnh, data... mà nó gửi không cần phải rõ ràng thành chuỗi từ để người hiểu, mà chỉ cần máy đọc và hiểu, có ý nghĩa ngay.
+ví dụ : mqtt muốn gửi public nó không cần gửi 'p' 'u' 'b' 'l' 'i' 'c'
+mà chỉ càn gửi 0011 . nó sẽ tự hiểu là type public.
+
++ thực tế truyền dựa format nào thì đều là truyền bit trên dây hoặc vô tuyến ; chỉ khác cách người ta thêm nhưng qui định và tiêu chuẩn cho format đó -> làm cho data thêm lớn.
+kiểu nhị phân được xem là kiểu đơn giản và sơ khai nhất, vì nó chỉ cần máy hiểu chứ không cần thêm qui tắc gì thêm.
+
+- http hoạt động dựa trên nguyên tắc request - respone.
++ server không bao giờ chủ động liên lạc; hay gửi bất cứ thứ gì. nó dựa trên client
++ client sẽ gửi request : get or post và server sẽ gửi reponse.
++ do đó cả 2 chỉ kết nối khi client yêu cầu; sau đó kết nối có thể được ngắt hoặc giữ sau mỗi requets - respone thì tùy cấu hình
+tuyệt nhiên dù kết nối có được giữ thì server cx không chỉ động làm gì đó trước khi có request từ client mà chỉ đứng im. 
+
+
+
+- các web như chrome, firefox... là những browser nó chỉ là phần mềm local chạy trên máy tính, thực hiện đóng gói thông tin mà ta nhập thành chuẩn http,
+nhận data đầu vào và hiện thị,... tuy nhiên nó chỉ là một phần mềm local.
++ quan trọng là các thông tin chúng sau khi được browser chuẩn hóa nó sẽ gửi ra internet và đến với sever nơi thực sự xử lý yêu cầu của ta, sau đó nó gửi về máy
+và được browser tiếp nhận, xử lý, hiện thị.
+
+********************************* QUI ĐỊNH FRAME TRUYỀN *****************************
+
+- header
+
+- body
+

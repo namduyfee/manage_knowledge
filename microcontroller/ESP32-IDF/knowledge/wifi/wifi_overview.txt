@@ -1,0 +1,37 @@
+
++ wifi truyền dựa trên sóng radio, và kênh truyền( kênh truyền <=> tần số )
+* CHỈ XÉT VỚI TẦNG MAC THẤP GẦN VỚI PHY.
+- khi ở level MAC thấp gần với PHY thì nó đơn giản xem tất cả là thiết bị phát sóng nó chưa quan tâm về hệ thống ap, sta gì cả
+các thiết bị phát sóng chỉ cần sử dụng csma/ca là có thể gửi bất kì cho nhau.
+- tuy nhiên đây chỉ là tầng thấp và sơ khai, để mọi thứ trở nên có tổ chức hơn, người ta build lên một tầng logic nơi đó có ap và sta.
+lúc này mọi thứ sẽ theo qui chuẩn và sta không được tự do gửi cho nhau mà nếu muốn gửi nó bắt buộc phải gửi qua ap
+
+- csma/ca : trước khi phát lên kênh thiết bị sẽ nghe xem kênh có rảnh không, nếu k rảnh thì chờ 
+nếu rảnh thì chờ random 1 ít thời gian sau đó kiểm tra lại nếu rảnh thì gửi.
+- wifi không thể truyền song công mà là bán song công vì khi phát trên channel tín hiệu bản thân của nó quá mạnh
+và do đó việc cùng đọc channel đó sẽ là vô nghĩa, do đó nó sẽ không thể phát hiện tranh chấp khi truyền, mà chỉ có thể kiểm tra trước khi truyền.
+
+
+- frame của mac addr luôn có 4 địa chỉ : SA - source address địa chỉ nguồn của tin
+										 DA - dest address địa chỉ đích
+										 TA - địa chỉ nguồn của 1 lần truyền 
+										 RA - địa chỉ đích của 1 lần truyền
+khi truyền tin thì một gói có thể được luôn chuyển qua nhiều thiết bị; và SA, DA là địa chỉ điểm đầu và điểm cuối thực sự
+còn TA, RA là nguồn và đích của mỗi đoạn ngắn trong chu trình.  
+
++ các mode wifi chạy : sta, softAP , và softAP + sta
+- sta không hỏi ap rằng 'tôi có được truyền không' ; mọi thiết bị wifi ở phần truyền đều hoạt động dựa trên csma/ca
++ các card mạng đều có địa chỉ mac và việc giao tiếp dựa trên đó 
+
+- trên esp chỉ có 1 radio -> khi dùng wifi thì cả ap và sta của thiết bị phải hoạt động trên cùng 1 channel. 
+- khi cấu hình ban đầu sta sẽ không có đặt tính channel, nó sẽ được thiết bị phát cấp khi tham gia vào mạng của ap.
+- ap ban đầu thì có channel và ap , hệ thống sẽ hoạt động trên channel đó. cho đến khi sta của nó được connect và cấp channel bởi 1 thiết bị khác
+lúc này ap sẽ từ động switch sang channel đó, và hệ thống hoạt động trên channel đó.
+- khi sta đã kết nối với ap ; thì ap cx sẽ luôn phát beacon định kì cho sta cho nhiều mục đích và có dùng nó để biết về việc giữ kết nối
+khi không nhận được gói này sta sẽ tự động disconnect và scan lại.
+
+- khi sta ngắt kết nối thì ap sẽ lại chuyển về channel ban đầu của nó.
+
+
+
+

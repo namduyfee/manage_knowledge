@@ -1,0 +1,19 @@
+
+- hệ số OSR (oversampling) là số bit xuất ra để biểu diễn 1 sample (1 giá trị slot).
+
+giả sử OSR = 128; thì giá trị của slot sẽ được biểu diễn qua 128 bit pdm.
+
+bởi vì 128 bit -> tấn số pdm = 128 * tần số cần đáp ứng của audio (trong khoảng chu kì audio qui đinh phải xuất 128bit).
+ví dụ fpcm = 48khz -> fpdm = 128 * 48khz.
+
+- pdm không chỉ dựa vào số lượng bit 1 trong số 128 bit đó để xác định mức.
+bởi vì nếu dựa vào số lượng bit 1 thì số lượng bit 1 sẽ chỉ 0->128 <=> chỉ có 129 mức
+nhưng nó có thêm noise shaping -> thứ tự sắp xếp, cơ chế cộng 
+-> nó không chỉ truyền bit thông thường; mà là truyền bit đã qua thuật toán xử lý 
+
+-> độ phân giải có thể lên 2^10 , 2^16,....
+
+- pdm sẽ luôn phát 2 slot ra dây dout. do đó nếu dùng mono mà chỉ dùng left thì kênh right nó không 
+hề mất đi nó vẫn sẽ được phát ra với giá trị 0 và điều này làm ảnh hưởng đến điện áp khi qua RC
+-> do đó khi dùng pdm mono thì nên dùng both. tín hiệu qua RC sẽ ổn định và tốt hơn.
+
