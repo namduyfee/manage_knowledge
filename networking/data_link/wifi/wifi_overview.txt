@@ -1,0 +1,15 @@
+
+* nguyên thủy các radio đều có thể phát và nghe lẫn nhau nếu cùng channel.
+nhưng ieee dựa trên radio để xây dựng lên một tiêu chuẩn ieee 802.11 (wifi) bao gồm hardware và software, để quản lý thiết bị và channel có tổ chức và qui chuẩn.
+
+
+* theo qui chuẩn ieee thì wifi thì khi 2 thiết bị tham gia vào một ap; khi thiết bị A, B muốn gửi data cho nhau
+thì gói dữ liệu từ hai thiết bị đều phải đi qua ap rồi mới đến với thiết bị kia.
+- thiết bị A ở tầng 1, thiết bị B ở tầng 3 thì k thể gửi data trực tiếp cho nhau được (sóng wifi không thể đến)
+- mỗi thiết bị có thể có bảo mật riêng, khác nhau mà chỉ ap và chính nó mới được phép biết.
+...
+-> không bao giờ truyền trực tiếp giữa 2 sta, mà phải trung chuyển qua ap. nếu gửi trực tiếp thì gói tin đấy sẽ không được nhận.
+
++ nếu muốn truyền tự do thì có thể dùng epsnow hoặc dùng wifi direct.
+
+

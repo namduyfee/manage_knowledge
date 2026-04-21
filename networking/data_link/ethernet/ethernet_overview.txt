@@ -1,0 +1,11 @@
+
+- địa chỉ ethernet là 6 byte.
+
+- một frame ethernet chứa dest add, source add, type field, data.
+
+- nó sẽ lắm nghe các gói có dest add trùng với add của nó, và lắng nghe các gói có dest add là 0xff, 0xff,.. (broadcast)
+
+- ethernet sử dụng cơ chế csma/cd ; trong 1 thời điểm chỉ 1 thiết bị được truyền và tất cả thiết bị khác có thể nghe cùng lúc
+nếu 2 thiết bị cùng lúc cố ý truyền thì chúng sẽ dừng lại và sau đó chờ đợi khoảng thời gian ngẫu nhiên trước khi truyền lại.
+
+

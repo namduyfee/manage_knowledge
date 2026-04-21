@@ -1,0 +1,12 @@
+
+thuật ngữ của gói tin ở các tâng:
+- datalink : wifi, ethernet... frame.
+- ip layer: ip packet.
+- transport layer: tcp segment, udp datagram.
+- application layer: message.
+
+* tcp/ip stack là phần mềm, quản lý network của thiết bị, mọi card mạng: wifi, ethernet,... chịu sử quản lý chung của stack này
+- địa chỉ ip là địa chỉ của card mạng chứ không phải địa chỉ của thiết bị. vậy đúng hơn là internet chính là mạng lưới card mạng
+chứ không phải thiết bị.
+
+
