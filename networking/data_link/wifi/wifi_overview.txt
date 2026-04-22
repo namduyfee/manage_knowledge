@@ -12,4 +12,40 @@ thì gói dữ liệu từ hai thiết bị đều phải đi qua ap rồi mới
 
 + nếu muốn truyền tự do thì có thể dùng epsnow hoặc dùng wifi direct.
 
+* ap thực chất chính là switch; trong wlan ap đóng vai trò điều phối ..., tương tự switch trong lan
+ap dùng trong wlan
+switch dùng trong lan
 
+*** các thiết bị trong mạng ***
+# trong thiết bị từ nhà mạng cung cấp thường thì nó đã tích hợp sẵn modem, router, card wifi, switch trong đó rồi.
+
+# có thể hiểu theo mô hình mạng ap, switch chính là layer phy, datalink nơi thực hiện truyền tin trong mạng
+; router chính là layer ip nơi xử lý logic và định tuyến.
+
+++ ethernet là chuẩn truyền thông; và nó không thuộc quyền sở hữu của thiết bị nào cả, nó chỉ là phương thức để giao tiếp bình đẳng.
+wan hay lan về bản chất vẫn là chuẩn ethernet nhưng cái khác là software trong thiết bị sử dụng cổng a, cổng b cho mạng nội bộ hay để 
+xuất ra internet -> người ta gọi wan và lan cho dễ hiểu.
+
++ modem là thiết bị kết nối trực tiếp tới nhà mạng.
+nó chịu trách nhiệm nhận tín hiệu từ nhà mạng, giải mã tín hiệu; và mã hóa, gửi tín hiệu đến nhà mạng.
+gốm cổng kết nối tới nhà mạng và ethernet... kết nối đến router...
+-> nó như là cầu nối
++ router thiết bị định tuyến.
+- về cơ bản nó chỉ bao gồm cpu, ram, flash, ... chỉ là thiết bị xử lý tính toán thông thường; và nó chứa các chương trình
+phục vụ cho việc định tuyến.
+- nó như một thiết bị chứa chương trình xử lý ở ip layer.
+- nó sẽ gồm cổng wan : để kết nối với modem và cổng lan để kết nối đến các thiết bị bên trong.
+- nó là nơi chứa arp, nat,....
+
+
++ card wifi (wlan): đây là thiết bị phát tín hiệu wifi cho các thiết bị khác kết nối; thực hiện xử lý wifi theo tiêu chuẩn
+ieee 802.11...
+các thiết bị điện thoại; máy tính khi kết nối wifif chính là kết nối đến card wifi này và truyền tin với nó. 
+-> nói đúng hơn card wifi này chính là thiết bị tầng 2
+- khi ta laptop, điện thoại của ta truyền tin thì sẽ gửi trực tiếp đến nó.
+- nó chỉ là một thiết bị tâng 1 2 và nó sẽ không biết định tuyến, arp,... sau khi nhận gói nó sẽ gửi yêu cầu đến router ; router mới có
+chức năng này và xử lý; sau đó router sẽ chỉ định gói tin sẽ được gửi qua đâu.
+
++ switch (lan): tương tự như card wifi nhưng nó là lan ; wifi là wlan. chuẩn giao tiếp ethernet.
+
++ bridge : là cầu nối, ví dụ một thiết bị kết nối wlan một thiết bị kết nối lan muốn nói chuyện với nhau.
