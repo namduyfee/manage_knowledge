@@ -17,6 +17,14 @@ ap dùng trong wlan
 switch dùng trong lan
 
 *** các thiết bị trong mạng ***
+# mỗi card wifi hay mỗi cổng ethernet đều có mac address riêng.
+ví dụ router không trực tiếp phát mạng wifi,... nhưng nó vẫn có cổng WAN, LAN (là những cổng ethernet)
+-> mỗi cổng này đều có một mac address. -> trên router vẫn gồm các hardware có mac address -> vẫn giao tiếp với nó dựa trên mac address.
+=> vậy mac address nó là địa chỉ của mỗi cổng ethernet, card wifi được ghi sẵn trong quá trình sản xuất
+card wifi, ethernet chỉ là công cụ để giao tiếp, có thể dùng bởi bất kì thiết bị nào khi muốn.
+và địa chỉ mac add là địa chỉ cổng hoặc card chứ k phải của bản thân thiết bị; thiết bị chỉ dùng nó để đọc thông tin thôi.
+
+
 # trong thiết bị từ nhà mạng cung cấp thường thì nó đã tích hợp sẵn modem, router, card wifi, switch trong đó rồi.
 
 # có thể hiểu theo mô hình mạng ap, switch chính là layer phy, datalink nơi thực hiện truyền tin trong mạng
@@ -49,3 +57,21 @@ chức năng này và xử lý; sau đó router sẽ chỉ định gói tin sẽ
 + switch (lan): tương tự như card wifi nhưng nó là lan ; wifi là wlan. chuẩn giao tiếp ethernet.
 
 + bridge : là cầu nối, ví dụ một thiết bị kết nối wlan một thiết bị kết nối lan muốn nói chuyện với nhau.
+
+=> ap, switch chính là nơi trung chuyển gói tin.
+khi laptop kết nối wifi, máy truyền tin nó sẽ truyền đến ap trong frame sẽ bao gồm địa chỉ gửi, địa chỉ nhận,
+địa chỉ đích. địa chỉ đích có thể là địa chỉ mac các thiết bị nội bộ, hoặc địa chỉ mac của router.
+khi ap nhận được sẽ dùng mac address table của nó để xử lý và trung chuyển.
+
+- người ta dùng arp để lưu lại địa chỉ ip <-> mac tương ứng của các thiết bị trong mạng ở mỗi thiết bị chứa
+không sử dụng router để dịch ip -> mac vì muốn giảm thiểu tác vụ cho router. router chỉ hoạt động khi muốn giao tiếp 
+với bên ngoài, còn nội bộ thì nó k làm mà để tầng dưới làm tránh ảnh hưởng hiệu năng của router.
+
+- khi tầng ip đi xuống datalink nó dùng arp table để dịch ra địa chỉ mac để làm mac đích.
+- nếu không tìm thấy trong bảng nó sẽ phát broad để hỏi xem thiết bị nào có ip như thế thì gửi lại mac cho nó.
+việc phát broadcast vẫn là gửi đến ap để ap phát chứ k tự phát trực tiếp: mac_recv = mac ap; mac_dest = 0xff.. chứ không phải mac_recv = 0xff
+ap đọc được thấy mac_dest = 0xff.. nó sẽ phát broadcast hộ.
+
+# khi một router kết nối với 3 mạng nội bộ thì tương ứng nó cần 3 cổng ethernet và mỗi cổng sẽ là một địa chỉ ip riêng.
+tuy nhiên nhớ rằng trên router chỉ có 1 IP module. IP module này quản lý tất cả chứ không phải mỗi địa chỉ/cổng sẽ là một IP module riêng.
+

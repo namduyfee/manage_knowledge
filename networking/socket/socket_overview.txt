@@ -1,0 +1,12 @@
+- một socket được liên kết duy nhất với một tiến trình, nhưng một tiến trình có thể có nhiều socket.
+- sotket là công cụ, endpoint để tiến trình dùng trực tiếp để truyền nhận thông tin. sau đó socket sẽ đẩy xuống tcp/ip stack.
+- socket nằm giữa transport layer và application layer, ví dụ socket nằm giữa http, mqtt.. và tcp, udp.
+http, mqtt dùng socket để giao tiếp với tcp, udp..
+- socket sinh ra để giải quyết một số vấn đề:
++ trừu tượng hóa: người ta không muốn, không được phép trực tiếp làm việc với network stack; do đó socket
+là công cụ phục vụ cho việc này.
++ chuẩn hóa: nếu để người ta tự quản lý và làm việc với network stack thì mỗi lúc một style và không có tính chuẩn hóa
+cần thiết.
++ về cơ bản chúng ta có 2 cách làm việc với transport là socket và low level callback api
+nhưng low level chỉ dùng cho các ứng dụng nhúng nhỏ , yếu tài nguyên. khi qui mô lớn việc tất cả dùng raw callback api sẽ không thế
+quán lý, và có rủi ro.
