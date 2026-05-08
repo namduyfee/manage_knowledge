@@ -67,11 +67,31 @@ khi ap nhận được sẽ dùng mac address table của nó để xử lý và
 không sử dụng router để dịch ip -> mac vì muốn giảm thiểu tác vụ cho router. router chỉ hoạt động khi muốn giao tiếp 
 với bên ngoài, còn nội bộ thì nó k làm mà để tầng dưới làm tránh ảnh hưởng hiệu năng của router.
 
-- khi tầng ip đi xuống datalink nó dùng arp table để dịch ra địa chỉ mac để làm mac đích.
+- khi tầng ip đi xuống datalink nó dùng e để dịch ra địa chỉ mac để làm mac đích.
 - nếu không tìm thấy trong bảng nó sẽ phát broad để hỏi xem thiết bị nào có ip như thế thì gửi lại mac cho nó.
 việc phát broadcast vẫn là gửi đến ap để ap phát chứ k tự phát trực tiếp: mac_recv = mac ap; mac_dest = 0xff.. chứ không phải mac_recv = 0xff
 ap đọc được thấy mac_dest = 0xff.. nó sẽ phát broadcast hộ.
 
-# khi một router kết nối với 3 mạng nội bộ thì tương ứng nó cần 3 cổng ethernet và mỗi cổng sẽ là một địa chỉ ip riêng.
-tuy nhiên nhớ rằng trên router chỉ có 1 IP module. IP module này quản lý tất cả chứ không phải mỗi địa chỉ/cổng sẽ là một IP module riêng.
+~~~~~~~~~~ cách wifi xử lý gói tin ~~~~~~~~~
+- thiết bị sta khi kết nối với ap sẽ tạo một mã khóa mà chỉ sta đó và ap có.
+- mọi thiết bị sta không gửi trực tiếp qua nhau mà phải gửi lên ap sau đó ap gửi qua kia. do đó sta chỉ chấp
+nhận gói tin có địa chỉ gửi là ap.
+- khi một thiết bị gửi đến, sta sẽ kiểm tra địa chỉ nguồn xem nó có trùng với ap không và kiểm tra khóa mà nó và
+ap đã tạo từ trước sau đó tính hợp lệ của gói tin mới được xác nhận.
+
+- với ap thì cũng tương tự ghi gói tin gửi tới nó kiểm tra địa chỉ nguồn có nằm trong danh sách mà nó cho phép hay không
+và kiểm tra khóa ; sau đó mới biết tính hợp lệ của gói tin. 
+
+- ap không phân chia phiên gửi cho các thiết bị sta, ap có beacon nhưng thực chất cái này chỉ dùng để đồng bộ
+và thông báo nội dung chung cho toàn bộ thiết bị. nếu không có trách nhiệm chia phiên. bản chất wifi được thiết kế
+để truyền tin dựa trên tranh chấp, khi có thông báo kênh rảnh tất cả thiết bị sẽ dùng thuật toán CSMA/CA để chiếm quyền gửi về cho mình
+thiết bị nào chiếm quyền được thì được gửi, chuẩn wifi không kiểm soát vấn đề này vì nó rất phức tạp và làm chậm hệ thống.
+cách linh hoạt, hiệu quả nhất là dùng CSMA/CA.
+~~~~~~~~~~~~~~~ Access point ~~~~~~~~~~~~~~~
+- trong thiết kế của ieee802.11 ap chịu trách nhiệm quản lý, điều phối mạng một cách có tổ chức và hiệu quả.
++ phát beacon, phản hồi probe
++ xác thực, giám sât trạng thái
++ trung chuyển gói tin, quản lý băng thông
++ bảo mật, mã hóa
+
 

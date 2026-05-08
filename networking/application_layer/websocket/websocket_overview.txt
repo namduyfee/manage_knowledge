@@ -1,0 +1,7 @@
+
+- socket là phương thức phổ biến để giao giữa application layer và transport layer(tcp, udp)
+do đó hầu hết mọi giao thức http, websocket, ftp... đều dùng socket để giao tiếp với transport layer. 
+- không riêng websocket là dùng socket thôi đâu, tuy vậy những chuẩn kia đã xây dựng bộ qui luật đi quá
+xa so với socket đơn thuần, không cho phép lập trình viên làm việc gần với socket 
+
+
